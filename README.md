@@ -61,3 +61,50 @@ the orientation, and other desirable properties.
 
 - **Image**: defines image name.
 - **Class**: defines either the image has tumor or not (1 = Tumor, 0 = Non-Tumor).
+
+
+## Feature analysis
+
+In our scenario we are solving a classification problem, therefore when we read
+the dataset we convert every column in float64 and target column in category type.
+<!-- image on type column -->
+
+Morover, we can see if exists instances with null values in this way. 
+<!-- image on counting null elements -->
+
+In addition, we can study the composition of the dataset, so we can first see if the dataset is balanced.
+<!-- image on plotting target class -->
+
+
+
+### Feature extraction
+The Datatset has a total of 12 features, as we explaned before, lots of features 
+are computed in similar way of other. With this hypotesis, we can suppose to study
+dipendencies among features to recognize correlation between them. Here you can
+see the correlation matrix of features.
+
+<!-- Correlation matrix of feature -->
+
+Correlation matrix highlights strong correlations ($ |corr[f_1,f_2]|\ge 0.75 $) between:
+- mean x variance
+- variance x standard deviation
+- variance x standard deviation
+- entropy x homogeneity
+- entropy x asm
+- entropy x energy
+- skewness x kurtosis
+- contrast x dissimilarity
+- energy x homogeneity
+- energy x asm
+- asm x homogeneity
+- homogeneity x dissimilarity
+
+With this osservation we can consider just a feature from a pool of correlated
+feature, so we can pass from 13 features to 5:
+
+- mean or variance or standard deviation
+- entropy or homogeneity or asm or energy
+- skewness or kurtosis
+- contrast or dissimilarity
+- correlation
+
