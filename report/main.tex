@@ -1,4 +1,4 @@
-\documentclass[a4paper,15pt, oneside]{book}
+\documentclass[a4paper,15pt, oneside]{report}
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2cm,right=2cm]{geometry}
@@ -31,6 +31,7 @@
 \usepackage{subcaption}
 \usepackage{setspace}
 \usepackage{hyperref}
+\usepackage{biblatex}
 
 \usepackage{tikz}\usetikzlibrary{er}\tikzset{multi  attribute /.style={attribute
     ,double  distance =1.5pt}}\tikzset{derived  attribute /.style={attribute
@@ -67,6 +68,7 @@
 \tikzset{elliptic state/.style={draw,ellipse}}
 
 \usetikzlibrary{automata,positioning, calc}
+\addbibresource{bibliography.bib}
 
 \pagestyle{fancy}
 \fancyhead[L,RO]{\slshape \rightmark}
@@ -98,4 +100,8 @@ Vendramini Simone Matr. 866229(\href{https://github.com/simone-vendramini}{@Sven
 \renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
 
 \include{chapters/introduzione}
+\include{chapters/dataset}
+
+\printbibliography
+
 \end{document}

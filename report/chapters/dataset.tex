@@ -1,0 +1,39 @@
+\chapter{Dataset}
+Il dataset è stato a partire da un set di $3762$ immagini ottenute dalla risonanza
+magnetica del cervello di $3762$ persone, ettichettato manualmente da professionisti
+del settore nelle rispettive classi:
+\begin{itemize}
+    \item \textbf{presenza del tumore}: $T = 1$
+    \item \textbf{assenza del tumore}: $T = 0$
+\end{itemize} 
+Il valore della label cade sotto al colonna \textit{Class}.
+
+Le features del dataset sono state ottenute calcolando i \textbf{momenti Hu}  sulle 
+immagini della risonanza magnetica. I momenti Hu catturano le informazioni di base
+sull'immagine come l'area dell'oggetto, il centroide, l'orientazione e altre proprietà.
+
+Le feature sulle immagini si dividono in base a 2 gruppi\cite{explanation-features}:
+\begin{itemize}
+    \item \textbf{First Order Features}: forniscono informazioni legate alla
+    distribuzione dei livelli di grigio dell'immagine. Queste feature corrispondo
+    alle statistiche descrittive calcolate sui valori di ciascun pixel dell'imamgine:
+    \begin{itemize}
+        \item \textbf{media}
+        \item \textbf{varianza}
+        \item \textbf{deviazione standard}
+        \item \textbf{indice di asimmetria}
+        \item \textbf{indice di kurtosis}
+    \end{itemize}
+    \item \textbf{Second Order Features}: forniscono informazioni a livello di 
+    composizione della texture dell'immagine. 
+    \begin{itemize}
+        \item \textbf{contrast}
+        \item \textbf{energy}
+        \item \textbf{asm}
+        \item \textbf{entropy}
+        \item \textbf{homogeneous}
+        \item \textbf{dissimilarity}
+        \item \textbf{correlation}
+        \item \textbf{coarseness}
+    \end{itemize}
+\end{itemize}
