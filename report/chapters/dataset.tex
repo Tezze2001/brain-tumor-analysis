@@ -27,13 +27,108 @@ Le feature sulle immagini si dividono in base a 2 gruppi\cite{explanation-featur
     \item \textbf{Second Order Features}: forniscono informazioni a livello di 
     composizione della texture dell'immagine. 
     \begin{itemize}
-        \item \textbf{contrast}
-        \item \textbf{energy}
-        \item \textbf{asm}
-        \item \textbf{entropy}
-        \item \textbf{homogeneous}
-        \item \textbf{dissimilarity}
-        \item \textbf{correlation}
-        \item \textbf{coarseness}
+        \item \textbf{contrast}: misura la variazione locale dei livelli di grigio 
+        dei pixel. Maggiore sarà il valore allora maggiore sarà il contrasto dell'immagine.
+        \item \textbf{energy}: misura l'etereogenità o la variazione dell'intensità
+        dell'immagine. Più piccolo è il valore allora meno variazioni di intesità e
+        più omogenea sarà la texture, al contrario, più la texture è irregolare 
+        allora maggiore sarà il valore.
+        \item \textbf{ASM}: misura come sono distribuiti uniformemente i livelli
+        di grigio nell'immagine. Più uniforfe e distribuiti sono i livelli di grigio
+        allora minore sarà il valore dell'indice.
+        \item \textbf{entropy}: misura la randomicità dei livelli di grigio, quindi
+        più piccolo è il valore, più la texture sarà uniforme.
+        \item \textbf{homogeneous}: misura secondaria del contrasto. Più alto sarà
+        l'indice allora minore sarà il contrasto dell'immagine.
+        \item \textbf{dissimilarity}: misura quanto spesso diffenti combinazioni dei valori
+        di intensità dei pixel occorrono nell'immagine. Un valore alto dell'indice 
+        indica che l'immagine ha una magior variazioni delle intesità dei pixel vicini,
+        quindi più complessa sarà la texture.
+        \item \textbf{correlation}: misura la correlazione tra pixel nelle due diverse
+        direzioni.
+        \item \textbf{coarseness}: misura quanto l'immagine è composta da regioni 
+        di intensità omogenea, ovvero quanto è granulare o fine la texture.
     \end{itemize}
 \end{itemize}
+
+\section{Analisi descrittiva}
+Il dataset è formato da un totale composto da un totale $3762$ esempi, ciascuno
+descritto da $15$ attributi: $13$ legati alle feature (presentate precedentemente) 
+calcolate sull'immagine associata, mentre l'attributo \textit{Image} specifica l'id
+dell'immagine a cui si riferisce l'esempio, infine, l'attributo \textit{Class}
+specifica l'etichetta dell'esempio.
+
+Quando è stato importato il dataset nel dataframe, è stato opportuno controllare che il tipo
+inferito in automatico sulla colonna fosse corretto, di conseguenza è stata convertita
+tutta la colonna associata alla label in \textit{categorico}, infine, tutti gli altri attributi sono
+stati mantenuti di tipo \textit{float}, essendo valori continui. Per altro si evidenza
+l'assenza di valori nulli, evitando di doversi operare per rimuoverli dal dataset.
+
+Successivamente sono state calcolate le statistiche descrittive del dataframe. Ciò
+ha permesso innanzitutto di assumere che la distribuzione delle singole feature
+come una distribuzione continua normale, per di più si evince che i dati non sono
+standardizzati, dal momento che la media e la deviazione standard differiscono rispettivamente
+da $0$ e $1$. Quindi fondamentale sarà l'operazione di standardizzazione delle feature
+mediante l'equazione \ref{eq:std-features}.
+
+\begin{equation}
+    F_{\mu, \sigma} = \frac{F - \mu}{\sigma}
+    \label{eq:std-features}
+\end{equation}
+
+Dalle statistiche descrittive si può notare come la feature di \textit{Coarseness}
+assume valori molto bassi, quindi è stato pensato di convertire questa feature ad una
+scala logaritmica, permettendo di aumentare la significatività della feature. In 
+ogni caso si può notare che i valori della feature hanno comunque una deviazione standard
+pari a circa $0.02$, valore non particolarmente significativo, quindi ci permette
+di escludere questa feature perché sicuramente non sarà la feature più discriminante.
+
+\subsection{Correlazioni}
+Il passo successivo è calcolare le correlazioni tra le feature, in modo tale da
+considerare tra le feature correlate a 2 a 2 solo una. Dalla matrice si evince
+come la \textit{Coarseness} è scorrelata rispetto alle altre feature, questo è
+giustificato dal fatto che è l'unica che ha una deviazione standard tendente a 0.
+Al contempo dalla matrice si evince che diverse tendenze di forte correlazione tra
+diverse coppie di feature. 
+
+Si potrebbe, innanzitutto, cominciare dalla forte correlazione positiva
+tra \textbf{media} e \textbf{variabilità}, più precisamente tra le feature \textit{Mean},
+\textit{variance} e \textit{standard deviation}. La correlazione tra varianza è 
+deviazione standard è banale ($SD[P] = \sqrt{VAR[P]}$), invece, la correlazione tra media 
+e variabilità può essere indotta da come sono composte le immagini. Più precisamente 
+analizzando le immagini prodotte dalle risonanze magnetiche, si evince che, essendo in 
+bianco e nero, se la media tende a $1$ (colore bianco) allora deve aumentare la 
+variabilità, perché ci sono diversi pixel bianchi allora le transizioni dal nero assoluto
+al bianco assoluto neccessitano di regioni di pixel maggiore rispetto ad una 
+transizione tra nero assoluto e grigio ($0.5$). 
+
+Una seconda forte correlazione positiva è 
+tra le feature che misurano l'\textbf{uniformità dei livelli di grigio} dei pixel,
+più precisamente tra le feature \textit{Entropy}, \textit{ASM}, \textit{Homogeneity} 
+ed \textit{Energy}. Queste feature quantificano delle informazioni legate alla
+texture dell'immagine, quindi la forte correlazione positiva può essere facilmente
+spiegata analizzando le texture delle immagini su cui vengono calcolate. Più precisamente
+se si ha un valore molto alto della feature \textit{Entropy}, significa che la
+texture non è uniforme, ovvero si hanno strutture complesse e irregolari, quindi
+meno uniforme sarà la distribuzione dei livelli di grigio, aumentando l'indice
+di \textit{ASM}, comportando di conseguenza un aumento delle variazioni di intensità
+dei livelli di grigio, aumentando di conseguenza anche l'indice di \textit{Energy},
+infine, (\textbf{cosa c'entra Homogeneity?}). 
+
+Al tempo stesso la matrice di correlazione evidenza una forte correlazione positiva
+tra gli indici che misurano la \textbf{morfologia della distribuzione}, ovvero 
+le feature di \textit{Skewness} e \textit{Kurtosis}. Questa dipendenza implica il 
+fatto che più la Skewness è grande, allora sigifica che i pixel si concentrano 
+maggiormente vicino alla media e
+
+
+
+
+
+
+    - skewness x kurtosis
+    - contrast x dissimilarity
+    - energy x homogeneity
+    - energy x asm
+    - asm x homogeneity
+    - homogeneity x dissimilarity
