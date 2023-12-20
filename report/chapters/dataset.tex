@@ -51,6 +51,8 @@ Le feature sulle immagini si dividono in base a 2 gruppi\cite{explanation-featur
     \end{itemize}
 \end{itemize}
 
+
+
 \section{Analisi descrittiva}
 Il dataset è formato da un totale composto da un totale $3762$ esempi, ciascuno
 descritto da $15$ attributi: $13$ legati alle feature (presentate precedentemente) 
@@ -83,7 +85,23 @@ ogni caso si può notare che i valori della feature hanno comunque una deviazion
 pari a circa $0.02$, valore non particolarmente significativo, quindi ci permette
 di escludere questa feature perché sicuramente non sarà la feature più discriminante.
 
-\subsection{Correlazioni}
+Una delle operazioni preliminari di analisi del dataset è controllare il bilanciamento
+delle etichette di ciascun esempio, in questo modo è possibile valutare se il
+dataset in esame è buono per essere utilizzato per l'apprendimento supervisionato.
+In questo caso disegnando lo scatter plot delle label si può notare che le classi
+sono bilanciate, infatti, circa il $55\%$ degli esempi sono negativi (assenza del tumore),
+contro circa il $45\%$ degli esempi sono positivi (presenza del tumore).
+
+Successivamente risulta importante analizzare se le distribuzioni si avvicinano 
+ad una normale standard, di conseguenza sono stati disegnati i barplot delle frequenze
+di ciascuna feature. Dai grafici si evince che tutte le feature eccetto \textit{Energy} e
+\textit{Homogeneity} sono distribuite normalmente. Di queste si può notare come  
+solo la feature di \textit{Standard deviation} è simmentrica, mentre \textit{Mean},
+\textit{variance}, \textit{Entropy}, \textit{Skewness}, \textit{Contrast}, \textit{ASM},
+\textit{Dissimilarity} e \textit{Coarseness}. Al contrario, si ha una simmetria
+negativa solo per la feature di \textit{Contrast}.
+
+\subsection{Analisi delle correlazioni}
 Il passo successivo è calcolare le correlazioni tra le feature, in modo tale da
 considerare tra le feature correlate a 2 a 2 solo una. Dalla matrice si evince
 come la \textit{Coarseness} è scorrelata rispetto alle altre feature, questo è
@@ -118,17 +136,16 @@ infine, (\textbf{cosa c'entra Homogeneity?}).
 Al tempo stesso la matrice di correlazione evidenza una forte correlazione positiva
 tra gli indici che misurano la \textbf{morfologia della distribuzione}, ovvero 
 le feature di \textit{Skewness} e \textit{Kurtosis}. Questa dipendenza implica il 
-fatto che più la distribuzione è leptomurtica (), cioè i livelli di grigio dei pixel si concentrano 
-maggiormente vicino alla media, allora più grande sarà la Kurtosis, 
+fatto che più la distribuzione è leptokurtica (Kurtosis grande), ovvero la frequenza
+dei livelli di grigio dei pixel si concentrano interamente vicino alla media/mediana/
+moda, allora più grande sarà la Skewness, ovvero maggiore sarà la tendenza ad avere
+frequenze di livelli di grigio più vicino al bianco (coda di destra più altra rispetto
+alla coda di sinistra).
 
+La matrice della correlazione evidenzia anche una correlazione positiva tra le 
+feature di \textit{Contrast} e \textit{Dissimilarity}, ovvero maggiore sarà il 
+contrasto e maggiore sarà la complessità della texture. 
 
-
-
-
-
-    - skewness x kurtosis
-    - contrast x dissimilarity
-    - energy x homogeneity
-    - energy x asm
-    - asm x homogeneity
-    - homogeneity x dissimilarity
+In aggiunta dalla matrice si evidenza che le features di \textit{Dissimilarity}
+e \textit{Homogeneity} sono correlate negativo, ovvero maggiore sarà il contrasto
+allora minore è la complessità della texture.
