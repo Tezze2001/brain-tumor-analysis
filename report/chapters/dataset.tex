@@ -1,6 +1,6 @@
 \chapter{Dataset}
 Il dataset è stato a partire da un set di $3762$ immagini ottenute dalla risonanza
-magnetica del cervello di $3762$ persone, ettichettato manualmente da professionisti
+magnetica del cervello di altrettante persone, ettichettato manualmente da professionisti
 del settore nelle rispettive classi:
 \begin{itemize}
     \item \textbf{presenza del tumore}: $T = 1$
@@ -10,7 +10,7 @@ Il valore della label cade sotto al colonna \textit{Class}.
 
 Le features del dataset sono state ottenute calcolando i \textbf{momenti Hu}  sulle 
 immagini della risonanza magnetica. I momenti Hu catturano le informazioni di base
-sull'immagine come l'area dell'oggetto, il centroide, l'orientazione e altre proprietà.
+sull'immagine come l'area dell'oggetto, il centroide, l'orientamento e altre proprietà.
 
 Le feature sulle immagini si dividono in base a 2 gruppi\cite{explanation-features}:
 \begin{itemize}
@@ -34,15 +34,15 @@ Le feature sulle immagini si dividono in base a 2 gruppi\cite{explanation-featur
         più omogenea sarà la texture, al contrario, più la texture è irregolare 
         allora maggiore sarà il valore.
         \item \textbf{ASM}: misura come sono distribuiti uniformemente i livelli
-        di grigio nell'immagine. Più uniforfe e distribuiti sono i livelli di grigio
+        di grigio nell'immagine. Più uniformi e distribuiti sono i livelli di grigio
         allora minore sarà il valore dell'indice.
         \item \textbf{entropy}: misura la randomicità dei livelli di grigio, quindi
         più piccolo è il valore, più la texture sarà uniforme.
         \item \textbf{homogeneous}: misura secondaria del contrasto. Più alto sarà
         l'indice allora minore sarà il contrasto dell'immagine.
-        \item \textbf{dissimilarity}: misura quanto spesso diffenti combinazioni dei valori
+        \item \textbf{dissimilarity}: misura quanto spesso differenti combinazioni dei valori
         di intensità dei pixel occorrono nell'immagine. Un valore alto dell'indice 
-        indica che l'immagine ha una magior variazioni delle intesità dei pixel vicini,
+        indica che l'immagine ha una maggior variazione delle intesità dei pixel vicini,
         quindi più complessa sarà la texture.
         \item \textbf{correlation}: misura la correlazione tra pixel nelle due diverse
         direzioni.
@@ -64,51 +64,70 @@ Quando è stato importato il dataset nel dataframe, è stato opportuno controlla
 inferito in automatico sulla colonna fosse corretto, di conseguenza è stata convertita
 tutta la colonna associata alla label in \textit{categorico}, infine, tutti gli altri attributi sono
 stati mantenuti di tipo \textit{float}, essendo valori continui. Per altro si evidenza
-l'assenza di valori nulli, evitando di doversi operare per rimuoverli dal dataset.
+l'assenza di valori nulli, evitando di cancellare i record associati.
 
-Successivamente sono state calcolate le statistiche descrittive del dataframe. Ciò
-ha permesso innanzitutto di assumere che la distribuzione delle singole feature
-come una distribuzione continua normale, per di più si evince che i dati non sono
-standardizzati, dal momento che la media e la deviazione standard differiscono rispettivamente
-da $0$ e $1$. Quindi fondamentale sarà l'operazione di standardizzazione delle feature
-mediante l'equazione \ref{eq:std-features}.
+Successivamente sono state calcolate le statistiche descrittive del dataframe.
+
+\textbf{TODO:immagine}
+
+Ciò ha permesso innanzitutto di notare che i dati non sono standardizzati dal momento
+che nessun dato ha media $0$ e deviazione standard $1$. La standardizzazione delle
+feature è stata fatta, utilizzando l'equatione \ref{eq:std-features}, solo per le 
+SVM e il modello neurale, mentre per Gaussian Bayes la standardizzazione viene 
+fatta in automatico dalla libreria del modello.
 
 \begin{equation}
     F_{\mu, \sigma} = \frac{F - \mu}{\sigma}
     \label{eq:std-features}
 \end{equation}
 
-Dalle statistiche descrittive si può notare come la feature di \textit{Coarseness}
+In aggiunta, per ogni feature è stato disegnato il barplot per poter visionare
+se le distribuzioni sono normali. 
+
+\textbf{TODO:immagine}
+
+Dai grafici si evince che le feature \textit{Energy}, \textit{Homogeneity} e \textit{Coarseness}
+non seguono una distribuzione normale, mentre le altre si possono assumere normali.
+In ogni caso anche se non seguono l'ipotesi di normalità abbiamo deciso in ogni ciaso
+di utilizzarli, anche se stiamo andando contro le assunzioni dei modelli che vogliamo
+utilizzare.
+
+Dalle statistiche descrittive e dal barplot si può notare come la feature di \textit{Coarseness}
 assume valori molto bassi, quindi è stato pensato di convertire questa feature ad una
-scala logaritmica, permettendo di aumentare la significatività della feature. In 
-ogni caso si può notare che i valori della feature hanno comunque una deviazione standard
-pari a circa $0.02$, valore non particolarmente significativo, quindi ci permette
+scala logaritmica, permettendo di aumentare la significatività dei valori. In 
+ogni caso si può notare che, anche con questa operazione, si ha comunque una deviazione standard
+pari a circa $0.02$, valore non particolarmente significativo, quindi questo ci permette
 di escludere questa feature perché sicuramente non sarà la feature più discriminante.
 
 Una delle operazioni preliminari di analisi del dataset è controllare il bilanciamento
 delle etichette di ciascun esempio, in questo modo è possibile valutare se il
 dataset in esame è buono per essere utilizzato per l'apprendimento supervisionato.
-In questo caso disegnando lo scatter plot delle label si può notare che le classi
+In questo caso, disegnando lo scatter plot delle label, si può notare che le classi
 sono bilanciate, infatti, circa il $55\%$ degli esempi sono negativi (assenza del tumore),
 contro circa il $45\%$ degli esempi sono positivi (presenza del tumore).
+
+\textbf{TODO:immagine}
 
 Successivamente risulta importante analizzare se le distribuzioni si avvicinano 
 ad una normale standard, di conseguenza sono stati disegnati i barplot delle frequenze
 di ciascuna feature. Dai grafici si evince che tutte le feature eccetto \textit{Energy} e
-\textit{Homogeneity} sono distribuite normalmente. Di queste si può notare come  
-solo la feature di \textit{Standard deviation} è simmentrica, mentre \textit{Mean},
-\textit{variance}, \textit{Entropy}, \textit{Skewness}, \textit{Contrast}, \textit{ASM},
-\textit{Dissimilarity} e \textit{Coarseness}. Al contrario, si ha una simmetria
-negativa solo per la feature di \textit{Contrast}.
+\textit{Homogeneity} sono distribuite normalmente. 
+
+Dal barplot delle features creato precedentemente, si possono ottenere ulteriori
+informazioni sulla distribuzione potenzialmente normale delle altre feature. Infatti,
+la distribuzione della \textit{Standard deviation} è simmentrica, mentre tutte 
+le altre sono assimmetriche.
+
+Ricapitolando, da questo primo studio descrittivo è stato modificato il dataset
+rimuovendo la feature \textit{Coarseness}.
+
+\textbf{TODO:immagine}
 
 \subsection{Analisi delle correlazioni}
 Il passo successivo è calcolare le correlazioni tra le feature, in modo tale da
-considerare tra le feature correlate a 2 a 2 solo una. Dalla matrice si evince
-come la \textit{Coarseness} è scorrelata rispetto alle altre feature, questo è
-giustificato dal fatto che è l'unica che ha una deviazione standard tendente a 0.
-Al contempo dalla matrice si evince che diverse tendenze di forte correlazione tra
-diverse coppie di feature. 
-
+ridurre la dimensionalità dei dati considerando solo una delle feature che sono 
+tra di loro una a una correlate.
+ 
 Si potrebbe, innanzitutto, cominciare dalla forte correlazione positiva
 tra \textbf{media} e \textbf{variabilità}, più precisamente tra le feature \textit{Mean},
 \textit{variance} e \textit{standard deviation}. La correlazione tra varianza è 
@@ -119,6 +138,8 @@ bianco e nero, se la media tende a $1$ (colore bianco) allora deve aumentare la
 variabilità, perché ci sono diversi pixel bianchi allora le transizioni dal nero assoluto
 al bianco assoluto neccessitano di regioni di pixel maggiore rispetto ad una 
 transizione tra nero assoluto e grigio ($0.5$). 
+
+\textbf{TODO:immagine}
 
 Una seconda forte correlazione positiva è 
 tra le feature che misurano l'\textbf{uniformità dei livelli di grigio} dei pixel,
@@ -149,3 +170,18 @@ contrasto e maggiore sarà la complessità della texture.
 In aggiunta dalla matrice si evidenza che le features di \textit{Dissimilarity}
 e \textit{Homogeneity} sono correlate negativo, ovvero maggiore sarà il contrasto
 allora minore è la complessità della texture.
+
+Dalla correlazione delle features è possibile ridurre la dimensionalità del dataset
+considerando sono le seguenti features:
+\begin{itemize}
+    \item \textbf{Mean}
+    \item \textbf{Entropy}
+    \item \textbf{Skewness}
+    \item \textbf{Contrast}
+    \item \textbf{Correlation}
+\end{itemize}
+
+A puro scopo didattico è stato pensato di eseguire i modelli non solo sul dataset
+semplificato eliminando le correlazioni, ma anche applicando l'algoritmo PCA.
+
+\section{PCA}
