@@ -243,3 +243,28 @@ A puro scopo didattico è stato pensato di eseguire i modelli non solo sul datas
 semplificato eliminando le correlazioni, ma anche applicando l'algoritmo PCA.
 
 \section{PCA}
+Precedentemente è stato presentato un primo modo per ridurre la dimensionalità
+dei dati basandoci sull'analisi delle correlazioni. In seguito, è stato pensato
+di provare ad utilizzare un metodo di trasformazione delle feature per ridurre
+la loro dimensionalità e successivamente analizzare i risultati ottenuti. La 
+scelta sul metodo da utilizzare è ricaduta su PCA.
+
+Per prima cosa è statao necessario comprendere quante componenti delle nuove
+feature sono necessarie per avere la maggior parte della varianza spiegata. Per 
+fare ciò sono state separate le features dalla classe di ciascun esempio,
+successivamente è stato effettuato il fit della PCA sull'istanza di ciascun dato
+e successivamente è stato plottato all'interno di uno scatter plot per ogni 
+componente la sua percentuale di varianza spiegata.
+
+\textbf{TODO:immagine del plotting della PCA}
+
+Dallo scatter plot si evidenzia come con solo le prime 3 componenti, si riesce
+a raggiungere un totale dell'$85\%$ di varianza spiegata sui dati. In questo modo
+una volta eseguita la pca e applicata la trasformazione, si selezionano solo le
+prime 3 componenti dei nuovi dati trasformati. 
+In aggiunta, dal momento che abbiamo ridotto la dimensionalità dei dati a $3$ 
+allora, aggiungendo anche la colonna target, si possono rappresentare all'interno
+di uno scatter plot a $3$ dimensioni e si può notare come i dati sono separabili
+tramite un iperpiano.
+
+\textbf{TODO:immagine del plotting delle nuove componenti}
