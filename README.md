@@ -85,7 +85,7 @@ see the correlation matrix of features.
 
 <!-- Correlation matrix of feature -->
 
-Correlation matrix highlights strong correlations ($ |corr[f_1,f_2]|\ge 0.75 $) between:
+Correlation matrix highlights strong correlations ($|corr[f_1,f_2]|\ge 0.75$) between:
 - mean x variance
 - variance x standard deviation
 - variance x standard deviation
