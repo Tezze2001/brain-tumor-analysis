@@ -1,4 +1,4 @@
-% TODO: Aggiungere commenti ai risultati ottenuti
+% TODO: Commento intervalli di confidenza
 % TODO: rileggere la parte relativa ai risultati ottenuti
 % TODO: Confronto con il percettrone
 \chapter{Rete neurale} \label{chp:reteNeurale}
@@ -203,22 +203,32 @@ training set precedentemente definito. L'addestramento della rete neurale è sta
 effettuato utilizzando la libreria \textit{Keras} in quanto permette di definire 
 e addestrare reti neurali in modo intuitivo.
 \section{Risultati}
-Il modello addestrato in precedenza è stato valutato sui dati che compongono il
-test set. In particolare sono state valutate le seguenti metriche: accuratezza,
-precisione, richiamo e F1 score. Oltre al calcolo di queste metriche, si è
-deciso di realizzare la curva ROC per il modello e di rappresentare la matrice
-di confusione.
+Vista il dominio del problema, ovvero la classificazione di dati medici, si è
+deciso di modificare manualmente il valore della soglia per la predizione 
+del tumore. Questa scelta è stata fatta in quanto si è voluto ridurre al minimo 
+il numero di falsi negativi, ovvero il numero di casi in cui il modello predice
+l'assenza di tumore quando in realtà è presente.
 
-Prima di presentare i risultati ottenuti, è necessario specificare che essendo
-il dataset riferito a un ambito medico, si è deciso di aggiustare il valore di
-threshold per la predizione del modello. In particolare, il valore di threshold
-è stato impostato a $0.3$, in modo tale da ridurre il numero di falsi negativi.
+Per realizzare questa operazione si è scelto di impostare il valore di threshold
+a $0.3$, in modo tale da ridurre il numero di falsi negativi. Questa scelta è
+stata fatta in quanto si è voluto dare più importanza al valore di richiamo, il
+quale permette di valutare la capacità del modello di individuare i veri positivi.
 
 Fatta questa precisazione, si può procedere con la presentazione dei risultati
-ottenuti. In particolare, nella tabella \ref{tab:risultatiReteNeurale} sono
-presentati i risultati ottenuti dal modello addestrato.
-
-\begin{table}[ht]
+ottenuti. Utilizzando i dati del test set, è stato possibile valutare le 
+prestazioni della rete neurale addestrata. In particolare, sono state calcolate 
+le seguenti metriche:
+\begin{itemize}
+    \item Accuratezza
+    \item Precisione
+    \item Richiamo
+    \item F1 score
+\end{itemize}
+Oltre al calcolo di queste metriche, si è deciso di realizzare la curva ROC per 
+il modello e di rappresentare la matrice di confusione. Nella tabella 
+\ref{tab:risultatiReteNeurale} sono presentati i risultati ottenuti dal modello 
+addestrato.
+\begin{table}[!ht]
     \centering
     \begin{tabular}{|c|c|}
         \hline
@@ -237,8 +247,11 @@ presentati i risultati ottenuti dal modello addestrato.
     \label{tab:risultatiReteNeurale}
 \end{table}
 
-I risultati ottenuti sono giustificati dal fatto che le due classi sono linearmente
-separabili.
+Dai valori riportati nella tabella \ref{tab:risultatiReteNeurale} si può notare
+che la rete neurale ha ottenuto dei valori delle metriche molto alti. Questo 
+comportamento è giustificato dal fatto che in fase di analisi è stato possibile
+notare che le feature selezionate sono in grado di discriminare in modo efficace
+le due classi.
 
 In aggiunta al calcolo di queste metriche, è stata calcolata la matrice di confusione
 per il modello addestrato. La matrice di confusione ottenuta è riportata in figura
@@ -251,10 +264,17 @@ per il modello addestrato. La matrice di confusione ottenuta è riportata in fig
     \label{fig:matriceConfusioneReteNeurale}
 \end{figure}
 
-Infine, è stata realizzata la curva ROC per il modello addestrato. La curva ROC
-ottenuta è riportata in figura \ref{fig:curvaRocReteNeurale}. Oltre alla curva
-ROC è stata calcolata l'area sotto la curva, la quale ha ottenuto un valore di
-$1.00$.
+Dalla matrice di confusione è possibile confermare i risultati ottenuti dalle
+metriche calcolate in precedenza. Inoltre, avendo corretto manualmente il valore
+della soglia, si è riusciti a ridurre il numero di falsi negativi, il che ha
+permesso di aumentare il valore del richiamo.
+
+Per concludere questa prima parte di analisi dei risultati, è stata realizzata 
+la curva ROC per il modello addestrato. La curva ROC ottenuta è riportata in 
+figura \ref{fig:curvaRocReteNeurale}. Oltre alla curva ROC è stata calcolata 
+l'area sotto la curva, la quale ha ottenuto un valore di $1.00$. Questo valore
+ci permette di affermare che il modello addestrato si avvicina molto alla
+perfetta classificazione.
 
 \begin{figure}[!ht]
     \centering
@@ -262,28 +282,35 @@ $1.00$.
     \caption{Curva ROC ottenuta dal modello addestrato}
     \label{fig:curvaRocReteNeurale}
 \end{figure}
-
+\subsection*{K-fold validation}
 Per avere una visione più chiara dei risultati ottenuti, si è deciso di effettuare
 una valutazione del modello attraverso 10 fold di cross validation. In questo
 processo ogni modello che è stato addestrato è stato valutato attraverso le
 metriche di accuratezza, precisione, richiamo e F1 score.
 
+Per svolgere questa operazione è stato utilizzato il dataset completo, ovvero
+senza alcuna suddivisione in training set e test set. 
+
+Anche per questa operazione è stato utilizzato il valore di threshold precedentemente
+definito, ovvero $0.3$.
+
 Sui risultati ottenuti da questo processo sono stati calcolati gli intervalli
-di confidenza al $90\%$. I risultati ottenuti sono riportati in tabella \ref{tab:risultatiCrossValidation}.
+di confidenza al $90\%$. I risultati ottenuti sono riportati in tabella 
+\ref{tab:risultatiCrossValidation}.
 
 \begin{table}[ht]
     \centering
     \begin{tabular}{|c|c|c|}
         \hline
-        \textbf{Metrica} & \textbf{Valore} & \textbf{Intervallo di confidenza} \\
+        \textbf{Metrica} & \textbf{Valore Medio} & \textbf{Intervallo di confidenza} \\
         \hline
-        Accuratezza      & 98.32 \%        & [97.92\%, 98.72\%]                \\
+        Accuratezza      & 98.19 \%        & [97.71\%, 98.67\%]                \\
         \hline
-        Precisione       & 98.74 \%        & [98.40\%, 99.08\%]                \\
+        Precisione       & 97.88 \%        & [97.16\%, 98.59\%]                \\
         \hline
-        Richiamo         & 97.50 \%        & [96.57\%, 98.43\%]                \\
+        Richiamo         & 98.09 \%        & [97.19\%, 99.00\%]                \\
         \hline
-        F1 score         & 98.11 \%        & [97.65\%, 98.57\%]                \\
+        F1 score         & 97.97 \%        & [97.43\%, 98.52\%]                \\
         \hline
     \end{tabular}
     \caption{Risultati ottenuti dalla cross validation}
@@ -300,3 +327,5 @@ di avere una visione più chiara dei risultati ottenuti dalla cross validation.
     \caption{Risultati ottenuti dalla cross validation}
     \label{fig:risultatiCrossValidation}
 \end{figure}
+
+% TODO: Commento sugli intervalli di confidenza
