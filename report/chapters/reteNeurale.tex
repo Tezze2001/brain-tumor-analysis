@@ -66,11 +66,11 @@ validation a 5 fold, prendendo in considerazione solamente i dati del training s
 
 Visti i risultati ottenuti nella fase di analisi e la volontà di mantenere i
 tempi di addestramento bassi, si è scelto di mantenere una struttura di dimensioni
-ridotte per la rete neurale. Per questo motivo, l'operazione di grid search è 
-stata effettuata prendendo in considerazione un numero di neuroni per layer 
+ridotte per la rete neurale. Per questo motivo, l'operazione di grid search è
+stata effettuata prendendo in considerazione un numero di neuroni per layer
 tra 5, 10, 50, mentre il numero di layer nascosti è stato valutato tra 1 e 2.
 
-Per quanto riguarda la funzione di attivazione, sono state valutate le seguenti 
+Per quanto riguarda la funzione di attivazione, sono state valutate le seguenti
 funzioni di attivazione:
 \begin{itemize}
     \item \textit{ReLU}
@@ -116,8 +116,8 @@ state utilizzate le misure precedentemente citate.
 Il modello selezionato è stato scelto in base al seguente criterio: si è scelto
 il modello che ha ottenuto il valore più alto combinando, attraverso dei pesi,
 i valori relativi all'accuratezza media, al tempo di addestramento medio e
-agli intervalli di confidenza ottenuti. Per questa operazione si è scelto di 
-assegnare un peso maggiore all'accuratezza media ottenuta dalla cross validation 
+agli intervalli di confidenza ottenuti. Per questa operazione si è scelto di
+assegnare un peso maggiore all'accuratezza media ottenuta dalla cross validation
 e al tempo di addestramento medio.
 
 Nello specifico, sono stati utilizzati i seguenti pesi: 2 per l'accuratezza
@@ -131,16 +131,13 @@ il modello che ha ottenuto la migliore accuratezza e il modello che ha ottenuto
 il tempo di addestramento minore, ottenendo i risultati riportati in tabella \ref{tab:ris-grid-search}.
 \begin{table}[ht]
     \centering
-    \begin{tabular}{|c|c|c|}
-        \hline
-        \textbf{Modello}              & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\
-        \hline
-        Tempo di addestramento minore & 98.1\%               & 0.96s                           \\
-        \hline
-        Accuratezza maggiore          & 99.5\%               & 24.54s                          \\
-        \hline
-        Modello scelto                & 98.7\%               & 2.7s                            \\
-        \hline
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Modello}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
+        Tempo di addestramento minore                                & 98.1\%               & 0.96s                           \\
+        Accuratezza maggiore                                         & 99.5\%               & 24.54s                          \\
+        Modello scelto                                               & 98.7\%               & 2.7s                            \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla fase di grid search}
     \label{tab:ris-grid-search}
@@ -149,21 +146,21 @@ il tempo di addestramento minore, ottenendo i risultati riportati in tabella \re
 Dai valori riportati nella tabella \ref{tab:ris-grid-search} si può notare che il
 notare che il modello che è stato selezionato fornisce un buon compromesso tra
 accuratezza e tempo di addestramento. Nello specifico, perdendo lo $0.8\%$ di
-accuratezza si è ottenuto un tempo di addestramento minore di $21.84s$ secondi. 
+accuratezza si è ottenuto un tempo di addestramento minore di $21.84s$ secondi.
 
 \subsection*{Definizione della struttura della rete neurale}
 I risultati ottenuti dalla fase di grid search hanno permesso di definire la
 struttura della rete neurale. In particolare, la rete neurale è composta da 1
-layer di input, 1 layer nascosto e 1 layer di output. 
+layer di input, 1 layer nascosto e 1 layer di output.
 
-Il layer nascosto è composto da 50 neuroni, in cui la funzione di attivazione è 
+Il layer nascosto è composto da 50 neuroni, in cui la funzione di attivazione è
 la funzione Leaky ReLU.
 
 Per concludere la descrizione della struttura della rete neurale, è necessario
 specificare come è composto l'ultimo layer, ovvero quello di output. Vista la
 natura del problema di classificazione, il layer di output è composto da un solo
-neurone, in cui la funzione di attivazione è la funzione sigmoide \ref{fig:sigmoid}. 
-Questa scelta è dovuta al fatto che tale funzione restituisce un valore compreso 
+neurone, in cui la funzione di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
+Questa scelta è dovuta al fatto che tale funzione restituisce un valore compreso
 tra 0 e 1, il che permette di interpretare l'output della rete neurale come la
 probabilità che l'input appartenga alla classe positiva.
 \begin{equation}
@@ -193,19 +190,19 @@ particolare, l'algoritmo di ottimizzazione scelto è \textit{Adam}, mentre il
 numero di epoche e la dimensione del batch sono stati impostati a 100 e 100
 rispettivamente.
 
-In questa fase è stato necessario definire la funzione di perdita. Si è scelta 
-la \textit{binary crossentropy} in quanto adatta a problemi di classificazione 
-binaria. La scelta di questa loss è dovuta alla natura del problema di 
+In questa fase è stato necessario definire la funzione di perdita. Si è scelta
+la \textit{binary crossentropy} in quanto adatta a problemi di classificazione
+binaria. La scelta di questa loss è dovuta alla natura del problema di
 classificazione che si vuole risolvere.
 \section{Addestramento della rete neurale}
 La fase di addestramento della rete neurale è stata effettuata utilizzando il
-training set precedentemente definito. L'addestramento della rete neurale è stato 
-effettuato utilizzando la libreria \textit{Keras} in quanto permette di definire 
+training set precedentemente definito. L'addestramento della rete neurale è stato
+effettuato utilizzando la libreria \textit{Keras} in quanto permette di definire
 e addestrare reti neurali in modo intuitivo.
 \section{Risultati}
 Vista il dominio del problema, ovvero la classificazione di dati medici, si è
-deciso di modificare manualmente il valore della soglia per la predizione 
-del tumore. Questa scelta è stata fatta in quanto si è voluto ridurre al minimo 
+deciso di modificare manualmente il valore della soglia per la predizione
+del tumore. Questa scelta è stata fatta in quanto si è voluto ridurre al minimo
 il numero di falsi negativi, ovvero il numero di casi in cui il modello predice
 l'assenza di tumore quando in realtà è presente.
 
@@ -215,8 +212,8 @@ stata fatta in quanto si è voluto dare più importanza al valore di richiamo, i
 quale permette di valutare la capacità del modello di individuare i veri positivi.
 
 Fatta questa precisazione, si può procedere con la presentazione dei risultati
-ottenuti. Utilizzando i dati del test set, è stato possibile valutare le 
-prestazioni della rete neurale addestrata. In particolare, sono state calcolate 
+ottenuti. Utilizzando i dati del test set, è stato possibile valutare le
+prestazioni della rete neurale addestrata. In particolare, sono state calcolate
 le seguenti metriche:
 \begin{itemize}
     \item Accuratezza
@@ -224,31 +221,24 @@ le seguenti metriche:
     \item Richiamo
     \item F1 score
 \end{itemize}
-Oltre al calcolo di queste metriche, si è deciso di realizzare la curva ROC per 
-il modello e di rappresentare la matrice di confusione. Nella tabella 
-\ref{tab:risultatiReteNeurale} sono presentati i risultati ottenuti dal modello 
+Oltre al calcolo di queste metriche, si è deciso di realizzare la curva ROC per
+il modello e di rappresentare la matrice di confusione. Nella tabella
+\ref{tab:risultatiReteNeurale} sono presentati i risultati ottenuti dal modello
 addestrato.
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{|c|c|}
-        \hline
-        \textbf{Metrica} & \textbf{Valore} \\
-        \hline
-        Accuratezza      & 98.80 \%        \\
-        \hline
-        Precisione       & 99.10 \%        \\
-        \hline
-        Richiamo         & 98.21 \%        \\
-        \hline
-        F1 score         & 98.65 \%        \\
-        \hline
+    \begin{tabular}{@{}cllll@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \textbf{Metrica}                        & \textbf{Accuratezza}         & \textbf{Precisione}          & \textbf{Richiamo}            & \textbf{F1 score}            \\ \midrule
+        \cellcolor[HTML]{EFEFEF}\textbf{Valore} & \multicolumn{1}{c}{98.80 \%} & \multicolumn{1}{c}{99.10 \%} & \multicolumn{1}{c}{98.21 \%} & \multicolumn{1}{c}{98.65 \%} \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dal modello addestrato}
     \label{tab:risultatiReteNeurale}
 \end{table}
 
 Dai valori riportati nella tabella \ref{tab:risultatiReteNeurale} si può notare
-che la rete neurale ha ottenuto dei valori delle metriche molto alti. Questo 
+che la rete neurale ha ottenuto dei valori delle metriche molto alti. Questo
 comportamento è giustificato dal fatto che in fase di analisi è stato possibile
 notare che le feature selezionate sono in grado di discriminare in modo efficace
 le due classi.
@@ -269,9 +259,9 @@ metriche calcolate in precedenza. Inoltre, avendo corretto manualmente il valore
 della soglia, si è riusciti a ridurre il numero di falsi negativi, il che ha
 permesso di aumentare il valore del richiamo.
 
-Per concludere questa prima parte di analisi dei risultati, è stata realizzata 
-la curva ROC per il modello addestrato. La curva ROC ottenuta è riportata in 
-figura \ref{fig:curvaRocReteNeurale}. Oltre alla curva ROC è stata calcolata 
+Per concludere questa prima parte di analisi dei risultati, è stata realizzata
+la curva ROC per il modello addestrato. La curva ROC ottenuta è riportata in
+figura \ref{fig:curvaRocReteNeurale}. Oltre alla curva ROC è stata calcolata
 l'area sotto la curva, la quale ha ottenuto un valore di $1.00$. Questo valore
 ci permette di affermare che il modello addestrato si avvicina molto alla
 perfetta classificazione.
@@ -289,29 +279,25 @@ processo ogni modello che è stato addestrato è stato valutato attraverso le
 metriche di accuratezza, precisione, richiamo e F1 score.
 
 Per svolgere questa operazione è stato utilizzato il dataset completo, ovvero
-senza alcuna suddivisione in training set e test set. 
+senza alcuna suddivisione in training set e test set.
 
 Anche per questa operazione è stato utilizzato il valore di threshold precedentemente
 definito, ovvero $0.3$.
 
 Sui risultati ottenuti da questo processo sono stati calcolati gli intervalli
-di confidenza al $90\%$. I risultati ottenuti sono riportati in tabella 
+di confidenza al $90\%$. I risultati ottenuti sono riportati in tabella
 \ref{tab:risultatiCrossValidation}.
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{|c|c|c|}
-        \hline
-        \textbf{Metrica} & \textbf{Valore Medio} & \textbf{Intervallo di confidenza} \\
-        \hline
-        Accuratezza      & 98.19 \%        & [97.71\%, 98.67\%]                \\
-        \hline
-        Precisione       & 97.88 \%        & [97.16\%, 98.59\%]                \\
-        \hline
-        Richiamo         & 98.09 \%        & [97.19\%, 99.00\%]                \\
-        \hline
-        F1 score         & 97.97 \%        & [97.43\%, 98.52\%]                \\
-        \hline
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Metrica}} & \textbf{Valore Medio} & \textbf{Intervallo di confidenza} \\ \midrule
+        Accuratezza                                                  & 98.19 \%              & [97.71\%, 98.67\%]                \\
+        Precisione                                                   & 97.88 \%              & [97.16\%, 98.59\%]                \\
+        Richiamo                                                     & 98.09 \%              & [97.19\%, 99.00\%]                \\
+        F1 score                                                     & 97.97 \%              & [97.43\%, 98.52\%]                \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla cross validation}
     \label{tab:risultatiCrossValidation}
@@ -327,5 +313,34 @@ di avere una visione più chiara dei risultati ottenuti dalla cross validation.
     \caption{Risultati ottenuti dalla cross validation}
     \label{fig:risultatiCrossValidation}
 \end{figure}
+% TODO: Commento sugli intervalli di confidenza in relazione agli altri modelli
+\section{Modello addestrato con PCA}
+A puro scopo didattico, si è deciso di addestrare una rete neurale sul dataset
+ottenuto attraverso la PCA. Per la precisione, si sono addestrati due modelli,
+uno con gli stessi iperparametri del modello addestrato in precedenza e uno con
+iperparametri che sono stati stimati attraverso un processo di grid search.
 
-% TODO: Commento sugli intervalli di confidenza
+Il dataset ottenuto attraverso la PCA, descritto \textbf{Metti riferimento}, è
+stato diviso in training set e test set in modo tale da mantenere la stessa
+percentuale di dati positivi e negativi in entrambi i set.
+
+Il meccanismo di grid search utilizzato per la ricerca degli iperparametri è
+stato lo stesso utilizzato per il modello addestrato in precedenza. Anche
+gli iperparametri valutati sono stati gli stessi.
+
+I risultati ottenuti dai modelli addestrati sono riportati in tabella
+\ref{tab:risultatiReteNeuralePCA}.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Modello}} & \textbf{Accuratezza} & \textbf{F1} & \textbf{Precision} & \textbf{Recall} \\ \midrule
+        Rete senza PCA                                               & 98.80\%              & 98.65\%     & 99.10\%            & 98.65\%         \\
+        Rete con PCA                                                 &                      &             &                    &                 \\
+        Rete con PCA e grid search                                   & 98.27\%              & 98.07\%     & 97.92\%            & 98.21\%         \\ \bottomrule
+    \end{tabular}
+    \caption{Risultati ottenuti dai modelli addestrati con PCA}
+    \label{tab:risultatiReteNeuralePCA}
+\end{table}
