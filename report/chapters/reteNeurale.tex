@@ -170,11 +170,11 @@ probabilità che l'input appartenga alla classe positiva.
 La struttura della rete neurale è riassunta nella figura \ref{fig:strutturaReteNeurale}.
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/rete/struttura_rete.png}
+    \includegraphics[width=0.3\textwidth]{img/rete/struttura_rete.png}
     \caption{Struttura della rete neurale}
     \label{fig:strutturaReteNeurale}
 \end{figure}
-\subsection*{Altri iperparametri della rete neurale} % TODO: titolo migliore
+\subsection*{Altri iperparametri} % TODO: titolo migliore
 Oltre alla ricerca della struttura della rete neurale, la fase di grid search è
 stata utilizzata per valutare l'algoritmo di ottimizzazione, il numero di epoche
 e la dimensione del batch.
@@ -320,7 +320,7 @@ ottenuto attraverso la PCA. Per la precisione, si sono addestrati due modelli,
 uno con gli stessi iperparametri del modello addestrato in precedenza e uno con
 iperparametri che sono stati stimati attraverso un processo di grid search.
 
-Il dataset ottenuto attraverso la PCA, descritto \textbf{Metti riferimento}, è
+Il dataset ottenuto attraverso la PCA, descritto sella sezione \ref{sec:pca}, è
 stato diviso in training set e test set in modo tale da mantenere la stessa
 percentuale di dati positivi e negativi in entrambi i set.
 
@@ -344,3 +344,17 @@ I risultati ottenuti dai modelli addestrati sono riportati in tabella
     \caption{Risultati ottenuti dai modelli addestrati con PCA}
     \label{tab:risultatiReteNeuralePCA}
 \end{table}
+
+Per confrontare i modelli ottenuti con e senza PCA, sono state utilizzate, oltre
+alle metriche precedentemente presentate, anche le curve ROC e gli intervalli di
+confidenza. I risultati ottenuti sono riportati in figura \ref{fig:confrontoRisultatiPCA}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/rete/curva_roc.png}
+    \caption{Confronto tra i modelli addestrati con e senza PCA}
+    \label{fig:confrontoRisultatiPCA}
+\end{figure}
+
+Da questa figura si può notare che i modelli addestrati con e senza PCA hanno
+
