@@ -1,5 +1,5 @@
-% TODO: Commento intervalli di confidenza
-% TODO: rileggere la parte relativa ai risultati ottenuti
+% TODO: rilettura
+% TODO: Commento sugli intervalli di confidenza in relazione agli altri modelli
 % TODO: Confronto con il percettrone
 \chapter{Rete neurale} \label{chp:reteNeurale}
 La precedente fase di analisi ha permesso di acquisire informazioni utili sulla
@@ -313,7 +313,6 @@ di avere una visione più chiara dei risultati ottenuti dalla cross validation.
     \caption{Risultati ottenuti dalla cross validation}
     \label{fig:risultatiCrossValidation}
 \end{figure}
-% TODO: Commento sugli intervalli di confidenza in relazione agli altri modelli
 \section{Modello addestrato con PCA}
 A puro scopo didattico, si è deciso di addestrare una rete neurale sul dataset
 ottenuto attraverso la PCA. Per la precisione, si sono addestrati due modelli,
@@ -351,10 +350,51 @@ confidenza. I risultati ottenuti sono riportati in figura \ref{fig:confrontoRisu
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/rete/curva_roc.png}
-    \caption{Confronto tra i modelli addestrati con e senza PCA}
+    \includegraphics[width=0.5\textwidth]{img/rete/confrontoRoc.png}
+    \caption{Confronto curve ROC tra il modello addestrato con e senza PCA}
     \label{fig:confrontoRisultatiPCA}
 \end{figure}
 
-Da questa figura si può notare che i modelli addestrati con e senza PCA hanno
+Da questa figura si può notare che la differenza tra i due modelli è minima.
+Entrambi i modelli si avvicinano molto alla perfetta classificazione. Si può
+notare una differenza maggiore tra i due modelli osservando gli intervalli di
+confidenza. In particolare, si può notare che il modello addestrato con PCA ha
+un intervallo di confidenza più ampio rispetto al modello addestrato senza PCA.
 
+Nella figura \ref{fig:intervalliConfidenzaPCA} sono riportati gli intervalli di
+confidenza ottenuti dai modelli addestrati con e senza PCA. Da questa figura si
+può notare che l'intervallo di confidenza ottenuto dal modello addestrato con
+PCA, rappresentato dalla linea di colore rosso, è più ampio rispetto a quello 
+ottenuto dal modello addestrato senza PCA, rappresentato dalla linea di colore blu.
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/rete/intervalliAcc.png}
+        \caption{Accuracy}
+        \label{fig:acc}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/rete/intervalliF1.png}
+        \caption{F1 score}
+        \label{fig:f1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/rete/intervalliPrecision.png}
+        \caption{Precision}
+        \label{fig:precision}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/rete/intervalliRecall.png}
+        \caption{Recall}
+        \label{fig:recall}
+    \end{subfigure}
+    \caption{Intervalli di confidenza ottenuti dai modelli addestrati con e senza PCA}
+    \label{fig:intervalliConfidenzaPCA}
+\end{figure}
