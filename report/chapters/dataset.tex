@@ -6,8 +6,8 @@ associata un etichettata la quale permette di rappresentare la presenza o meno
 di un tumore al cervello. Nel dataset è presente una colonna, \textit{Class},
 nella quale sono presenti le etichette, ovvero:
 \begin{itemize}
-    \item \textbf{Presenza del tumore}: $T = 1$
-    \item \textbf{Assenza del tumore}: $T = 0$
+      \item \textbf{Presenza del tumore}: $T = 1$
+      \item \textbf{Assenza del tumore}: $T = 0$
 \end{itemize}
 
 Oltre alla colonna \textit{Class}, il dataset è composto da altre $13$ colonne,
@@ -18,59 +18,59 @@ dell'oggetto, il centroide, l'orientamento e altre proprietà.
 
 Gli attributi di cui è composto il dataset possono essere suddivisi in 2 gruppi\cite{explanation-features}:
 \begin{enumerate}
-    \item \textbf{First Order Features}: forniscono informazioni legate alle
-          distribuzione dei livelli di grigio dell'immagine. Queste features
-          corrispondono alle statistiche descrittive calcolate sui valori di
-          ciascun pixel dell'immagine. Le statistiche descrittive calcolate sono:
-          \begin{itemize}
-              \item \textbf{Media}
-              \item \textbf{Varianza}
-              \item \textbf{Deviazione standard}
-              \item \textbf{Indice di asimmetria}
-              \item \textbf{Indice di kurtosis}
-          \end{itemize}
-    \item \textbf{Second Order Features}: forniscono informazioni a livello di
-          composizione della texture dell'immagine.
-          \begin{itemize}
-              \item \textbf{Contrasto}: misura la variazione locale dei livelli
-                    di grigio dei pixel. Maggiore sarà il valore allora maggiore
-                    sarà il contrasto dell'immagine.
-              \item \textbf{Energia}: misura l'eterogeneità o la variazione
-                    dell'intensità dell'immagine. Più piccolo è il valore allora
-                    meno variazioni di intensità e più omogenea sarà la texture,
-                    al contrario, più la texture è irregolare allora maggiore
-                    sarà il valore.
-              \item \textbf{ASM}: misura quanto sono distribuiti uniformemente i
-                    livelli di grigio nell'immagine. Più i livelli di grigio sono
-                    uniformemente distribuiti minore sarà il valore dell'indice.
-              \item \textbf{Entropia}: misura la randomicità dei livelli di
-                    grigio, quindi più piccolo è il valore, più la texture
-                    sarà uniforme.
-              \item \textbf{Homogeneous}: misura secondaria del contrasto. Più
-                    alto sarà l'indice allora minore sarà il contrasto dell'immagine.
-              \item \textbf{Dissimilarity}: misura quanto spesso differenti
-                    combinazioni dei valori di intensità dei pixel occorrono
-                    nell'immagine. Un valore alto indica che l'immagine ha una
-                    maggior variazione delle intensità dei pixel vicini,
-                    quindi più complessa sarà la texture.
-              \item \textbf{Correlation}: misura la correlazione tra pixel nelle
-                    due diverse direzioni.
-              \item \textbf{Coarseness}: misura quanto l'immagine è composta da
-                    regioni di intensità omogenea, ovvero quanto è granulare o
-                    fine la texture.
-          \end{itemize}
+      \item \textbf{First Order Features}: forniscono informazioni legate alle
+            distribuzione dei livelli di grigio dell'immagine. Queste features
+            corrispondono alle statistiche descrittive calcolate sui valori di
+            ciascun pixel dell'immagine. Le statistiche descrittive calcolate sono:
+            \begin{itemize}
+                  \item \textbf{Media}
+                  \item \textbf{Varianza}
+                  \item \textbf{Deviazione standard}
+                  \item \textbf{Indice di asimmetria}
+                  \item \textbf{Indice di kurtosis}
+            \end{itemize}
+      \item \textbf{Second Order Features}: forniscono informazioni a livello di
+            composizione della texture dell'immagine.
+            \begin{itemize}
+                  \item \textbf{Contrasto}: misura la variazione locale dei livelli
+                        di grigio dei pixel. Maggiore sarà il valore allora maggiore
+                        sarà il contrasto dell'immagine.
+                  \item \textbf{Energia}: misura l'eterogeneità o la variazione
+                        dell'intensità dell'immagine. Più piccolo è il valore allora
+                        meno variazioni di intensità e più omogenea sarà la texture,
+                        al contrario, più la texture è irregolare allora maggiore
+                        sarà il valore.
+                  \item \textbf{ASM}: misura quanto sono distribuiti uniformemente i
+                        livelli di grigio nell'immagine. Più i livelli di grigio sono
+                        uniformemente distribuiti minore sarà il valore dell'indice.
+                  \item \textbf{Entropia}: misura la randomicità dei livelli di
+                        grigio, quindi più piccolo è il valore, più la texture
+                        sarà uniforme.
+                  \item \textbf{Homogeneous}: misura secondaria del contrasto. Più
+                        alto sarà l'indice allora minore sarà il contrasto dell'immagine.
+                  \item \textbf{Dissimilarity}: misura quanto spesso differenti
+                        combinazioni dei valori di intensità dei pixel occorrono
+                        nell'immagine. Un valore alto indica che l'immagine ha una
+                        maggior variazione delle intensità dei pixel vicini,
+                        quindi più complessa sarà la texture.
+                  \item \textbf{Correlation}: misura la correlazione tra pixel nelle
+                        due diverse direzioni.
+                  \item \textbf{Coarseness}: misura quanto l'immagine è composta da
+                        regioni di intensità omogenea, ovvero quanto è granulare o
+                        fine la texture.
+            \end{itemize}
 \end{enumerate}
 \section{Analisi descrittiva}
 Il dataset è formato da un totale $3762$ istanze, ciascuna delle quali è descritta
 da $15$ attributi così suddivisi:
 \begin{itemize}
-    \item $13$ rappresentano le feature calcolate sulle immagini della risonanza
-          magnetica. Tutti questi attributi sono di tipo \textit{float}.
-    \item $1$, ovvero l'attributo \textit{Image}, rappresenta l'identificativo
-          dell'immagine a cui si riferisce l'istanza.
-    \item $1$, ovvero l'attributo \textit{Class}, rappresenta l'etichetta associata
-          all'immagine. Questo attributo è stato convertito da \textit{intero} a
-          \textit{categorico} per poter effettuare la classificazione.
+      \item $13$ rappresentano le feature calcolate sulle immagini della risonanza
+            magnetica. Tutti questi attributi sono di tipo \textit{float}.
+      \item $1$, ovvero l'attributo \textit{Image}, rappresenta l'identificativo
+            dell'immagine a cui si riferisce l'istanza.
+      \item $1$, ovvero l'attributo \textit{Class}, rappresenta l'etichetta associata
+            all'immagine. Questo attributo è stato convertito da \textit{intero} a
+            \textit{categorico} per poter effettuare la classificazione.
 \end{itemize}
 
 Caricato il dataset, è stato eseguito un controllo per verificare che non ci fossero
@@ -82,21 +82,44 @@ Successivamente, si è proceduto con il calcolo delle statistiche descrittive pe
 gli attributi numerici presenti nel dataset. Questa operazione ha permesso di
 ottenere le informazioni riportate nella tabella \ref{tab:desc-stat}.
 
-\begin{table}[!ht]
-    \centering
-    \resizebox{\textwidth}{!}{\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-            \hline         & \textbf{Mean} & \textbf{Variance} & \textbf{Standard Deviation} & \textbf{Entropy} & \textbf{Skewness} & \textbf{Kurtosis} & \textbf{Contrast} & \textbf{Energy} & \textbf{ASM} & \textbf{Homogeneity} & \textbf{Dissimilarity} & \textbf{Correlation} & \textbf{Coarseness} \\ \hline
-            \textbf{count} & 3762          & 3762              & 3762                        & 3762             & 3762              & 3762              & 3762              & 3762            & 3762         & 3762                 & 3762                   & 3762                 & 3762                \\
-            \textbf{mean}  & 9.488890      & 711.101063        & 25.182271                   & 0.073603         & 4.102727          & 24.389071         & 127.961459        & 0.204705        & 0.058632     & 0.479252             & 4.698498               & 0.955767             & 7.458341e-155       \\
-            \textbf{std}   & 5.728022      & 467.466896        & 8.773526                    & 0.070269         & 2.560940          & 56.434747         & 109.499601        & 0.129352        & 0.058300     & 0.127929             & 1.850173               & 0.026157             & 0.000000e+00        \\
-            \textbf{min}   & 0.078659      & 3.145628          & 1.773592                    & 0.000882         & 1.886014          & 3.942402          & 3.194733          & 0.024731        & 0.000612     & 0.105490             & 0.681121               & 0.549426             & 7.458341e-155       \\
-            \textbf{25\%}  & 4.982395      & 363.225459        & 19.058475                   & 0.006856         & 2.620203          & 7.252852          & 72.125208         & 0.069617        & 0.004847     & 0.364973             & 3.412363               & 0.947138             & 7.458341e-155       \\
-            \textbf{50\%}  & 8.477531      & 622.580417        & 24.951560                   & 0.066628         & 3.422210          & 12.359088         & 106.737418        & 0.225496        & 0.050849     & 0.512551             & 4.482404               & 0.961610             & 7.458341e-155       \\
-            \textbf{75\%}  & 13.212723     & 966.954319        & 31.095889                   & 0.113284         & 4.651737          & 22.640304         & 161.059006        & 0.298901        & 0.089342     & 0.575557             & 5.723821               & 0.971355             & 7.458341e-155       \\
-            \textbf{max}   & 33.239975     & 2910.581879       & 53.949809                   & 0.394539         & 36.931294         & 1371.640060       & 3382.574163       & 0.589682        & 0.347725     & 0.810921             & 27.827751              & 0.989972             & 7.458341e-155       \\ \hline
-        \end{tabular}}
-    \caption{Statistiche descrittive degli attributi}
-    \label{tab:desc-stat}
+\begin{table}[h!]
+      \begin{subtable}[h]{1\textwidth}
+            \centering
+            \resizebox{\textwidth}{!}{\begin{tabular}{c|c c c c c c c c c c}
+                        \hline
+                        \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Mean} & \textbf{Variance} & \textbf{Standard Deviation} & \cellcolor[HTML]{EFEFEF}\textbf{Entropy} & \textbf{Skewness} & \textbf{Kurtosis} \\ \hline
+                        \textbf{count}                                            & 3762          & 3762              & 3762                        & 3762                                     & 3762              & 3762              \\
+                        \textbf{mean}                                             & 9.488890      & 711.101063        & 25.182271                   & 0.073603                                 & 4.102727          & 24.389071         \\
+                        \textbf{std}                                              & 5.728022      & 467.466896        & 8.773526                    & 0.070269                                 & 2.560940          & 56.434747         \\
+                        \textbf{min}                                              & 0.078659      & 3.145628          & 1.773592                    & 0.000882                                 & 1.886014          & 3.942402          \\
+                        \textbf{25\%}                                             & 4.982395      & 363.225459        & 19.058475                   & 0.006856                                 & 2.620203          & 7.252852          \\
+                        \textbf{50\%}                                             & 8.477531      & 622.580417        & 24.951560                   & 0.066628                                 & 3.422210          & 12.359088         \\
+                        \textbf{75\%}                                             & 13.212723     & 966.954319        & 31.095889                   & 0.113284                                 & 4.651737          & 22.640304         \\
+                        \textbf{max}                                              & 33.239975     & 2910.581879       & 53.949809                   & 0.394539                                 & 36.931294         & 1371.640060       \\ \hline
+                  \end{tabular}}
+            \caption{Statistiche descrittive delle feature \textit{Mean}, \textit{Variance}, \textit{Standard Deviation}, \textit{Entropy}, \textit{Skewness} e \textit{Kurtosis}.}
+            \label{tab:primameta}
+      \end{subtable}
+      \hfill
+      \begin{subtable}[h]{1\textwidth}
+            \centering
+            \resizebox{\textwidth}{!}{\begin{tabular}{c|c c c c c c c c}
+                        \hline
+                        \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Contrast} & \textbf{Energy} & \textbf{ASM} & \textbf{Homogeneity} & \textbf{Dissimilarity} & \textbf{Correlation} & \textbf{Coarseness} \\ \hline
+                        \textbf{count}                                            & 3762              & 3762            & 3762         & 3762                 & 3762                   & 3762                 & 3762                \\
+                        \textbf{mean}                                             & 127.961459        & 0.204705        & 0.058632     & 0.479252             & 4.698498               & 0.955767             & 7.458341e-155       \\
+                        \textbf{std}                                              & 109.499601        & 0.129352        & 0.058300     & 0.127929             & 1.850173               & 0.026157             & 0.000000e+00        \\
+                        \textbf{min}                                              & 3.194733          & 0.024731        & 0.000612     & 0.105490             & 0.681121               & 0.549426             & 7.458341e-155       \\
+                        \textbf{25\%}                                             & 72.125208         & 0.069617        & 0.004847     & 0.364973             & 3.412363               & 0.947138             & 7.458341e-155       \\
+                        \textbf{50\%}                                             & 106.737418        & 0.225496        & 0.050849     & 0.512551             & 4.482404               & 0.961610             & 7.458341e-155       \\
+                        \textbf{75\%}                                             & 161.059006        & 0.298901        & 0.089342     & 0.575557             & 5.723821               & 0.971355             & 7.458341e-155       \\
+                        \textbf{max}                                              & 3382.574163       & 0.589682        & 0.347725     & 0.810921             & 27.827751              & 0.989972             & 7.458341e-155       \\ \hline
+                  \end{tabular}}
+            \caption{Statistiche descrittive delle feature \textit{Contrast}, \textit{Energy}, \textit{ASM}, \textit{Homogeneity}, \textit{Dissimilarity}, \textit{Correlation} e \textit{Coarseness}.}
+            \label{tab:secondameta}
+      \end{subtable}
+      \caption{Statistiche descrittive degli attributi}
+      \label{tab:desc-stat}
 \end{table}
 
 Questa operazione ha permesso di ottenere alcune informazioni sul dataset.
@@ -108,8 +131,8 @@ La standardizzazione delle feature è stata fatta, utilizzando l'equazione
 \ref{eq:std-features}, solo per le SVM e il modello neurale, mentre per Gaussian
 Bayes la standardizzazione viene fatta in automatico dalla libreria del modello.
 \begin{equation}
-    F_{\mu, \sigma} = \frac{F - \mu}{\sigma}
-    \label{eq:std-features}
+      F_{\mu, \sigma} = \frac{F - \mu}{\sigma}
+      \label{eq:std-features}
 \end{equation}
 
 In aggiunta alle statistiche descrittive, per ogni feature si è realizzato un
@@ -140,16 +163,16 @@ classi sono bilanciate, ovvero se il numero di esempi positivi è simile al nume
 di esempi negativi.
 
 In questo caso, realizzando un istogramma, riportato in figura \ref{fig:dist-classi},
-che rappresenta le frequenze assolute delle classi. Da questo si può notare che 
-la distribuzione di esse è bilanciate, infatti, circa il $55\%$ degli esempi sono 
-negativi (assenza del tumore), contro circa il $45\%$ degli esempi sono positivi 
+che rappresenta le frequenze assolute delle classi. Da questo si può notare che
+la distribuzione di esse è bilanciate, infatti, circa il $55\%$ degli esempi sono
+negativi (assenza del tumore), contro circa il $45\%$ degli esempi sono positivi
 (presenza del tumore).
 
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/analisi/distribuzioneClassi.png}
-    \caption{Distribuzione delle classi}
-    \label{fig:dist-classi}
+      \centering
+      \includegraphics[width=0.5\textwidth]{img/analisi/distribuzioneClassi.png}
+      \caption{Distribuzione delle classi}
+      \label{fig:dist-classi}
 \end{figure}
 
 \textbf{Non è già stato detto prima?}
@@ -169,9 +192,9 @@ rimuovendo la feature \textit{Coarseness}.
 \textbf{TODO:immagine}
 
 \subsection{Analisi delle correlazioni}
-Il passaggio successivo è  stato quello di analizzare le correlazioni tra le feature. 
-Questo è stato fatto in modo tale da ridurre la dimensionalità dei dati, nello 
-specifico sono state suddivise le feature in gruppi di feature altamente correlate 
+Il passaggio successivo è  stato quello di analizzare le correlazioni tra le feature.
+Questo è stato fatto in modo tale da ridurre la dimensionalità dei dati, nello
+specifico sono state suddivise le feature in gruppi di feature altamente correlate
 tra loro, e in un secondo momento è stata scelta una feature per ogni gruppo.
 
 Per fare ciò, è stata realizzata una matrice di correlazione, riportata in figura
@@ -179,10 +202,10 @@ Per fare ciò, è stata realizzata una matrice di correlazione, riportata in fig
 tra le feature.
 
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/analisi/corr.png}
-    \caption{Matrice di correlazione}
-    \label{fig:corr-matrix}
+      \centering
+      \includegraphics[width=0.5\textwidth]{img/analisi/corr.png}
+      \caption{Matrice di correlazione}
+      \label{fig:corr-matrix}
 \end{figure}
 
 Dall'analisi di questa matrice, si possono osservare diverse correlazioni tra le
@@ -190,9 +213,9 @@ feature. Innanzitutto, si può notare una forte correlazione positiva tra le fea
 \textit{Mean}, \textit{Variance} e \textit{Standard deviation}. Questa correlazione
 è facilmente spiegabile analizzando le immagini prodotte dalle risonanze magnetiche.
 Infatti, essendo in bianco e nero, se la media tende a $1$ (colore bianco) allora
-la varianza e la deviazione standard aumentano, perché sono presenti diversi 
+la varianza e la deviazione standard aumentano, perché sono presenti diversi
 pixel bianchi. Questo comporta che le transizioni dal nero assoluto al bianco
-assoluto neccessitano di regioni di pixel maggiore rispetto ad una transizione
+assoluto necessitano di regioni di pixel maggiore rispetto ad una transizione
 tra nero assoluto e grigio ($0.5$).
 
 Invece, la correlazione tra varianza è deviazione standard facilmente spiegabile
@@ -200,11 +223,11 @@ perché la deviazione standard è la radice quadrata della varianza ($SD[P] = \s
 
 \textbf{TODO:immagine}
 
-Una seconda forte correlazione positiva si può osservate tra le feature che 
-misurano l'\textbf{uniformità dei livelli di grigio} dei pixel, più precisamente 
-tra le feature \textit{Entropy}, \textit{ASM}, \textit{Homogeneity} ed 
+Una seconda forte correlazione positiva si può osservate tra le feature che
+misurano l'\textbf{uniformità dei livelli di grigio} dei pixel, più precisamente
+tra le feature \textit{Entropy}, \textit{ASM}, \textit{Homogeneity} ed
 \textit{Energy}. Queste feature quantificano delle informazioni legate alla
-texture dell'immagine, quindi la forte correlazione positiva può essere spiegata 
+texture dell'immagine, quindi la forte correlazione positiva può essere spiegata
 analizzando le texture delle immagini su cui vengono calcolate. Più precisamente
 se si ha un valore molto alto della feature \textit{Entropy}, significa che la
 texture non è uniforme, ovvero si hanno strutture complesse e irregolari, quindi
@@ -233,38 +256,55 @@ allora minore è la complessità della texture.
 Dalla correlazione delle features è possibile ridurre la dimensionalità del dataset
 considerando sono le seguenti features:
 \begin{itemize}
-    \item \textbf{Mean}
-    \item \textbf{Entropy}
-    \item \textbf{Skewness}
-    \item \textbf{Contrast}
-    \item \textbf{Correlation}
+      \item \textbf{Mean}
+      \item \textbf{Entropy}
+      \item \textbf{Skewness}
+      \item \textbf{Contrast}
+      \item \textbf{Correlation}
 \end{itemize}
 A puro scopo didattico è stato pensato di eseguire i modelli non solo sul dataset
 semplificato eliminando le correlazioni, ma anche applicando l'algoritmo PCA.
 
-\section{PCA}
+\section{PCA} \label{sec:pca}
 Precedentemente è stato presentato un primo modo per ridurre la dimensionalità
 dei dati basandoci sull'analisi delle correlazioni. In seguito, è stato pensato
 di provare ad utilizzare un metodo di trasformazione delle feature per ridurre
-la loro dimensionalità e successivamente analizzare i risultati ottenuti. La 
+la loro dimensionalità e successivamente analizzare i risultati ottenuti. La
 scelta sul metodo da utilizzare è ricaduta su PCA.
 
-Per prima cosa è statao necessario comprendere quante componenti delle nuove
-feature sono necessarie per avere la maggior parte della varianza spiegata. Per 
-fare ciò sono state separate le features dalla classe di ciascun esempio,
-successivamente è stato effettuato il fit della PCA sull'istanza di ciascun dato
-e successivamente è stato plottato all'interno di uno scatter plot per ogni 
-componente la sua percentuale di varianza spiegata.
+Prima di applicare la PCA, è stato necessario standardizzare le feature, questa
+operazione è stata fatta per evitare che le feature con varianza maggiore abbiano
+un peso maggiore rispetto alle altre. Senza standardizzare le feature, la PCA
+potrebbe non essere in grado di trovare le direzioni di massima varianza.
 
-\textbf{TODO:immagine del plotting della PCA}
+La prima parte dell'analisi è stata quella di trovare il corretto numero di
+componenti da utilizzare per la PCA. Questo è stato fatto attraverso
+l'osservazione della percentuale di varianza spiegata per ogni componente. Per
+svolgere questa operazione sono state utilizzate solamente le feature numeriche
+del dataset, quindi sono state escluse le colonne \textit{Image} e \textit{Class}.
 
-Dallo scatter plot si evidenzia come con solo le prime 3 componenti, si riesce
-a raggiungere un totale dell'$85\%$ di varianza spiegata sui dati. In questo modo
-una volta eseguita la pca e applicata la trasformazione, si selezionano solo le
-prime 3 componenti dei nuovi dati trasformati. 
-In aggiunta, dal momento che abbiamo ridotto la dimensionalità dei dati a $3$ 
-allora, aggiungendo anche la colonna target, si possono rappresentare all'interno
-di uno scatter plot a $3$ dimensioni e si può notare come i dati sono separabili
-tramite un iperpiano.
+Rimosse le colonne non necessarie, è stato possibile computare la PCA utilizzando
+la libreria \textit{sklearn} e successivamente è stato possibile osservare la
+percentuale di varianza spiegata per ogni componente, riportata in figura \ref{fig:pca}.
 
-\textbf{TODO:immagine del plotting delle nuove componenti}
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.45\textwidth]{img/analisi/pcaVarianza.png}
+      \caption{Percentuale di varianza spiegata per ogni componente}
+      \label{fig:pca}
+\end{figure}
+
+Dall'analisi della percentuale di varianza spiegata per ogni componente, si può
+osservare che le prime $3$ componenti spiegano circa l'$85\%$ della varianza
+dei dati. Questo ci ha permesso di ridurre la dimensionalità del dataset a soli
+$3$ attributi, permettendo di rappresentare i dati in uno spazio a $3$ dimensioni.
+
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.4\textwidth]{img/analisi/pcaNuovoDataset.png}
+      \caption{Scatter plot a 3 dimensioni}
+      \label{fig:pca-3d}
+\end{figure}
+
+Dalla figura \ref{fig:pca-3d} si può osservare che i dati ottenuti dalla PCA
+sembrano essere separabili con un piano.
