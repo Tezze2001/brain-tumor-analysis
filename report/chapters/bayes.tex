@@ -1,4 +1,4 @@
-\chapter{Bayes} \label{chp:bayes}
+\chapter{Gaussian Naive Bayes} \label{chp:bayes}
 La precedente fase di analisi ha permesso di acquisire informazioni utili sulla
 struttura del dataset e di conseguenza permettere la selezione di un modello
 adatto a svolgere il compito di classificazione.
@@ -9,62 +9,73 @@ si sta utilizzando Gaussian Naive Bayes pur sapendo che non tutte le features
 derivano da una distribuzione normale, siamo consci del fatto che non si stanno 
 rispettando le assunzioni del modello.
 
-\section{Preparazione dei dati}
-La prima operazione svolta sui dati è stata la suddivisione del dataset in
-training set e test set. Il training set è stato utilizzato per addestrare la
-rete neurale, mentre il test set è stato utilizzato per valutare le prestazioni
-della rete neurale. La suddivisione del dataset è stata effettuata in modo tale
-che il training set contenesse il $80\%$ dei dati, mentre il test set contenesse
-il $20\%$ dei dati.
-
-La suddivisione dei dati è stata effettuata in modo da mantenere la stessa 
-percentuale di dati positivi e negativi in entrambi i set. Questa operazione è
-stata effettuata per evitare che la rete neurale sia addestrata su un dataset
-sbilanciato.
-
 \section{Addestramento di Gaussian Naive Bayes}
-Dal momento che il modello non ha degli iperparametri da stimare allora non è 
-stato effettuato il processo di tuning degli iperparametri come è stato effettuato
-per la rete neurale. Di conseguenza è stato allenato direttamente il modello sul
-training set e successivamente è stata effettuata la sua valutazione calcolando 
-le metriche di valutazione.
+Sono stati creati due modelli allenati rispettivamente sul training set di Dateset-corr
+e Dateset-pca. In aggiunta, non è stato effettuato nessuno studio degli iperparametri
+dal momento Gaussian Naive Bayes non possiede degli iperparametri che devono essere
+stimati.
 
 \section{Risultati}
-Il modello addestrato in precedenza è stato valutato sui dati che compongono il
-test set. In particolare sono state valutate le seguenti metriche: accuratezza,
-precisione, richiamo e F1 score. Oltre al calcolo di queste metriche, si è 
-deciso di realizzare la curva ROC per il modello e di rappresentare la matrice
-di confusione.
 
-Prima di presentare i risultati ottenuti, è necessario specificare che essendo 
-il dataset riferito a un ambito medico, si è deciso di aggiustare il valore di
-threshold per la predizione del modello. In particolare, il valore di threshold
-è stato impostato a $0.3$, in modo tale da ridurre il numero di falsi negativi.
+Dati i due modelli addestrati precedentemente, sono state effettuate le previsioni
+sui test set dei rispettivi dataset utilizzati nell'apprendimento e, infine,
+sono state calcolate le metriche di valutazione.
 
-Fatta questa precisazione, si può procedere con la presentazione dei risultati
-ottenuti. In particolare, nella tabella \ref{tab:risultatiReteNeurale} sono
-presentati i risultati ottenuti dal modello addestrato.
+Per prima cosa è stata calcolata la matrice di confusione per ciascun modello,
+visibile nella figura \ref{fig:matrice_di_confusione_per_GNB}.
 
-\begin{table}[ht]
+\begin{figure}[!ht]
     \centering
-    \begin{tabular}{|c|c|}
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/gnb/confusion_matrix_corr.png}
+        \caption{Gaussian Naive Bayes allenato su Dataset-corr}
+        \label{fig:matrice_di_confusione_per_GNB_corr}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/gnb/confusion_matrix_pca.png}
+        \caption{Gaussian Naive Bayes allenato su Dataset-pca}
+        \label{fig:matrice_di_confusione_per_GNB_pca}
+    \end{subfigure}
+    \caption{matrici di confusione per Gaussian Naive Bayes}
+    \label{fig:matrice_di_confusione_per_GNB}
+\end{figure}
+
+Le matrici di confusione evidenziano come i modelli generalizzano molto bene, più
+precisamente il modello allenato su Dataset-corr ha un'accuracy del $95\%$, al contrario
+quello allenato su Dataset-pca raggiunge un'accuracy del $96\%$. Questo denota che 
+ridurre le dimensioni del dataset utilizzando pca non porta a significativi miglioramenti
+sulle predizioni. Questo mancato miglioramento può essere dovuto al fatto che si
+è già trovata una buona ipotesi vicina alla funzione generatrice del dataset.
+
+Dalle matrici di confusione oltre all'accuracy si possono calcolare le metriche
+di precision, recall e F1-score, i loro valori sono visionabili nella tabella 
+\ref{tab:risultatiBayes}.
+
+\begin{table}[!ht]
+    \centering
+        
+    \begin{tabular}{|c|c|c|}
         \hline
-        \textbf{Metrica} & \textbf{Valore} \\
+        \textbf{Metrica} & \textbf{Valore sul training set di Dataset-corr} & \textbf{Valore sul training set di Dataset-pca} \\
         \hline
-        Accuratezza & ?? \\
+        Accuracy & $95\%$ & $96\%$ \\
         \hline
-        Precisione & ?? \\
+        Precision & $90\%$ & $96\%$ \\
         \hline
-        Richiamo & ?? \\
+        Recall & $99\%$ & $96\%$ \\
         \hline
-        F1 score & ?? \\
+        F1 score & $94\%$ & $96\%$ \\
         \hline
     \end{tabular}
-    \caption{Risultati ottenuti dal modello addestrato}
+    \caption{Metriche Gaussian Naive Bayes}
     \label{tab:risultatiBayes}
 \end{table}
 
-I risultati ottenuti sono giustificati dal fatto che le due classi sono linearmente
-separabili.
-
-% Lo facciamo alla fine? \section{Confronto con il percettrone}
+Dalle metriche di valutazione si può notare come su Dataset-corr si ha una precision
+minore rispetto alla recall, quindi significa che si tende ad associare la presenza
+di un tumore anche quando non è presente. Al contrario su Dataset-pca aumenta la
+precision diminuendo la recall, questo significa che sarà più affidabile su un 
+riscontro positivo rispetto ad un riscontro negativo.

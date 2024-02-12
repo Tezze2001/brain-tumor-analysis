@@ -308,3 +308,51 @@ $3$ attributi, permettendo di rappresentare i dati in uno spazio a $3$ dimension
 
 Dalla figura \ref{fig:pca-3d} si può osservare che i dati ottenuti dalla PCA
 sembrano essere separabili con un piano.
+
+\section{Preparazione dei dati per i vari modelli}
+In seguito a tutti i ragionamenti precedenti, dal primo dataset sono stati costruiti 
+altri due datasets, il primo ridotto mediante la correlazione (Dataset-corr), 
+mentre il secondo ridotto mediante PCA (Dataset-pca). La scelta di eseguire i
+modelli utilizzando due metodi per ridurre la dimensionalità è stata fatta solo
+per scoprire se ha davvero senso, in questo contesto, scomodare un algoritmo di 
+riduzione di dimensionalità, come PCA, oppure ci si può limitare solo a considerare
+feature non fortemente correlate.
+
+Successivamente su Dataset-corr e Dataset-pca sono state applicate delle operazioni 
+di suddivisione degli esempi in due insiemi:
+\begin{itemize}
+      \item \textbf{training set}: contenente l'$80\%$ degli esempi del dataset e viene
+      utilizzato per effettuare la ricerca degli iperparametri migliori e, una volta
+      trovati, si riutilizza questo insieme di esempi per allenare il modello con 
+      gli iperparametri migliori appena trovati. Per lo studio degli iperparametri
+      è stata effettuata una 10-fold cross validation stratified.
+      \item \textbf{test set}: contenente l'$80\%$ degli esempi del dataset 
+      rimanenti e viene utilizzato per effettuare la valutazione del modello.
+\end{itemize}
+Logicamente, la suddivisione tra traning set e test set è stata realizzata
+in modo strutturato, ovvero nel traing set e nel test set è stato preservato lo 
+stesso bilanciamento delle classi presenti nel dataset di partenza, in modo tale 
+da evitare di introdurre dei bayes su modello. 
+
+In aggiunta alle operazioni di preprocessing introdotte precedentemente, è stata
+applicata anche un'operazione di standardizzazione dei dati definendo due nuovi
+dataset: Dateset-corr-std e Dateset-pca-std. La standardizzazione dei dati è
+stata necessaria dal momento che sono stati utilizzati dei modelli che assumono
+di ricevere in input dei dati standardizzati, come le reti neurali (NN) e le 
+support vector machine (SVM).
+ 
+Nella tabella \ref{tab:riassunto-dataset} si può avere una ricapitolazione di
+tutti i dataset e delle operazioni effettuate per ottenerli.
+
+\begin{table}[ht]
+      \resizebox{\textwidth}{!}{\begin{tabular}{|l|l|l|}
+      \hline
+      \textbf{Nome del dataset} & \textbf{Operazioni applicate}                                           & \textbf{Utilizzato per i seguenti modelli} \\ \hline
+      Dataset-corr              & Riduzione della dimensionalità utilizzando l'analisi della correlazione & Gaussian Naive Bayes              \\ \hline
+      Dateset-corr-std          & Dataset-corr con la standardizzazione dei dati                          & SVM e NN                          \\ \hline
+      Dateset-PCA               & Dateset-corr-std applicando l'algoritmo PCA                             & Gaussian Naive Bayes              \\ \hline
+      Dateset-PCA-std           & Dateset-PCA con la standizzazione dei dati                              & SVM e NN                          \\ \hline
+      \end{tabular}}
+      \caption{Tabella riassuntiva dei dataset}
+      \label{tab:riassunto-dataset}
+\end{table}
