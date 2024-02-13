@@ -1,76 +1,82 @@
 % TODO: Commento intervalli di confidenza
 % TODO: rileggere la parte relativa ai risultati ottenuti
 % TODO: rilettura
+% TODO: commento sul migliore modello
 % TODO: Commento sugli intervalli di confidenza in relazione agli altri modelli
 % TODO: Confronto con il percettrone
 \chapter{Rete neurale} \label{chp:reteNeurale}
-La precedente fase di analisi ha permesso di acquisire informazioni utili sulla
-struttura del dataset e di conseguenza permettere la selezione di un modello
-adatto a svolgere il compito di classificazione.
+La fase di analisi presentata nella sezione \ref{sec:analisi-descrittiva} ha
+permesso di acquisire informazioni utili sulla struttura del dataset e di
+conseguenza permettere la selezione di un modello adatto a svolgere il compito
+di classificazione.
 
 In questo capitolo verrà presentato uno dei tre modelli che sono stati realizzati
-per svolgere il compito di classificazione, ovvero la rete neurale. Nello
-specifico si andranno a presentare i passaggi che sono stati effettuati per la
-realizzazione di questo modello, partendo dalla preparazione dei dati, passando
-per la definizione della struttura della rete neurale, fino ad arrivare ai
-risultati ottenuti.
+per svolgere il compito di classificazione, ovvero la \textbf{rete neurale}. Nello
+specifico, in questo capitolo si andranno a presentare i passaggi che sono stati
+effettuati per la realizzazione di questo modello, partendo dalla preparazione
+dei dati, passando per la definizione della struttura della rete neurale, fino
+ad arrivare ai risultati ottenuti. In un secondo momento, si andranno a
+confrontare i risultati ottenuti con quelli ottenuti da un modello addestrato
+con PCA.
 \section{Preparazione dei dati}
-Prima di passare alla presentazione della rete neurale nel dettaglio, risulta
-necessario specificare come sono stati preparati i dati per l'addestramento della
-rete neurale.
+Prima di passare alla presentazione della rete neurale nel dettaglio, è importante
+delineare il processo di preparazione dei dati necessario per l'addestramento
+della stessa.
 
-La prima operazione svolta sui dati è stata un operazione di standardizzazione,
-ovvero per ogni feature è stata calcolata la media e la deviazione standard e
-questi valori sono stati utilizzati per standardizzare i dati.
-
-Eseguendo questa operazione i dati sono stati trasformati in modo tale che la
-loro media sia 0 e la loro deviazione standard sia 1. Questa operazione è stata
-eseguita per garantire che la rete neurale non sia influenzata da valori di input
-con scale diverse.
-
-La seconda operazione svolta sul dataset è stata la suddivisione in training set
-e test set. Questa operazione è stata fatta per poter utilizzare una parte dei
-dati per addestrare la rete neurale e una parte dei dati per valutare le
-prestazioni della rete neurale. La suddivisione del dataset è stata effettuata
-in modo tale che il training set contenesse il $80\%$ dei dati, mentre il test
-set contenesse il $20\%$ dei dati.
-
-Questa operazione è stata effettuata in modo da mantenere la stessa percentuale
-di dati positivi e negativi in entrambi i set, con lo scopo di evitare che la
-rete neurale sia addestrata su un dataset sbilanciato e di conseguenza non sia
-in grado di generalizzare correttamente.
+La preparazione dei dati è stata eseguita attraverso una serie di operazioni
+mirate a renderli idonei per l'addestramento della rete neurale. Le fasi
+principali sono state le seguenti:
+\begin{itemize}
+    \item \textbf{Standardizzazione dei dati}: Ogni caratteristica è stata
+          trasformata in modo tale che la loro media fosse pari a 0 e la
+          deviazione standard fosse 1. Questo passaggio è stato cruciale per
+          garantire che la rete neurale non fosse influenzata da valori di input
+          su differenti scale.
+    \item \textbf{Suddivisione del dataset in training set e test set}: Il
+          dataset è stato diviso in due parti: il training set e il test set.
+          Questo processo è stato fondamentale per valutare le prestazioni della
+          rete neurale su dati non utilizzati durante la fase di addestramento.
+          Il training set ha rappresentato l'$80\%$ dei dati, mentre il test
+          set il restante $20\%$.
+\end{itemize}
+Essendo il dataset non perfettamente bilanciato ($55\%$ dati negativi e $45\%$
+dati positivi) l'operazione di suddivisione è stata effettuata in modo da
+mantenere la stessa percentuale di dati positivi e negativi in entrambi i set.
+Lo scopo di questa scelta è quello di evitare che il modello sia addestrata su
+un dataset sbilanciato e di conseguenza non sia in grado di generalizzare
+correttamente.
 \section{Struttura della rete neurale}
-Per definire la struttura della rete neurale sono stati utilizzati i risultati
-ottenuti dalla fase di analisi a cui si è aggiunta una fase di grid search. Questa
-fase è stata effettuata per valutare la combinazione migliore di iperparametri
-per la rete neurale.
+La fase di definizione della struttura della rete neurale è stata effettuata
+attraverso una serie di passaggi. Inizialmente, è stata effettuata un'analisi
+dei dati in modo tale da selezionare un sottoinsieme di feature le quali sono
+state utilizzate come input della rete neurale. Questo sottoinsieme è stato
+selezionato in modo tale da garantire che la rete neurale fosse in grado di
+discriminare in modo efficace le due classi.
+
+In seguito, è stata effettuata una fase di grid search per valutare la combinazione
+migliore di iperparametri per la rete neurale. Questa fase è stata effettuata
+attraverso una cross validation a 5 fold, prendendo in considerazione solamente
+i dati del training set.
 
 Dai risultati ottenuti dalla fase di analisi e dal dominio del problema, si è
 scelto di utilizzare una rete con una struttura di dimensioni ridotte, in modo
-tale da evitare l'overfitting.
+tale da ridurre le possibilità che la rete neurale soffra di overfitting.
 
 Per svolgere il compito di classificazione si è scelto di utilizzare una rete
 neurale feedforward, la cui struttura, a meno del layer di input e di output, è
-stata definita attraverso un processo di grid search.
-
-Dalla fase di analisi è stato selezionato un sottoinsieme di feature le quali
-sono state utilizzate come input della rete neurale. Questo sottoinsieme è
-composto da 5 elementi, il che ha permesso di definire la struttura del layer di
-input della rete neurale. Questo primo strato è composto da 5 neuroni, in cui la
-funzione di attivazione è stata definita come il resto delle funzioni di attivazione.
-\subsection*{Ottimizzazione degli iperparametri}
+stata definita attraverso il processo di grid search.
+\subsection{Ottimizzazione degli iperparametri}
 Come già accennato in precedenza, la ricerca degli iperparametri della rete neurale
 è stata effettuata attraverso un processo di grid search. Questo processo ha
 permesso di valutare le prestazioni della rete neurale al variare della funzione
 di attivazione, del numero di layer nascosti e del numero di neuroni per ogni
-layer nascosto. Questo processo è stato effettuata attraverso una cross
-validation a 5 fold, prendendo in considerazione solamente i dati del training set.
+layer nascosto.
 
 Visti i risultati ottenuti nella fase di analisi e la volontà di mantenere i
 tempi di addestramento bassi, si è scelto di mantenere una struttura di dimensioni
 ridotte per la rete neurale. Per questo motivo, l'operazione di grid search è
 stata effettuata prendendo in considerazione un numero di neuroni per layer
-tra 5, 10, 50, mentre il numero di layer nascosti è stato valutato tra 1 e 2.
+tra 5, 10 mentre il numero di layer nascosti è stato valutato tra 1 e 2.
 
 Per quanto riguarda la funzione di attivazione, sono state valutate le seguenti
 funzioni di attivazione:
@@ -108,28 +114,31 @@ funzioni di attivazione:
 
 Durante il processo di grid search, per ogni modello che è stato addestrato, sono
 state raccolte delle informazioni relative all'accuratezza, al tempo di addestramento
-richiesto. In aggiunta a queste informazioni, sono stati calcolati gli intervalli
-di confidenza al $95\%$ per entrambe le misure.
+richiesto. In aggiunta a queste informazioni, dato che ogni modello è stato
+addestrato attraverso una cross validation a 5 fold, sono stati calcolati gli
+intervalli di confidenza al $90\%$ per ogni modello addestrato.
 
 Ottenuti i risultati, si è proceduto con l'analisi di questi, in modo tale da
 definire la struttura della rete neurale. Per effettuare questa valutazione sono
 state utilizzate le misure precedentemente citate.
 
-Il modello selezionato è stato scelto in base al seguente criterio: si è scelto
-il modello che ha ottenuto il valore più alto combinando, attraverso dei pesi,
-i valori relativi all'accuratezza media, al tempo di addestramento medio e
-agli intervalli di confidenza ottenuti. Per questa operazione si è scelto di
-assegnare un peso maggiore all'accuratezza media ottenuta dalla cross validation
-e al tempo di addestramento medio.
+Il modello selezionato è stato scelto in base al seguente criterio:
+\begin{center}
+    \textit{Modello = 2 * Accuratezza + 2 * Tempo di addestramento + 1 * Intervalli di confidenza}
+\end{center}
+Le misure di accuratezza e tempo di addestramento si riferiscono alla media
+calcolata attraverso la cross validation.
 
 Nello specifico, sono stati utilizzati i seguenti pesi: 2 per l'accuratezza
 media, 2 per il tempo di addestramento medio e 1 per gli intervalli di
 confidenza. Questi pesi sono stati scelti in modo tale da dare più importanza
 all'accuratezza media e al tempo di addestramento medio, in quanto sono le due
-misure che permettono di valutare le prestazioni della rete neurale.
+misure che permettono di valutare le prestazioni della rete neurale, mentre gli
+intervalli di confidenza sono stati utilizzati per valutare la variabilità delle
+prestazioni.
 
-Per verificare la validità del modello scelto si è proceduto con il confronto tra
-il modello che ha ottenuto la migliore accuratezza e il modello che ha ottenuto
+Per verificare la validità del modello scelto si è proceduto con il confronto di
+esso con la rete che ha ottenuto la migliore accuratezza e quella che ha ottenuto
 il tempo di addestramento minore, ottenendo i risultati riportati in tabella \ref{tab:ris-grid-search}.
 \begin{table}[ht]
     \centering
@@ -137,37 +146,47 @@ il tempo di addestramento minore, ottenendo i risultati riportati in tabella \re
         \toprule
         \rowcolor[HTML]{EFEFEF}
         \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Modello}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
-        Tempo di addestramento minore                                & 98.1\%               & 0.96s                           \\
-        Accuratezza maggiore                                         & 99.5\%               & 24.54s                          \\
-        Modello scelto                                               & 98.7\%               & 2.7s                            \\ \bottomrule
+        Tempo di addestramento minore                                & 97.9\%               & 1.05s                           \\
+        Accuratezza maggiore                                         & 99.0\%               & 14.43s                          \\
+        Modello scelto                                               & 98.6\%               & 2.59s                           \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla fase di grid search}
     \label{tab:ris-grid-search}
 \end{table}
 
 Dai valori riportati nella tabella \ref{tab:ris-grid-search} si può notare che il
-notare che il modello che è stato selezionato fornisce un buon compromesso tra
-accuratezza e tempo di addestramento. Nello specifico, perdendo lo $0.8\%$ di
-accuratezza si è ottenuto un tempo di addestramento minore di $21.84s$ secondi.
+notare che il modello che è stato selezionato fornisce un compromesso tra
+accuratezza e tempo di addestramento. Nello specifico, perdendo lo $0.4\%$ di
+accuratezza si è ottenuto un tempo di addestramento minore di circa $12$ secondi.
+\subsection{Definizione della struttura della rete neurale}
+Dalla fase di analisi è stato selezionato un sottoinsieme di feature le quali
+sono state utilizzate come input della rete neurale. Questo sottoinsieme è
+composto da 5 elementi, il che ha permesso di definire la struttura del layer di
+input della rete neurale, questo primo strato è composto da 5 neuroni, uno per 
+ogni feature selezionata.
 
-\subsection*{Definizione della struttura della rete neurale}
 I risultati ottenuti dalla fase di grid search hanno permesso di definire la
 struttura della rete neurale. In particolare, la rete neurale è composta da 1
-layer di input, 1 layer nascosto e 1 layer di output.
+layer di input, 2 layer nascosti e 1 layer di output.
 
-Il layer nascosto è composto da 50 neuroni, in cui la funzione di attivazione è
-la funzione Leaky ReLU.
+I layer nascosti sono composti nel seguente modo:
+\begin{itemize}
+    \item Il primo layer nascosto è composto da 10 neuroni, in cui la funzione di
+          attivazione è la funzione ReLU \ref{fig:relu}.
+    \item Il secondo layer nascosto è composto da 5 neuroni, in cui la funzione
+          di attivazione è la funzione ReLU \ref{fig:relu}.
+\end{itemize}
 
 Per concludere la descrizione della struttura della rete neurale, è necessario
 specificare come è composto l'ultimo layer, ovvero quello di output. Vista la
 natura del problema di classificazione, il layer di output è composto da un solo
 neurone, in cui la funzione di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
-Questa scelta è dovuta al fatto che tale funzione restituisce un valore compreso
-tra 0 e 1, il che permette di interpretare l'output della rete neurale come la
-probabilità che l'input appartenga alla classe positiva.
 \begin{equation}
     \sigma(x) = \frac{1}{1 + e^{-x}}
 \end{equation}
+Questa scelta è dovuta al fatto che tale funzione restituisce un valore compreso
+tra 0 e 1, il che permette di interpretare l'output della rete neurale come la
+probabilità che l'input appartenga alla classe positiva.
 
 La struttura della rete neurale è riassunta nella figura \ref{fig:strutturaReteNeurale}.
 \begin{figure}[!ht]
@@ -176,7 +195,7 @@ La struttura della rete neurale è riassunta nella figura \ref{fig:strutturaRete
     \caption{Struttura della rete neurale}
     \label{fig:strutturaReteNeurale}
 \end{figure}
-\subsection*{Altri iperparametri} % TODO: titolo migliore
+\subsection{Altri iperparametri} % TODO: titolo migliore
 Oltre alla ricerca della struttura della rete neurale, la fase di grid search è
 stata utilizzata per valutare l'algoritmo di ottimizzazione, il numero di epoche
 e la dimensione del batch.
@@ -233,7 +252,7 @@ addestrato.
         \toprule
         \rowcolor[HTML]{EFEFEF}
         \textbf{Metrica}                        & \textbf{Accuratezza}         & \textbf{Precisione}          & \textbf{Richiamo}            & \textbf{F1 score}            \\ \midrule
-        \cellcolor[HTML]{EFEFEF}\textbf{Valore} & \multicolumn{1}{c}{98.80 \%} & \multicolumn{1}{c}{99.10 \%} & \multicolumn{1}{c}{98.21 \%} & \multicolumn{1}{c}{98.65 \%} \\ \bottomrule
+        \cellcolor[HTML]{EFEFEF}\textbf{Valore} & \multicolumn{1}{c}{98.93 \%} & \multicolumn{1}{c}{98.52 \%} & \multicolumn{1}{c}{99.10 \%} & \multicolumn{1}{c}{98.81 \%} \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dal modello addestrato}
     \label{tab:risultatiReteNeurale}
@@ -270,7 +289,7 @@ perfetta classificazione.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/rete/curva_roc.png}
+    \includegraphics[width=0.8\textwidth]{img/rete/curva_roc.png}
     \caption{Curva ROC ottenuta dal modello addestrato}
     \label{fig:curvaRocReteNeurale}
 \end{figure}
@@ -296,10 +315,10 @@ di confidenza al $90\%$. I risultati ottenuti sono riportati in tabella
         \toprule
         \rowcolor[HTML]{EFEFEF}
         \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Metrica}} & \textbf{Valore Medio} & \textbf{Intervallo di confidenza} \\ \midrule
-        Accuratezza                                                  & 98.19 \%              & [97.71\%, 98.67\%]                \\
-        Precisione                                                   & 97.88 \%              & [97.16\%, 98.59\%]                \\
-        Richiamo                                                     & 98.09 \%              & [97.19\%, 99.00\%]                \\
-        F1 score                                                     & 97.97 \%              & [97.43\%, 98.52\%]                \\ \bottomrule
+        Accuratezza                                                  & 98.27 \%              & [97.98\%, 98.55\%]                \\
+        Precisione                                                   & 97.99 \%              & [97.47\%, 98.52\%]                \\
+        Richiamo                                                     & 98.15 \%              & [97.49\%, 98.81\%]                \\
+        F1 score                                                     & 98.06 \%              & [97.75\%, 98.38\%]                \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla cross validation}
     \label{tab:risultatiCrossValidation}
@@ -316,21 +335,74 @@ di avere una visione più chiara dei risultati ottenuti dalla cross validation.
     \label{fig:risultatiCrossValidation}
 \end{figure}
 \section{Modello addestrato con PCA}
-A puro scopo didattico, si è deciso di addestrare una rete neurale sul dataset
-ottenuto attraverso la PCA. Per la precisione, si sono addestrati due modelli,
-uno con gli stessi iperparametri del modello addestrato in precedenza e uno con
-iperparametri che sono stati stimati attraverso un processo di grid search.
+Per verificare se i risultati ottenuti dal modello addestrato sulle feature da
+noi selezionate siano effettivamente dovuti alla struttura delle feature e non
+a una fortunata selezione, si è deciso di addestrare un modello con le feature
+ottenute attraverso la PCA.
 
 Il dataset ottenuto attraverso la PCA, descritto sella sezione \ref{sec:pca}, è
 stato diviso in training set e test set in modo tale da mantenere la stessa
-percentuale di dati positivi e negativi in entrambi i set.
+percentuale di dati positivi e negativi in entrambi i set. Oltre a questa
+operazione, i dati sono stati standardizzati.
+\subsection{Struttura}
+Come per il modello addestrato con le feature selezionate manualmente, anche per
+questo modello è stata effettuata una fase di grid search per valutare la
+combinazione migliore di iperparametri per la rete neurale.
 
-Il meccanismo di grid search utilizzato per la ricerca degli iperparametri è
-stato lo stesso utilizzato per il modello addestrato in precedenza. Anche
-gli iperparametri valutati sono stati gli stessi.
+Il processo utilizzato in questa fase è analogo a quello utilizzato per il modello
+precedente, sia a livello di iperparametri che di valutazione del modello.
 
-I risultati ottenuti dai modelli addestrati sono riportati in tabella
-\ref{tab:risultatiReteNeuralePCA}.
+Come fatto in precedenza, il modello selezionato è stato confrontato con il modello
+che ha ottenuto la migliore accuratezza e quello che ha ottenuto il tempo di
+addestramento minore. I risultati ottenuti sono riportati in tabella \ref{tab:ris-grid-search-pca}.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \textbf{Modello}              & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
+        Tempo di addestramento minore & 96.9\%               & 1.06s                           \\
+        Accuratezza maggiore          & 98.0\%               & 22.20s                          \\
+        Modello scelto                & 97.9\%               & 1.16s                           \\ \bottomrule
+    \end{tabular}
+    \caption{Risultati ottenuti dalla fase di grid search}
+    \label{tab:ris-grid-search-pca}
+\end{table}
+Anche in questo caso, come per il precedente, il modello che è stato selezionato
+rappresenta un compromesso tra accuratezza e tempo di addestramento. In particolare,
+perdendo lo $0.1\%$ di accuratezza si è ottenuto un tempo di addestramento minore
+di circa $21$ secondi.
+
+
+I risultati ottenuti dalla fase di grid search hanno permesso di definire la
+struttura della rete neurale. In particolare, la rete neurale è composta da 1
+layer di input, 1 layer nascosto e 1 layer di output.
+
+Il layer di input è composto da 3 neuroni, uno per ogni componente principale
+ottenuta attraverso la PCA. Questo primo strato è stato definito in questo modo
+in quanto il dataset ottenuto attraverso la PCA è composto da 3 feature.
+
+Il layer nascosto è composto da 10 neuroni, in cui la funzione di attivazione è
+la funzione ReLU \ref{fig:relu}.
+
+Il layer di output è lo stesso utilizzato per il modello addestrato con le feature
+selezionate manualmente, ovvero è composto da un solo neurone, in cui la funzione
+di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.3\textwidth]{img/rete/struttura_rete_pca.png}
+    \caption{Struttura della rete neurale addestrata con PCA}
+    \label{fig:strutturaReteNeuralePCA}
+\end{figure}
+\subsection{Risultati}
+Addestrato il modello con i dati ottenuti attraverso la PCA, si è proceduto con
+la valutazione delle prestazioni del modello utilizzando le stesse metriche
+utilizzate in precedenza e il test set.
+
+I risultati ottenuti dal modello addestrato con la PCA sono riportati in tabella
+\ref{tab:risultatiReteNeuralePCA} e sono confrontati con quelli ottenuti dal
+modello addestrato con le feature selezionate manualmente.
 
 \begin{table}[ht]
     \centering
@@ -339,20 +411,52 @@ I risultati ottenuti dai modelli addestrati sono riportati in tabella
         \rowcolor[HTML]{EFEFEF}
         \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Modello}} & \textbf{Accuratezza} & \textbf{F1} & \textbf{Precision} & \textbf{Recall} \\ \midrule
         Rete senza PCA                                               & 98.80\%              & 98.65\%     & 99.10\%            & 98.65\%         \\
-        Rete con PCA                                                 &                      &             &                    &                 \\
-        Rete con PCA e grid search                                   & 98.27\%              & 98.07\%     & 97.92\%            & 98.21\%         \\ \bottomrule
+        Rete con PCA                                                 & 98.27\%              & 98.07\%     & 97.92\%            & 98.21\%         \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dai modelli addestrati con PCA}
     \label{tab:risultatiReteNeuralePCA}
 \end{table}
 
-Per confrontare i modelli ottenuti con e senza PCA, sono state utilizzate, oltre
-alle metriche precedentemente presentate, anche le curve ROC e gli intervalli di
-confidenza. I risultati ottenuti sono riportati in figura \ref{fig:confrontoRisultatiPCA}.
+Dai valori riportati nella tabella \ref{tab:risultatiReteNeuralePCA} si può notare
+che il modello addestrato con le feature selezionate manualmente ha ottenuto
+dei risultati migliori rispetto a quello addestrato con la PCA.
+
+È stata anche calcolata la matrice di confusione per il modello addestrato con
+la PCA. La matrice di confusione ottenuta è riportata in figura \ref{fig:matriceConfusioneReteNeuralePCA}.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/rete/confrontoRoc.png}
+    \includegraphics[width=0.5\textwidth]{img/rete/matrice_confusione_pca.png}
+    \caption{Matrice di confusione ottenuta dal modello addestrato con PCA}
+    \label{fig:matriceConfusioneReteNeuralePCA}
+\end{figure}
+
+In aggiunta a queste metriche, i modelli sono stati confrontati attraverso la
+10-fold cross validation. I risultati ottenuti sono riportati in tabella
+\ref{tab:risultatiCrossValidationPCA}.
+
+\begin{table}[ht]
+    \centering
+    \resizebox{\textwidth}{!}{\begin{tabular}{@{}lccc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Metrica}} & \textbf{Valore Medio} & \textbf{Intervallo di confidenza con PCA} & \textbf{Intervallo di confidenza senza PCA} \\ \midrule
+        Accuratezza                                                  & 98.35 \%              & [97.97\%, 98.72\%]                        & [97.98\%, 98.55\%]                          \\
+        Precisione                                                   & 98.05 \%              & [97.51\%, 98.58\%]                        & [97.47\%, 98.52\%]                          \\
+        Richiamo                                                     & 98.27 \%              & [97.62\%, 98.93\%]                        & [97.49\%, 98.81\%]                          \\
+        F1 score                                                     & 98.15 \%              & [97.73\%, 98.58\%]                        & [97.75\%, 98.38\%]                          \\ \bottomrule
+    \end{tabular}}
+    \caption{Risultati ottenuti dalla cross validation}
+    \label{tab:risultatiCrossValidationPCA}
+\end{table}
+
+Oltre a confrontare le performance dei modelli utilizzando le metriche, si
+è deciso di confrontare le curve ROC dei due modelli. I risultati ottenuti sono
+riportati in figura \ref{fig:confrontoRisultatiPCA}.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/rete/confrontoRoc.png}
     \caption{Confronto curve ROC tra il modello addestrato con e senza PCA}
     \label{fig:confrontoRisultatiPCA}
 \end{figure}
@@ -360,13 +464,17 @@ confidenza. I risultati ottenuti sono riportati in figura \ref{fig:confrontoRisu
 Da questa figura si può notare che la differenza tra i due modelli è minima.
 Entrambi i modelli si avvicinano molto alla perfetta classificazione. Si può
 notare una differenza maggiore tra i due modelli osservando gli intervalli di
-confidenza. In particolare, si può notare che il modello addestrato con PCA ha
-un intervallo di confidenza più ampio rispetto al modello addestrato senza PCA.
+confidenza. In particolare, si riesce a osservare una differenza di ampiezza
+degli intervalli di confidenza tra i due modelli.
+
+Il modello ottenuto attraverso la PCA ha un intervallo di confidenza più ampio
+rispetto a quello ottenuto senza PCA, anche se il valore medio delle metriche
+è leggermente superiore nel caso di PCA.
 
 Nella figura \ref{fig:intervalliConfidenzaPCA} sono riportati gli intervalli di
 confidenza ottenuti dai modelli addestrati con e senza PCA. Da questa figura si
 può notare che l'intervallo di confidenza ottenuto dal modello addestrato con
-PCA, rappresentato dalla linea di colore rosso, è più ampio rispetto a quello 
+PCA, rappresentato dalla linea di colore rosso, è più ampio rispetto a quello
 ottenuto dal modello addestrato senza PCA, rappresentato dalla linea di colore blu.
 \begin{figure}[!ht]
     \centering

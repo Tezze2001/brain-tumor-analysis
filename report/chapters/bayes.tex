@@ -44,8 +44,8 @@ visibile nella figura \ref{fig:matrice_di_confusione_per_GNB}.
 \end{figure}
 
 Le matrici di confusione evidenziano come i modelli generalizzano molto bene, più
-precisamente il modello allenato su Dataset-corr ha un'accuracy del $95\%$, al contrario
-quello allenato su Dataset-pca raggiunge un'accuracy del $96\%$. Questo denota che 
+precisamente il modello allenato su Dataset-corr ha un'accuracy del $95\%$, al contrario,
+quello allenato su Dataset-pca che raggiunge un'accuracy del $96\%$. Questo denota che 
 ridurre le dimensioni del dataset utilizzando pca non porta a significativi miglioramenti
 sulle predizioni. Questo mancato miglioramento può essere dovuto al fatto che si
 è già trovata una buona ipotesi vicina alla funzione generatrice del dataset.
@@ -67,7 +67,7 @@ di precision, recall e F1-score, i loro valori sono visionabili nella tabella
         \hline
         Recall & $99\%$ & $96\%$ \\
         \hline
-        F1 score & $94\%$ & $96\%$ \\
+        F1-score & $94\%$ & $96\%$ \\
         \hline
     \end{tabular}
     \caption{Metriche Gaussian Naive Bayes}
@@ -78,4 +78,45 @@ Dalle metriche di valutazione si può notare come su Dataset-corr si ha una prec
 minore rispetto alla recall, quindi significa che si tende ad associare la presenza
 di un tumore anche quando non è presente. Al contrario su Dataset-pca aumenta la
 precision diminuendo la recall, questo significa che sarà più affidabile su un 
-riscontro positivo rispetto ad un riscontro negativo.
+riscontro positivo rispetto ad un riscontro negativo. In aggiunta, si può notare 
+come F1-score è migliore nel modello allenato su Dataset-pca, questo potrebbe
+suggerire che, utilizzando pca, miglira la qualità delle predizioni. Il problema
+è che la metrica in questione calcola la media armonica tra precision e recall,
+ma nel dominio applicativo che si sta considerando, la recall assume maggior
+importanza dal momento che l'obiettivo è eliminare il falsi negativi e ammettere
+dei falsi positivi, perciò si dovrà massimizzare la recall.
+
+Oltre alle metriche di valutazione sono stati prodotti i grafici delle curve ROC
+di entrami i modelli, mostrati in figura \ref{fig:curve_roc}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=.7\textwidth]{img/gnb/roc_curve.png}
+    \caption{curve ROC}
+    \label{fig:curve_roc}
+\end{figure}
+
+Le curve ROC permettono di confrontare i due modelli sfruttando la metrica AUC 
+che coincide con la misura dell'area sottesa alla curva del modello. 
+Come si può notare i due modelli hanno delle differenze non molto significative,
+infatti entrambi hanno un'area AUC uguale, questo lascia intendere che siano 
+identici i due modelli. In realtà, AUC non considera la diversa importanza delle 
+classi, infatti, come anticipato precedentemente, nel dominio in questione un errore 
+di falso positivo ha un peso minore rispetto ad un faso negativo e questo criterio
+di valutazione non viene considerato dalla metrica. 
+
+Bisogna specificare che questi studi sono stati realizzati su modelli che sono stati
+allenati su un dataset di medie dimensioni ($\le 10000$ esempi), perciò è stato 
+pensato di effettuare una valutazione dei modelli utilizzando la $10$-fold 
+stratified cross validation per poi ottenere gli intervali di confidenza delle 
+metriche di valutazione (vedi figura \ref{fig:intervalli_confidenza}).
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{img/gnb/intervalli_confidenza.png}
+    \caption{Intervalli di confidenza}
+    \label{fig:intervalli_confidenza}
+\end{figure}
+
+Dagli intervalli di confidenza non ci sono significative differenze tra i due modelli,
+quindi i ragionamenti svolti precedemente sono confermati.
