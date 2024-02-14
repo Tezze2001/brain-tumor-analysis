@@ -4,22 +4,29 @@ Questo è un progetto per l'esame di Machine Learning del primo anno del corso
 di laurea magistrale in informatica dell'Università degli Studi di Milano-Bicocca.
 
 L'intero progetto si basa sul riconoscimento della presenza di un tumore al cervello
-data l'immagine di una risonanza magnetica. Il dataset scelto per questo progetto
-è scaricabile dal seguente \href{https://www.kaggle.com/datasets/jakeshbohaju/brain-tumor/data}{link}.
+data l'immagine di una risonanza magnetica.
+
+Il dataset scelto per questo progetto è scaricabile dal seguente 
+\href{https://www.kaggle.com/datasets/jakeshbohaju/brain-tumor/data}{link} ed è
+composto da un insieme di features estratte dalle immagini ottenute dalle risonanze 
+magnetiche del cervello di diversi pazienti.
 
 Per il riconoscimento del tumore sono stati allenati i seguenti modelli di machine
 learning:
 \begin{itemize}
     \item \textbf{SVM}: è stato scelto questo modello vista la buona capacità
     teorica nel generalizzare.
-    \item \textbf{Naive Bayes Gaussiano}: è stato scelto questo modello dal momento
-    che è l'unico ad essere probabilistico.
-     % TODO: anche la rete neurale e SVM possono essere probabilistica
+    \item \textbf{Gaussian Naive Bayes}: è stato scelto questo modello dal momento
+    che permette di modellare le probabilità esplicitamente.
+    % TODO: anche la rete neurale e SVM possono essere probabilistica
     \item \textbf{Rete neurale}: è stato scelto questo modello per confrontare 
     i primi due con una soluzione neurale.
 \end{itemize}
 
-La relazione è stata suddivisa nei seguenti capitoli:
+L'obiettivo sarà quello di trovare il modello migliore che riduca al minimo i falsi 
+negativi, mantenendo comunque una buona precisione sui veri negativi.
+
+Infine, la struttura dell'elaborato è delineata dai seguenti capitoli:
 \begin{itemize}
     \item \textbf{Introduzione}: descrizione del dominio e presentazione dei modelli che 
     verranno presi in considerazione per questo progetto.
@@ -27,8 +34,8 @@ La relazione è stata suddivisa nei seguenti capitoli:
     dalle immagini, ovvero come sono state ricavate le features, e analisi esplorativa.
     \item \textbf{Rete neurale}: descrizione e analisi delle performance della rete.
     \item \textbf{SVM}: descrizione e analisi delle performance delle SVM.
-    \item \textbf{Naive Bayes Gaussiano}: descrizione e analisi delle performance 
-    per Naive Bayes Gaussian.
+    \item \textbf{Gaussian Naive Bayes}: descrizione e analisi delle performance 
+    per Gaussian Naive Bayes.
     \item \textbf{Analisi dei risultati}: analisi comparata dei risultati tra i 
     tre modelli considerati.
     \item \textbf{Conclusioni}: conclusioni sull'elaborato.
