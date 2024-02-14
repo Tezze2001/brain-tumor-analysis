@@ -14,35 +14,11 @@ specifico, in questo capitolo si andranno a presentare i passaggi che sono stati
 effettuati per la realizzazione di questo modello, partendo dalla preparazione
 dei dati, passando per la definizione della struttura della rete neurale, fino
 ad arrivare ai risultati ottenuti. In un secondo momento, si andranno a
-confrontare i risultati ottenuti con quelli ottenuti da un modello addestrato
-con PCA.
-\section{Preparazione dei dati}
-Prima di passare alla presentazione della rete neurale nel dettaglio, è importante
-delineare il processo di preparazione dei dati necessario per l'addestramento
-della stessa.
+confrontare i risultati ottenuti con quelli ottenuti da un modello addestrato su
+un dataset ottenuto attraverso la PCA.
 
-La preparazione dei dati è stata eseguita attraverso una serie di operazioni
-mirate a renderli idonei per l'addestramento della rete neurale. Le fasi
-principali sono state le seguenti:
-\begin{itemize}
-    \item \textbf{Standardizzazione dei dati}: Ogni caratteristica è stata
-          trasformata in modo tale che la loro media fosse pari a 0 e la
-          deviazione standard fosse 1. Questo passaggio è stato cruciale per
-          garantire che la rete neurale non fosse influenzata da valori di input
-          su differenti scale.
-    \item \textbf{Suddivisione del dataset in training set e test set}: Il
-          dataset è stato diviso in due parti: il training set e il test set.
-          Questo processo è stato fondamentale per valutare le prestazioni della
-          rete neurale su dati non utilizzati durante la fase di addestramento.
-          Il training set ha rappresentato l'$80\%$ dei dati, mentre il test
-          set il restante $20\%$.
-\end{itemize}
-Essendo il dataset non perfettamente bilanciato ($55\%$ dati negativi e $45\%$
-dati positivi) l'operazione di suddivisione è stata effettuata in modo da
-mantenere la stessa percentuale di dati positivi e negativi in entrambi i set.
-Lo scopo di questa scelta è quello di evitare che il modello sia addestrata su
-un dataset sbilanciato e di conseguenza non sia in grado di generalizzare
-correttamente.
+In questo capitolo tutte le operazioni effettuate sono state realizzate utilizzando
+i dataset standardizzati presentati nella fase di preparazione dei dati. \textbf{Mettere riferimento}
 \section{Struttura della rete neurale}
 La fase di definizione della struttura della rete neurale è stata effettuata
 attraverso una serie di passaggi. Inizialmente, è stata effettuata un'analisi
