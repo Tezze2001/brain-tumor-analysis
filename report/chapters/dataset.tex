@@ -26,34 +26,34 @@ Le features si distinguono in \cite{explanation-features}:
       \item \textbf{Second Order Features}: forniscono informazioni a livello di
             composizione della texture dell'immagine.
             \begin{itemize}
-                  \item \textbf{Contrasto}: misura la differenza tra i livelli di 
-                  grigio tra diverse parti dell'immagine. Maggiore sarà il valore 
-                  allora maggiore sarà la deviazione standard dei livelli di grigio
-                  nell'immagine.
+                  \item \textbf{Contrasto}: misura la differenza tra i livelli di
+                        grigio tra diverse parti dell'immagine. Maggiore sarà il valore
+                        allora maggiore sarà la deviazione standard dei livelli di grigio
+                        nell'immagine.
                   \item \textbf{Energia}: fornisce informazioni sulla texture e
-                  sulla complessità. Maggiore sarà il valore allora l'immagine avrà
-                  un forte contrasto o la texture è molto dettalgiata.
+                        sulla complessità. Maggiore sarà il valore allora l'immagine avrà
+                        un forte contrasto o la texture è molto dettalgiata.
                   \item \textbf{ASM}: misura quanto sono distribuiti uniformemente i
-                  livelli di grigio nell'immagine. Maggiore sarà il valore allora
-                  più uniforme sarà la distribuzione dei livelli di grigio nell'immagine,
-                  quindi la variabilità dei livelli di grigio è ridotta.
+                        livelli di grigio nell'immagine. Maggiore sarà il valore allora
+                        più uniforme sarà la distribuzione dei livelli di grigio nell'immagine,
+                        quindi la variabilità dei livelli di grigio è ridotta.
                   \item \textbf{Entropia}: misura la randomicità dei livelli di
-                  grigio, quindi l'entropia sarà massima quando tutti i livelli 
-                  di grigio equamente probabilitò (randomness). Più precisamente
-                  immagini con un ampio range di valori dei pixel e distribuzioni
-                  uniformi di intensità tendono a aumentare il valore dell'entropia.
-                  \item \textbf{Homogeneous}: misura quanto sono uniformi i livelli 
-                  di grigio. Più alto sarà l'indice allora minore sarà il contrasto 
-                  dell'immagine.
-                  \item \textbf{Dissimilarity}: misura quanto differiscono diverse 
-                  regioni dell'immagine. Un valore alto indica che si hanno molte
-                  differenze tra diverse regioni della stessa immagine, quindi più 
-                  complessa sarà la texture.
-                  \item \textbf{Correlation}: misura la correlazione dei livelli 
-                  di grigio tra diverse regioni della stessa immagine. 
-                  \item \textbf{Coarseness}: misura il grado di variazione o di 
-                  irregolarità dei livelli di grigio, quindi misura la finezza o
-                  la granularità della texture.
+                        grigio, quindi l'entropia sarà massima quando tutti i livelli
+                        di grigio equamente probabilitò (randomness). Più precisamente
+                        immagini con un ampio range di valori dei pixel e distribuzioni
+                        uniformi di intensità tendono a aumentare il valore dell'entropia.
+                  \item \textbf{Homogeneous}: misura quanto sono uniformi i livelli
+                        di grigio. Più alto sarà l'indice allora minore sarà il contrasto
+                        dell'immagine.
+                  \item \textbf{Dissimilarity}: misura quanto differiscono diverse
+                        regioni dell'immagine. Un valore alto indica che si hanno molte
+                        differenze tra diverse regioni della stessa immagine, quindi più
+                        complessa sarà la texture.
+                  \item \textbf{Correlation}: misura la correlazione dei livelli
+                        di grigio tra diverse regioni della stessa immagine.
+                  \item \textbf{Coarseness}: misura il grado di variazione o di
+                        irregolarità dei livelli di grigio, quindi misura la finezza o
+                        la granularità della texture.
             \end{itemize}
 \end{enumerate}
 
@@ -105,17 +105,17 @@ descrittive mostrate \ref{tab:desc-stat}.
       \begin{subtable}[h]{1\textwidth}
             \centering
             \resizebox{\textwidth}{!}{\begin{tabular}{c|c c c c c c c c c c}
-                  \hline
-                  \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Mean} & \textbf{Variance} & \textbf{Standard Deviation} & \cellcolor[HTML]{EFEFEF}\textbf{Entropy} & \textbf{Skewness} & \textbf{Kurtosis} \\ \hline
-                  \textbf{count}                                            & 3699   & 3699       & 3699                 & 3699                              & 3699       & 3699       \\
-                  \textbf{mean}                                             & 9.473354      & 710.895793        & 25.174138                   & 0.072940                                 & 4.108362          & 24.422551         \\
-                  \textbf{std}                                              & 5.732700      & 468.154274        & 8.785183                    & 0.069914                                 & 2.559163          & 56.292660         \\
-                  \textbf{min}                                              & 0.078659      & 3.145628          & 1.773592                    & 0.000882                                 & 1.886014          & 3.942402          \\
-                  \textbf{25\%}                                             & 4.965988      & 362.568474        & 19.041231                   & 0.006662                                 & 2.621447          & 7.265711          \\
-                  \textbf{50\%}                                             & 8.468414      & 624.708056        & 24.994160                   & 0.065681                                 & 3.422625          & 12.370334         \\
-                  \textbf{75\%}                                             & 13.184586     & 967.036275        & 31.097207                   & 0.112694                                 & 4.662941          & 22.760735         \\
-                  \textbf{max}                                              & 33.239975     & 2910.581879       & 53.949809                   & 0.394539                                 & 36.931294         & 1371.640060       \\ \hline
-            \end{tabular}}
+                        \hline
+                        \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Mean} & \textbf{Variance} & \textbf{Standard Deviation} & \cellcolor[HTML]{EFEFEF}\textbf{Entropy} & \textbf{Skewness} & \textbf{Kurtosis} \\ \hline
+                        \textbf{count}                                            & 3699          & 3699              & 3699                        & 3699                                     & 3699              & 3699              \\
+                        \textbf{mean}                                             & 9.473354      & 710.895793        & 25.174138                   & 0.072940                                 & 4.108362          & 24.422551         \\
+                        \textbf{std}                                              & 5.732700      & 468.154274        & 8.785183                    & 0.069914                                 & 2.559163          & 56.292660         \\
+                        \textbf{min}                                              & 0.078659      & 3.145628          & 1.773592                    & 0.000882                                 & 1.886014          & 3.942402          \\
+                        \textbf{25\%}                                             & 4.965988      & 362.568474        & 19.041231                   & 0.006662                                 & 2.621447          & 7.265711          \\
+                        \textbf{50\%}                                             & 8.468414      & 624.708056        & 24.994160                   & 0.065681                                 & 3.422625          & 12.370334         \\
+                        \textbf{75\%}                                             & 13.184586     & 967.036275        & 31.097207                   & 0.112694                                 & 4.662941          & 22.760735         \\
+                        \textbf{max}                                              & 33.239975     & 2910.581879       & 53.949809                   & 0.394539                                 & 36.931294         & 1371.640060       \\ \hline
+                  \end{tabular}}
             \caption{Statistiche descrittive delle feature \textit{Mean}, \textit{Variance}, \textit{Standard Deviation}, \textit{Entropy}, \textit{Skewness} e \textit{Kurtosis}.}
             \label{tab:primameta}
       \end{subtable}
@@ -125,7 +125,7 @@ descrittive mostrate \ref{tab:desc-stat}.
             \resizebox{\textwidth}{!}{\begin{tabular}{c|c c c c c c c c}
                         \hline
                         \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Contrast} & \textbf{Energy} & \textbf{ASM} & \textbf{Homogeneity} & \textbf{Dissimilarity} & \textbf{Correlation} & \textbf{Coarseness} \\ \hline
-                        \textbf{count}                                            & 3699       & 3699     & 3699  & 3699          & 3699            & 3699          & 3699         \\                                                                                                                                                                                                
+                        \textbf{count}                                            & 3699              & 3699            & 3699         & 3699                 & 3699                   & 3699                 & 3699                \\
                         \textbf{mean}                                             & 128.119746        & 0.203546        & 0.058080     & 0.478442             & 4.702774               & 0.955697             & 7.458341e-155       \\
                         \textbf{std}                                              & 110.168137        & 0.129047        & 0.057973     & 0.127971             & 1.856688               & 0.026061             & 0.000000e+00        \\
                         \textbf{min}                                              & 3.194733          & 0.024731        & 0.000612     & 0.105490             & 0.681121               & 0.549426             & 7.458341e-155       \\
@@ -287,10 +287,10 @@ tramite Principal Component Analysis (PCA).
 
 A livello implementativo, i due dataset sono stati rinominati nel seguente modo:
 \begin{itemize}
-    \item \texttt{dataset\_corr}: per il dataset ottenuto tramite analisi
-          esplorativa e studio delle correlazioni;
-    \item \texttt{dataset\_pca}: per il dataset ottenuto tramite PCA.
-    \item \texttt{dataset}: per il dataset originale.
+      \item \texttt{dataset\_corr}: per il dataset ottenuto tramite analisi
+            esplorativa e studio delle correlazioni;
+      \item \texttt{dataset\_pca}: per il dataset ottenuto tramite PCA.
+      \item \texttt{dataset}: per il dataset originale.
 \end{itemize}
 
 La scelta di utilizzare due dataset distinti è stata fatta per confrontare
@@ -318,31 +318,31 @@ Infine, per la rete neurale e per la SVM, si è proceduto con la standardizzazio
 dei dati, definendo due nuove varianti dei dataset \texttt{dataset\_corr} e
 \texttt{dataset\_pca}:
 \begin{itemize}
-    \item \texttt{dataset\_corr\_std}: dataset \texttt{dataset\_corr} standardizzato;
-    \item \texttt{dataset\_pca\_std}: dataset \texttt{dataset\_pca} standardizzato.
+      \item \texttt{dataset\_corr\_std}: dataset \texttt{dataset\_corr} standardizzato;
+      \item \texttt{dataset\_pca\_std}: dataset \texttt{dataset\_pca} standardizzato.
 \end{itemize}
 
 La standardizzazione dei dati è stata effettuata in quanto la rete neurale e
 la SVM sono modelli che possono essere influenzati dalla distribuzione dei dati.
 
-Nella tabella \ref{tab:riassunto_operazioni_dataset} è presentare un breve 
-riassunto di come sono stati preparati i dati per l'addestramento dei modelli e 
+Nella tabella \ref{tab:riassunto_operazioni_dataset} è presentare un breve
+riassunto di come sono stati preparati i dati per l'addestramento dei modelli e
 quale dataset è stato utilizzato per ciascun modello.
 
 \begin{table}[ht!]
-    \begin{tabular}{@{}llc@{}}
-        \toprule
-        \rowcolor[HTML]{EFEFEF}
-        \textbf{Nome del dataset}                                                                                          &
-        \textbf{Operazioni applicate}                                                                                      &
-        \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{Utilizzato per i seguenti modelli}}                                                                                          \\ \midrule
-        dataset\_corr                                                                                                      &
-        \begin{tabular}[c]{@{}l@{}}Riduzione della dimensionalità utilizzando l'analisi \\ della correlazione\end{tabular} &
-        GNB                                                                                                                                                                             \\
-        dateset\_corr\_std                                                                                                 & dataset\_corr con la standardizzazione dei dati & SVM e NN \\
-        dateset\_pca                                                                                                       & dataset\_corr\_std applicando l'algoritmo PCA   & GNB      \\
-        dateset\_pca\_std                                                                                                  & dataset\_pca con la standardizzazione dei dati  & SVM e NN \\ \bottomrule
-    \end{tabular}
-    \caption{Riassunto delle operazioni effettuate sui dataset e utilizzo dei dataset per i modelli.}
-    \label{tab:riassunto_operazioni_dataset}
+      \resizebox{\textwidth}{!}{\begin{tabular}{@{}llc@{}}
+                  \toprule
+                  \rowcolor[HTML]{EFEFEF}
+                  \textbf{Nome del dataset}                                                                                          &
+                  \textbf{Operazioni applicate}                                                                                      &
+                  \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{Utilizzato per i seguenti modelli}}                                                                                          \\ \midrule
+                  \texttt{dataset\_corr}                                                                                             &
+                  \begin{tabular}[c]{@{}l@{}}Riduzione della dimensionalità utilizzando l'analisi \\ della correlazione\end{tabular} &
+                  GNB                                                                                                                                                                             \\
+                  \texttt{dateset\_corr\_std}                                                                                        & dataset\_corr con la standardizzazione dei dati & SVM e NN \\
+                  \texttt{dateset\_pca}                                                                                              & dataset\_corr\_std applicando l'algoritmo PCA   & GNB      \\
+                  \texttt{dateset\_pca\_std}                                                                                         & dataset\_pca con la standardizzazione dei dati  & SVM e NN \\ \bottomrule
+            \end{tabular}}
+      \caption{Riassunto delle operazioni effettuate sui dataset e utilizzo dei dataset per i modelli.}
+      \label{tab:riassunto_operazioni_dataset}
 \end{table}
