@@ -1,17 +1,18 @@
 \chapter{Dataset}
 \section{Struttura del dataset}
-Il dataset è composto da $13$ features estratte da un set di $3762$ immagini in bianco e nero, 
-ciascuna immagine è stata prodotta dalla risonanza magnetica del cervello di diversi pazienti. 
-Di conseguenza, si hanno un totale di $3762$ istanze, ognuna etichettata con un 
-valore categorico che rappresenta la presenza o meno del tumore al cervello.
-L'etichetta è presente sotto la colonna \textit{Class} e assume i seguenti valori:
+Il dataset è composto da $13$ features estratte da un set di $3762$ immagini su
+scala di grigi, ciascuna immagine è stata prodotta dalla risonanza magnetica del
+cervello di diversi pazienti. Di conseguenza, si hanno un totale di $3762$
+istanze, ognuna etichettata con un valore categorico che rappresenta la presenza
+o meno del tumore al cervello. L'etichetta è presente sotto la colonna
+\textit{Class} e assume i seguenti valori:
 \begin{itemize}
       \item \textbf{Presenza del tumore}: $T = 1$
       \item \textbf{Assenza del tumore}: $T = 0$
 \end{itemize}
 
-Le features vengono già date e si assumono che siano corrette rispetto alle 
-risonanze magnetiche del dateset\cite{explanation-features}. Più precisamente 
+Le features vengono già date e si assumono che siano corrette rispetto alle
+risonanze magnetiche del dateset\cite{explanation-features}. Più precisamente
 le features si distinguono in:
 \begin{enumerate}
       \item \textbf{First Order Features}: forniscono informazioni legate alle
@@ -28,48 +29,52 @@ le features si distinguono in:
       \item \textbf{Second Order Features}: forniscono informazioni a livello di
             composizione della texture dell'immagine e si dividono in:
             \begin{itemize}
-                  \item \textbf{Contrast}: misura la differenza tra i livelli di 
-                  grigio tra diverse parti dell'immagine. Maggiore sarà il valore 
-                  allora maggiore sarà la deviazione standard dei livelli di grigio
-                  nell'immagine.
+                  \item \textbf{Contrast}: misura la differenza tra i livelli di
+                        grigio tra diverse parti dell'immagine. Maggiore sarà il
+                        valore allora maggiore sarà la deviazione standard dei
+                        livelli di grigio nell'immagine.
                   \item \textbf{Energy}: fornisce informazioni sulla texture e
-                  sulla complessità. Maggiore sarà il valore di Energy, allora 
-                  maggiore sarà il contrasto oppure più dettagliata sarà la texture.
-                  \item \textbf{ASM}: misura quanto sono distribuiti uniformemente i
-                  livelli di grigio nell'immagine. Maggiore sarà il valore allora
-                  più uniforme sarà la distribuzione dei livelli di grigio nell'immagine,
-                  quindi la variabilità dei livelli di grigio è ridotta.
+                        sulla complessità. Maggiore sarà il valore di Energy,
+                        allora maggiore sarà il contrasto oppure più dettagliata
+                        sarà la texture.
+                  \item \textbf{ASM}: misura quanto sono distribuiti uniformemente
+                        i livelli di grigio nell'immagine. Maggiore sarà il
+                        valore allora più uniforme sarà la distribuzione dei
+                        livelli di grigio nell'immagine, quindi la variabilità
+                        dei livelli di grigio è ridotta.
                   \item \textbf{Entropy}: misura la randomicità dei livelli di
-                  grigio, quindi l'entropia sarà massima quando tutti i livelli 
-                  di grigio equalmente probabili (randomness). Più precisamente
-                  immagini con un ampio range di valori dei pixel e distribuzioni
-                  uniformi di intensità tendono a aumentare il valore dell'entropia.
-                  \item \textbf{Homogeneous}: misura quanto sono uniformi i livelli 
-                  di grigio. Più alto sarà l'indice allora minore sarà il contrasto 
-                  dell'immagine.
-                  \item \textbf{Dissimilarity}: misura quanto differiscono diverse 
-                  regioni dell'immagine. Un valore alto indica che si hanno molte
-                  differenze tra diverse regioni della stessa immagine, quindi più 
-                  complessa sarà la texture.
-                  \item \textbf{Correlation}: misura la correlazione dei livelli 
-                  di grigio tra diverse regioni della stessa immagine. 
-                  \item \textbf{Coarseness}: misura il grado di variazione o di 
-                  irregolarità dei livelli di grigio, quindi misura la finezza o
-                  la granularità della texture.
+                        grigio, quindi l'entropia sarà massima quando tutti i
+                        livelli di grigio equamente probabili (randomness). Più
+                        precisamente immagini con un ampio range di valori dei
+                        pixel e distribuzioni uniformi di intensità tendono a
+                        aumentare il valore dell'entropia.
+                  \item \textbf{Homogeneous}: misura quanto sono uniformi i livelli
+                        di grigio. Più alto sarà l'indice allora minore sarà il
+                        contrasto dell'immagine.
+                  \item \textbf{Dissimilarity}: misura quanto differiscono diverse
+                        regioni dell'immagine. Un valore alto indica che si hanno
+                        molte differenze tra diverse regioni della stessa immagine,
+                        quindi più complessa sarà la texture.
+                  \item \textbf{Correlation}: misura la correlazione dei livelli
+                        di grigio tra diverse regioni della stessa immagine.
+                  \item \textbf{Coarseness}: misura il grado di variazione o di
+                        irregolarità dei livelli di grigio, quindi misura la finezza o
+                        la granularità della texture.
             \end{itemize}
 \end{enumerate}
-
 \section{Analisi descrittiva}\label{sec:analisi-descrittiva}
-
 Caricato il dataset, è stato eseguito un controllo per verificare che non ci fossero
 valori nulli. In questo caso non sono stati trovati valori nulli, quindi non è
 stato necessario eseguire alcuna operazione per la gestione di tali valori. In
-secondo luogo è stato controllato se il dataset contiene dei duplicati e sono stati
-trovati un totale di $63$ duplicati e di conseguenza sono stati tutti rimossi.
+secondo luogo è stato controllato se il dataset fossero presenti dei valori
+duplicati e, una volta verificata la presenza si è proceduto a rimuovere un
+totale di $63$ duplicati.
 
-Successivamente, si è proceduto controllando se le classi del dataset sono sbilanciate,
-per fare ciò è stato creato un instogramma che mostra la frequenza dei valori 
-della colonna \textit{Class} (visibile nella figura \ref{fig:dist-classi}).
+Successivamente, è stato eseguito un controllo sulla suddivisione degli esempi
+in base alla classe di appartenenza. In particolare, questa operazione è stata
+effettuata per verificare se il dataset fosse sbilanciato. Per fare ciò è stato
+creato un istogramma che mostra la frequenza dei valori della colonna
+\textit{Class} (visibile nella figura \ref{fig:dist-classi}).
 
 \begin{figure}[!h]
       \centering
@@ -78,12 +83,12 @@ della colonna \textit{Class} (visibile nella figura \ref{fig:dist-classi}).
       \label{fig:dist-classi}
 \end{figure}
 
-Dall'istogramma si evidenza che le classi sono abbastanza bilanciate, infatti, 
+Dall'istogramma si evidenza che le classi sono abbastanza bilanciate, infatti,
 il dataset è composto dal $45\%$ di esempi positivi, mentre il $55\%$ è composto
-da esempi negativi. 
+da esempi negativi.
 
 Successivamente sono stati costruiti $13$ istogrammi, uno per ogni features
-in modo tale da analizzare visivamente la loro distribuzione (i grafici sono visibili 
+in modo tale da analizzare visivamente la loro distribuzione (i grafici sono visibili
 nella figura \ref{fig:barplot_features}).
 
 \begin{figure}[!h]
@@ -93,39 +98,41 @@ nella figura \ref{fig:barplot_features}).
       \label{fig:barplot_features}
 \end{figure}
 
-Da questi grafici si evince che le features \textit{Energy}, \textit{ASM}, \textit{Homogeneity},
-\textit{Entropy} e \textit{Coarseness} non seguono una distribuzione normale, a differenza delle
-altre feature che hanno un andamento simile ad una gaussiana. In ogni caso, anche se non
-seguono l'ipotesi di normalità, si è deciso di non rimuoverli dal dataset tenendo 
-presente che non si stanno rispettando le assunzioni dei modelli che vogliamo utilizzare. 
-In aggiunta, dal grafico si può notare che le features con una distribuizione 
-simile ad una normale non sono standardizzate, questa affermazione viene anche 
-confermata dal calcolo delle statistiche descrittive mostrate nella tabella \ref{tab:desc-stat}.
+Da questi grafici si evince che le features \textit{Energy}, \textit{ASM},
+\textit{Homogeneity}, \textit{Entropy} e \textit{Coarseness} non seguono una
+distribuzione normale, a differenza delle altre feature che hanno un andamento
+simile ad una gaussiana. In ogni caso, anche se alcune feature non seguono
+l'ipotesi di normalità, si è deciso di non procedere con la loro rimozione dal
+dataset ma di considerare quanto osservato nella fase di valutazione delle performance
+dei modelli. In aggiunta, dal grafico si può notare che le features con una
+distribuzione simile ad una normale non sono standardizzate, questa affermazione
+viene anche confermata dal calcolo delle statistiche descrittive mostrate nella
+tabella \ref{tab:desc-stat}.
 
 \newpage
 
 \begin{table}[h!]
       \begin{subtable}[h]{1\textwidth}
             \centering
-            \resizebox{\textwidth}{!}{\begin{tabular}{c|c c c c c c c c c c}
-                        \hline
-                        \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Mean} & \textbf{Variance} & \textbf{Standard Deviation} & \cellcolor[HTML]{EFEFEF}\textbf{Entropy} & \textbf{Skewness} & \textbf{Kurtosis} \\ \hline
-                        \textbf{count}                                            & 3699          & 3699              & 3699                        & 3699                                     & 3699              & 3699              \\
-                        \textbf{mean}                                             & 9.473354      & 710.895793        & 25.174138                   & 0.072940                                 & 4.108362          & 24.422551         \\
-                        \textbf{std}                                              & 5.732700      & 468.154274        & 8.785183                    & 0.069914                                 & 2.559163          & 56.292660         \\
-                        \textbf{min}                                              & 0.078659      & 3.145628          & 1.773592                    & 0.000882                                 & 1.886014          & 3.942402          \\
-                        \textbf{25\%}                                             & 4.965988      & 362.568474        & 19.041231                   & 0.006662                                 & 2.621447          & 7.265711          \\
-                        \textbf{50\%}                                             & 8.468414      & 624.708056        & 24.994160                   & 0.065681                                 & 3.422625          & 12.370334         \\
-                        \textbf{75\%}                                             & 13.184586     & 967.036275        & 31.097207                   & 0.112694                                 & 4.662941          & 22.760735         \\
-                        \textbf{max}                                              & 33.239975     & 2910.581879       & 53.949809                   & 0.394539                                 & 36.931294         & 1371.640060       \\ \hline
-                  \end{tabular}}
+            \begin{tabular}{c|c c c c c c c c c c}
+                  \hline
+                  \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Mean} & \textbf{Variance} & \textbf{Standard Deviation} & \cellcolor[HTML]{EFEFEF}\textbf{Entropy} & \textbf{Skewness} & \textbf{Kurtosis} \\ \hline
+                  \textbf{count}                                            & 3699          & 3699              & 3699                        & 3699                                     & 3699              & 3699              \\
+                  \textbf{mean}                                             & 9.473354      & 710.895793        & 25.174138                   & 0.072940                                 & 4.108362          & 24.422551         \\
+                  \textbf{std}                                              & 5.732700      & 468.154274        & 8.785183                    & 0.069914                                 & 2.559163          & 56.292660         \\
+                  \textbf{min}                                              & 0.078659      & 3.145628          & 1.773592                    & 0.000882                                 & 1.886014          & 3.942402          \\
+                  \textbf{25\%}                                             & 4.965988      & 362.568474        & 19.041231                   & 0.006662                                 & 2.621447          & 7.265711          \\
+                  \textbf{50\%}                                             & 8.468414      & 624.708056        & 24.994160                   & 0.065681                                 & 3.422625          & 12.370334         \\
+                  \textbf{75\%}                                             & 13.184586     & 967.036275        & 31.097207                   & 0.112694                                 & 4.662941          & 22.760735         \\
+                  \textbf{max}                                              & 33.239975     & 2910.581879       & 53.949809                   & 0.394539                                 & 36.931294         & 1371.640060       \\ \hline
+            \end{tabular}
             \caption{Statistiche descrittive delle feature \textit{Mean}, \textit{Variance}, \textit{Standard Deviation}, \textit{Entropy}, \textit{Skewness} e \textit{Kurtosis}.}
             \label{tab:primameta}
       \end{subtable}
       \hfill
       \begin{subtable}[h]{1\textwidth}
             \centering
-            \resizebox{\textwidth}{!}{\begin{tabular}{c|c c c c c c c c}
+            \resizebox{0.9\textwidth}{!}{\begin{tabular}{c|c c c c c c c c}
                         \hline
                         \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Contrast} & \textbf{Energy} & \textbf{ASM} & \textbf{Homogeneity} & \textbf{Dissimilarity} & \textbf{Correlation} & \textbf{Coarseness} \\ \hline
                         \textbf{count}                                            & 3699              & 3699            & 3699         & 3699                 & 3699                   & 3699                 & 3699                \\
@@ -144,19 +151,21 @@ confermata dal calcolo delle statistiche descrittive mostrate nella tabella \ref
       \label{tab:desc-stat}
 \end{table}
 
-Di conseguenza sarà opportuno standardizzare le features per rispettare le 
+Di conseguenza sarà opportuno standardizzare le features per rispettare le
 assunzioni di SVM e della rete neurale. Per quanto riguarda Gaussian Naive
-Bayes non è necessario effettuare l'operazione sopracitata, dal momento che nel calcolo della 
-probabilità si sfrutta la formula della Gaussiana che standardizza autonomamente.
+Bayes non è necessario effettuare l'operazione sopracitata, dal momento che nel 
+calcolo della probabilità si sfrutta la formula della Gaussiana nella quale 
+viene fatta una standardizzazione implicita.
 
-Dal calcolo delle statistiche descrittive si può osservare che la feature \textit{Coarseness}
-assume un valore quasi insignificativo tendente a $0$, quindi è stato pensato di convertire questa feature
-ad una scala logaritmica, pemettendo di aumentare la significatività dei valori.
-Nonostante questa trasformazione, la feature presenta una deviazione standard nulla 
-quindi questo suggerisce la sua esclusione perché sicuramente non sarà la
-feature discriminante.
+Dal calcolo delle statistiche descrittive si può osservare che la feature 
+\textit{Coarseness} assume un valore poco significativo tendente a $0$, quindi è 
+stato pensato di convertire questa feature ad una scala logaritmica, permettendo 
+di aumentare la significatività dei valori. Nonostante questa trasformazione, 
+la feature presenta una deviazione standard nulla quindi questo suggerisce la 
+sua esclusione dal dataset in quanto sarà quasi sicuramente una feature poco 
+discriminante.
 
-Per la fase di analisi risulta cruciale effettuare uno studio sulla potenzialità 
+Per la fase di analisi risulta cruciale effettuare uno studio sulla potenzialità
 di discriminazione dei dati. Per fare ciò sono stati prodotti un totale di $13$
 grafici, uno per ogni feature, ciascuno composto da due boxplot rappresentanti
 i percentili delle feature separati per le classi $0$ e $1$. I grafici sono visibili
@@ -171,31 +180,31 @@ nella figura \ref{fig:boxplot_features}.
       \label{fig:boxplot_features}
 \end{figure}
 
-Dai boxplot si può esservare che nel dataset sono presenti notevoli outliers, in
+Dai boxplot si può osservare che nel dataset sono presenti numerosi outliers, in
 aggiunta le distribuzioni delle features separate per classi si sovrappongono
-quasi tutte, eccetto per \textit{Entropy}, \textit{Energy}, \textit{ASM} e 
-\textit{Homogeneity}. Questo implica il fatto che potenzialmente sono le più 
-discriminanti rispetto alle altre features. In aggiunta, i grafici confermano 
-che la \textit{Coarseness} è costante, quindi dal momento che non può essere un 
+quasi tutte, eccetto per \textit{Entropy}, \textit{Energy}, \textit{ASM} e
+\textit{Homogeneity}. Questo implica il fatto che potenzialmente sono le più
+discriminanti rispetto alle altre features. In aggiunta, i grafici confermano
+che la \textit{Coarseness} è costante, quindi dal momento che non può essere un
 attributo discriminate si può rimuovere dal dataset.
 
-Infine, è stato effettuato un confronto tra features estratte 2 a 2 per poter 
+Infine, è stato effettuato un confronto tra features estratte 2 a 2 per poter
 analizzare se le classi sono separabili linearmente considerando gruppi di due feature.
-In questo modo sono state calcolate tutte le cobinazioni di feature, per ogni 
-combinazione è stato prodotto un grafico cartesiano e un'istanza sarà disegnata 
+In questo modo sono state calcolate tutte le combinazioni di feature, per ogni
+combinazione è stato prodotto un grafico cartesiano e un'istanza sarà disegnata
 nel grafico mediante un punto. Il punto esprime $2$ informazioni:
 \begin{itemize}
       \item il colore del punto specifica la classe dell'istanza
       \item le coordinate saranno i valori delle due features considerate
-\end{itemize} 
+\end{itemize}
 
 In aggiunta, sono stati costruiti due grafici per ogni combinazione, per identificare
-quante istanze di classi diverse si sofrappongo. Tutti grafici vengono mostrati nella figura
-\ref{fig:scatterplot_features}
+quante istanze di classi diverse si sovrappongono. Tutti grafici vengono mostrati 
+nella figura \ref{fig:scatterplot_features}
 
 \newpage
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
       \centering
       \includegraphics[height=\textheight]{img/analisi/scatterplot.png}
       \caption{Scatterplot di tutte le combinazioni di features}
@@ -203,20 +212,20 @@ quante istanze di classi diverse si sofrappongo. Tutti grafici vengono mostrati 
 \end{figure}
 
 I grafici evidenziano il fatto che per ogni coppia di features si ha almeno una lieve sovrapposizione
-delle nuvole di punti rappresentanti le due classi, questo significa che in due 
-dimensioni le classi non sono linearmente separabili a meno di accettare notevoli 
-errori. In ogni caso, si pososno osservare le coppie con meno sovrapposizioni tra classi 
+delle nuvole di punti rappresentanti le due classi, questo significa che in due
+dimensioni le classi non sono linearmente separabili a meno di accettare notevoli
+errori. In ogni caso, si possono osservare le coppie con meno sovrapposizioni tra classi
 che in questo caso sono:
 \begin{itemize}
-      \item \textit{Entropy} e \textit{Mean}  
-      \item \textit{Skewness} e \textit{Mean}  
-      \item \textit{Skewness} e \textit{Entropy}  
-      \item \textit{Contrast} e \textit{Entropy}  
-      \item \textit{Correlation} e \textit{Entropy}  
-\end{itemize} 
-Osservando queste coppie hanno un numero di istanze sovrapposte ridotto, allora 
-si può affermare che le SVM con un buon kernel potrebbero ottenere degli ottimi 
-risultati nella classi ficazione.
+      \item \textit{Entropy} e \textit{Mean}
+      \item \textit{Skewness} e \textit{Mean}
+      \item \textit{Skewness} e \textit{Entropy}
+      \item \textit{Contrast} e \textit{Entropy}
+      \item \textit{Correlation} e \textit{Entropy}
+\end{itemize}
+Osservando queste coppie hanno un numero di istanze sovrapposte ridotto, allora
+si può affermare che le SVM, con un kernel scelto in modo accurato, potrebbero 
+ottenere degli ottimi risultati nella classificazione.
 Inoltre, questi grafici permettono anticipare dei primi studi sulla correlazione
 come la presenza di una correlazione logaritmica tra \textit{Skewness} e \textit{Mean}.
 
@@ -247,7 +256,7 @@ assoluto necessitano di regioni di pixel maggiore rispetto ad una transizione
 tra nero assoluto e grigio ($0.5$).
 
 Invece, la correlazione tra varianza è deviazione standard facilmente spiegabile
-perché la deviazione standard è la radice quadrata della varianza, quindi sono 
+perché la deviazione standard è la radice quadrata della varianza, quindi sono
 misure dipendenti.
 
 Una seconda forte correlazione positiva si può osservare tra le feature che
@@ -261,11 +270,11 @@ texture non è uniforme, ovvero si hanno strutture complesse e irregolari, quind
 più uniforme sarà la distribuzione dei livelli di grigio, aumentando l'indice
 di \textit{ASM}, comportando di conseguenza un aumento delle variazioni di intensità
 dei livelli di grigio, aumentando di conseguenza anche l'indice di \textit{Energy}
-e \textit{Homogeneity}. 
+e \textit{Homogeneity}.
 
 Al tempo stesso, la matrice di correlazione evidenza una forte correlazione positiva
-tra gli indici che misurano la \textbf{morfologia della distribuzione dei livelli 
-di grigio}, ovvero le feature di \textit{Skewness} e \textit{Kurtosis}. Questa dipendenza implica il
+tra gli indici che misurano la \textbf{morfologia della distribuzione dei livelli
+      di grigio}, ovvero le feature di \textit{Skewness} e \textit{Kurtosis}. Questa dipendenza implica il
 fatto che più la distribuzione è leptokurtica (Kurtosis grande), ovvero la frequenza
 dei livelli di grigio dei pixel si concentrano interamente vicino alla media/mediana/
 moda, allora più grande sarà la Skewness, ovvero maggiore sarà la tendenza ad avere
@@ -278,7 +287,7 @@ contrasto e maggiore sarà la complessità della texture.
 
 In aggiunta dalla matrice si evidenza che le features di \textit{Dissimilarity}
 e \textit{Homogeneity} sono correlate negativo, dal momento che misurano una dissimilarità
-tra i livelli di grigio delle regioni e l'altra misura la loro l'omogeneità. 
+tra i livelli di grigio delle regioni e l'altra misura la loro l'omogeneità.
 
 Dalla correlazione delle features è possibile ridurre la dimensionalità del dataset
 considerando sono le seguenti features:
@@ -290,8 +299,10 @@ considerando sono le seguenti features:
       \item \textbf{Correlation}
 \end{itemize}
 
-A puro scopo didattico è stato pensato di eseguire i modelli non solo sul dataset
-semplificato eliminando le correlazioni, ma anche applicando l'algoritmo PCA.
+Per confrontare i risultati ottenuti attraverso lo studio delle correlazioni 
+si è pensato di eseguire i modelli non solo sul dataset semplificato eliminando 
+le correlazioni, ma anche applicando la Principal Component Analysis (PCA) per
+ridurre la dimensionalità del dataset.
 
 \section{PCA} \label{sec:pca}
 Precedentemente è stato presentato un primo modo per ridurre la dimensionalità
