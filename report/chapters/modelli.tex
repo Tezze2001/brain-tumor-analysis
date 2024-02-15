@@ -1,0 +1,277 @@
+% ! Struttura presentata nell'introduzione
+\chapter{Modelli} \label{ch:modelli}
+In questo capitolo verranno presentati i modelli che si è deciso di addestrare 
+per svolgere il compito di classificazione. I modelli sono stati scelti in base
+ai risultati ottenuti nella fase di analisi esplorativa e in base alle
+caratteristiche del dataset. In particolare, si è deciso di addestrare:
+\begin{itemize}
+    \item \textbf{Support Vector Machine}
+    \item \textbf{Gaussian Naive Bayes}
+    \item \textbf{Rete Neurale}
+\end{itemize} 
+Per ognuno di essi verrà presentata una breve descrizione sulla loro struttura
+e sulle operazioni che sono state svolte per la loro definizione. In un secondo
+momento verranno presentati i risultati ottenuti e verrà fatta una valutazione
+sui modelli addestrati.
+\section{Support Vector Machine}
+% ! Da inserire la parte su SVM
+\section{Gaussian Naive Bayes}
+Di seguito verrà presentato il processo di addestramento del modello 
+\textbf{Gaussian Naive Bayes}. È importante precisare che la scelta di utilizzare 
+questo modello è stata fatta con la consapevolezza che non tutte le features 
+derivano da una distribuzione normale, andando contro le ipotesi del modello. 
+Tuttavia, abbiamo deciso di utilizzarlo in quanto volevamo distaccarci da un 
+approccio geometrico e sfruttare un modello probabilistico.
+\subsection{Addestramento di Gaussian Naive Bayes}
+Come per gli altri approcci, abbiamo deciso di addestrare due modelli, uno su
+\texttt{dataset\_corr} e l'altro su \texttt{dataset\_pca}.
+
+La libreria utilizzata per l'implementazione di Gaussian Naive Bayes non 
+presenta degli iperparametri da stimare, quindi non è stato necessario effettuare
+un processo di ricerca della combinazione migliore.
+\section{Rete Neurale}
+In questa sezione verrà presentata la \textbf{rete neurale}. Nello specifico, si 
+andranno a presentare i passaggi che sono stati effettuati per la realizzazione 
+di questo modello, prestando particolare attenzione alla fase di definizione 
+della struttura della rete neurale e alla fase di addestramento della stessa.
+
+In questo capitolo tutte le operazioni effettuate sono state realizzate 
+utilizzando i dataset standardizzati (\texttt{dataset\_corr\_std} e 
+\texttt{dataset\_pca\_std}) presentati nella fase di preparazione dei 
+dati \ref{sec:preparazione_dei_dati}.
+\subsection{Struttura della rete neurale}
+La fase di definizione della struttura della rete neurale è stata effettuata
+attraverso una serie di passaggi. Inizialmente, è stata effettuata un'analisi
+dei dati in modo tale da selezionare un sottoinsieme di feature le quali sono
+state utilizzate come input della rete neurale. Questo sottoinsieme è stato
+selezionato in modo tale da garantire che la rete neurale fosse in grado di
+discriminare in modo efficace le due classi.
+
+In seguito, è stata effettuata una fase di grid search per valutare la combinazione
+migliore di iperparametri per la rete neurale. Questa fase è stata effettuata
+attraverso una cross validation a 5 fold, prendendo in considerazione solamente
+i dati del training set.
+
+Dai risultati ottenuti dalla fase di analisi e dal dominio del problema, si è
+scelto di utilizzare una rete con una struttura di dimensioni ridotte, in modo
+tale da ridurre le possibilità che la rete neurale soffra di overfitting.
+
+Per svolgere il compito di classificazione si è scelto di utilizzare una rete
+neurale feedforward, la cui struttura, a meno del layer di input e di output, è
+stata definita attraverso il processo di grid search.
+\subsubsection{Ottimizzazione degli iperparametri}
+Come già accennato in precedenza, la ricerca degli iperparametri della rete neurale
+è stata effettuata attraverso un processo di grid search. Questo processo ha
+permesso di valutare le prestazioni della rete neurale al variare della funzione
+di attivazione, del numero di layer nascosti e del numero di neuroni per ogni
+layer nascosto.
+
+Visti i risultati ottenuti nella fase di analisi e la volontà di mantenere i
+tempi di addestramento bassi, si è scelto di mantenere una struttura di dimensioni
+ridotte per la rete neurale. Per questo motivo, l'operazione di grid search è
+stata effettuata prendendo in considerazione un numero di neuroni per layer
+tra 5, 10 mentre il numero di layer nascosti è stato valutato tra 1 e 2.
+
+Per quanto riguarda la funzione di attivazione, sono state valutate le seguenti
+funzioni di attivazione:
+\begin{itemize}
+    \item \textit{ReLU}
+    \item \textit{Leaky ReLU}
+    \item \textit{sigmoid}
+\end{itemize}
+
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/rete/relu.png}
+        \caption{ReLU}
+        \label{fig:relu}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/rete/leaky_relu.png}
+        \caption{Leaky ReLU}
+        \label{fig:leaky-relu}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/rete/sigmoid.png}
+        \caption{Sigmoide}
+        \label{fig:sigmoid}
+    \end{subfigure}
+    \caption{Funzioni di attivazione utilizzate nella fase di grid search}
+    \label{fig:}
+\end{figure}
+
+Durante il processo di grid search, per ogni modello che è stato addestrato, sono
+state raccolte delle informazioni relative all'accuratezza, al tempo di addestramento
+richiesto. In aggiunta a queste informazioni, dato che ogni modello è stato
+addestrato attraverso una cross validation a 5 fold, sono stati calcolati gli
+intervalli di confidenza al $90\%$ per ogni modello addestrato.
+
+Ottenuti i risultati, si è proceduto con l'analisi di questi, in modo tale da
+definire la struttura della rete neurale. Per effettuare questa valutazione sono
+state utilizzate le misure precedentemente citate.
+
+Il modello selezionato è stato scelto in base al seguente criterio:
+\begin{center}
+    \textit{Modello = 2 * Accuratezza + 2 * Tempo di addestramento + 1 * Intervalli di confidenza}
+\end{center}
+Le misure di accuratezza e tempo di addestramento si riferiscono alla media
+calcolata attraverso la cross validation.
+
+Nello specifico, sono stati utilizzati i seguenti pesi: 2 per l'accuratezza
+media, 2 per il tempo di addestramento medio e 1 per gli intervalli di
+confidenza. Questi pesi sono stati scelti in modo tale da dare più importanza
+all'accuratezza media e al tempo di addestramento medio, in quanto sono le due
+misure che permettono di valutare le prestazioni della rete neurale, mentre gli
+intervalli di confidenza sono stati utilizzati per valutare la variabilità delle
+prestazioni.
+
+Per verificare la validità del modello scelto si è proceduto con il confronto di
+esso con la rete che ha ottenuto la migliore accuratezza e quella che ha ottenuto
+il tempo di addestramento minore, ottenendo i risultati riportati in tabella \ref{tab:ris-grid-search}.
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Modello}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
+        Tempo di addestramento minore                                & 97.9\%               & 1.05s                           \\
+        Accuratezza maggiore                                         & 99.0\%               & 14.43s                          \\
+        Modello scelto                                               & 98.6\%               & 2.59s                           \\ \bottomrule
+    \end{tabular}
+    \caption{Risultati ottenuti dalla fase di grid search}
+    \label{tab:ris-grid-search}
+\end{table}
+
+Dai valori riportati nella tabella \ref{tab:ris-grid-search} si può notare che il
+notare che il modello che è stato selezionato fornisce un compromesso tra
+accuratezza e tempo di addestramento. Nello specifico, perdendo lo $0.4\%$ di
+accuratezza si è ottenuto un tempo di addestramento minore di circa $12$ secondi.
+\subsubsection{Definizione della struttura della rete neurale}
+Dalla fase di analisi è stato selezionato un sottoinsieme di feature le quali
+sono state utilizzate come input della rete neurale. Questo sottoinsieme è
+composto da 5 elementi, il che ha permesso di definire la struttura del layer di
+input della rete neurale, questo primo strato è composto da 5 neuroni, uno per 
+ogni feature selezionata.
+
+I risultati ottenuti dalla fase di grid search hanno permesso di definire la
+struttura della rete neurale. In particolare, la rete neurale è composta da 1
+layer di input, 2 layer nascosti e 1 layer di output.
+
+I layer nascosti sono composti nel seguente modo:
+\begin{itemize}
+    \item Il primo layer nascosto è composto da 10 neuroni, in cui la funzione di
+          attivazione è la funzione ReLU \ref{fig:relu}.
+    \item Il secondo layer nascosto è composto da 5 neuroni, in cui la funzione
+          di attivazione è la funzione ReLU \ref{fig:relu}.
+\end{itemize}
+
+Per concludere la descrizione della struttura della rete neurale, è necessario
+specificare come è composto l'ultimo layer, ovvero quello di output. Vista la
+natura del problema di classificazione, il layer di output è composto da un solo
+neurone, in cui la funzione di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
+\begin{equation}
+    \sigma(x) = \frac{1}{1 + e^{-x}}
+\end{equation}
+Questa scelta è dovuta al fatto che tale funzione restituisce un valore compreso
+tra 0 e 1, il che permette di interpretare l'output della rete neurale come la
+probabilità che l'input appartenga alla classe positiva.
+
+La struttura della rete neurale è riassunta nella figura \ref{fig:strutturaReteNeurale}.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.3\textwidth]{img/rete/struttura_rete.png}
+    \caption{Struttura della rete neurale}
+    \label{fig:strutturaReteNeurale}
+\end{figure}
+\subsubsection{Altri iperparametri} % TODO: titolo migliore
+Oltre alla ricerca della struttura della rete neurale, la fase di grid search è
+stata utilizzata per valutare l'algoritmo di ottimizzazione, il numero di epoche
+e la dimensione del batch.
+
+Per quanto riguarda l'algoritmo di ottimizzazione, il confronto è stato eseguito
+tra \textit{Adam} e \textit{SGD}, mentre per il numero di epoche e la dimensione
+del batch sono stati valutati i valori 100, 300 per il numero di epoche e 50,
+100, 300 per la dimensione del batch.
+
+I risultati ottenuti dalla fase di grid search hanno permesso di definire i valori
+degli iperparametri che hanno permesso di ottenere i migliori risultati. In
+particolare, l'algoritmo di ottimizzazione scelto è \textit{Adam}, mentre il
+numero di epoche e la dimensione del batch sono stati impostati a 100 e 100
+rispettivamente.
+
+In questa fase è stato necessario definire la funzione di perdita. Si è scelta
+la \textit{binary crossentropy} in quanto adatta a problemi di classificazione
+binaria. La scelta di questa loss è dovuta alla natura del problema di
+classificazione che si vuole risolvere.
+\subsection{Addestramento della rete neurale}
+La fase di addestramento della rete neurale è stata effettuata utilizzando il
+training set precedentemente definito. L'addestramento della rete neurale è stato
+effettuato utilizzando la libreria \textit{Keras} in quanto permette di definire
+e addestrare reti neurali in modo intuitivo.
+\subsection{Rete neurale su dataset con PCA}
+Per verificare se i risultati ottenuti dal modello addestrato sulle feature da
+noi selezionate siano effettivamente dovuti alla struttura delle feature e non
+a una fortunata selezione, si è deciso di addestrare un modello con le feature
+ottenute attraverso la PCA.
+
+Il dataset ottenuto attraverso la PCA, descritto sella sezione \ref{sec:pca}, è
+stato diviso in training set e test set in modo tale da mantenere la stessa
+percentuale di dati positivi e negativi in entrambi i set. Oltre a questa
+operazione, i dati sono stati standardizzati.
+\subsection{Struttura}
+Come per il modello addestrato con le feature selezionate manualmente, anche per
+questo modello è stata effettuata una fase di grid search per valutare la
+combinazione migliore di iperparametri per la rete neurale.
+
+Il processo utilizzato in questa fase è analogo a quello utilizzato per il modello
+precedente, sia a livello di iperparametri che di valutazione del modello.
+
+Come fatto in precedenza, il modello selezionato è stato confrontato con il modello
+che ha ottenuto la migliore accuratezza e quello che ha ottenuto il tempo di
+addestramento minore. I risultati ottenuti sono riportati in tabella \ref{tab:ris-grid-search-pca}.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \textbf{Modello}              & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
+        Tempo di addestramento minore & 96.9\%               & 1.06s                           \\
+        Accuratezza maggiore          & 98.0\%               & 22.20s                          \\
+        Modello scelto                & 97.9\%               & 1.16s                           \\ \bottomrule
+    \end{tabular}
+    \caption{Risultati ottenuti dalla fase di grid search}
+    \label{tab:ris-grid-search-pca}
+\end{table}
+Anche in questo caso, come per il precedente, il modello che è stato selezionato
+rappresenta un compromesso tra accuratezza e tempo di addestramento. In particolare,
+perdendo lo $0.1\%$ di accuratezza si è ottenuto un tempo di addestramento minore
+di circa $21$ secondi.
+
+
+I risultati ottenuti dalla fase di grid search hanno permesso di definire la
+struttura della rete neurale. In particolare, la rete neurale è composta da 1
+layer di input, 1 layer nascosto e 1 layer di output.
+
+Il layer di input è composto da 3 neuroni, uno per ogni componente principale
+ottenuta attraverso la PCA. Questo primo strato è stato definito in questo modo
+in quanto il dataset ottenuto attraverso la PCA è composto da 3 feature.
+
+Il layer nascosto è composto da 10 neuroni, in cui la funzione di attivazione è
+la funzione ReLU \ref{fig:relu}.
+
+Il layer di output è lo stesso utilizzato per il modello addestrato con le feature
+selezionate manualmente, ovvero è composto da un solo neurone, in cui la funzione
+di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.3\textwidth]{img/rete/struttura_rete_pca.png}
+    \caption{Struttura della rete neurale addestrata con PCA}
+    \label{fig:strutturaReteNeuralePCA}
+\end{figure}

@@ -1,22 +1,5 @@
 \chapter{Gaussian Naive Bayes} \label{chp:bayes}
-La fase di analisi effettuata in precedenza ha permesso di acquisire informazioni
-utili sulla struttura del dataset e di conseguenza permettere la selezione di un
-modello adatto a svolgere il compito di classificazione.
 
-In questo capitolo verranno presentati tutti i risultati ottenuti dall'apprendimento
-e dalle valutazioni effettuate sul modello \textbf{Gaussian Naive Bayes}. Vogliamo
-precisare che la scelta di utilizzare questo modello è stata fatta con la
-consapevolezza che non tutte le features derivano da una distribuzione normale,
-andando contro le ipotesi del modello. Tuttavia, abbiamo deciso di utilizzarlo
-in quanto volevamo distaccarci da un approccio geometrico e sfruttare un modello
-probabilistico.
-\section{Addestramento di Gaussian Naive Bayes}
-Come per gli altri approcci, abbiamo deciso di addestrare due modelli, uno su
-dataset\_corr e l'altro su dataset\_pca.
-
-La libreria utilizzata per l'implementazione di Gaussian Naive Bayes non 
-presenta degli iperparametri da stimare, quindi non è stato necessario effettuare
-un processo di ricerca della combinazione migliore.
 \section{Risultati}
 I classificatori addestrati sono stati valutati utilizzando la porzione del 
 dataset dedicata al test. Su tale insieme di dati sono state calcolate le
