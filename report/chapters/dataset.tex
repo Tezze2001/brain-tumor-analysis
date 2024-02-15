@@ -1,22 +1,16 @@
 \chapter{Dataset}
 \section{Struttura del dataset}
-Il dataset è composto da un set di $3762$ immagini, ognuna delle quali è stata
-ottenuta dalla risonanza magnetica del cervello. Ad ogni immagine è stata
-associata un etichettata la quale permette di rappresentare la presenza o meno
-di un tumore al cervello. Nel dataset è presente una colonna, \textit{Class},
-nella quale sono presenti le etichette, ovvero:
+Il dataset è composto da $13$ features estratte da un set di $3762$ immagini in bianco e nero, 
+ciascuna immagine è stata prodotta dalla risonanza magnetica del cervello di diversi pazienti. 
+Di conseguenza, si hanno un totale di $3762$ istanze, ognuna etichettata con un 
+valore categorico che rappresenta la presenza o meno del tumore al cervello.
+L'etichetta è presente sotto la colonna \textit{Class} e assume i seguenti valori:
 \begin{itemize}
       \item \textbf{Presenza del tumore}: $T = 1$
       \item \textbf{Assenza del tumore}: $T = 0$
 \end{itemize}
 
-Oltre alla colonna \textit{Class}, il dataset è composto da altre $13$ colonne,
-nelle quali sono presenti le feature calcolate sulle immagini. Tali sono state
-ottenute calcolando i \textbf{momenti Hu} sulle immagini della risonanza magnetica.
-I momenti Hu catturano le informazioni di base sull'immagine come l'area
-dell'oggetto, il centroide, l'orientamento e altre proprietà.
-
-Gli attributi di cui è composto il dataset possono essere suddivisi in 2 gruppi\cite{explanation-features}:
+Le features si distinguono in \cite{explanation-features}:
 \begin{enumerate}
       \item \textbf{First Order Features}: forniscono informazioni legate alle
             distribuzione dei livelli di grigio dell'immagine. Queste features
@@ -32,71 +26,96 @@ Gli attributi di cui è composto il dataset possono essere suddivisi in 2 gruppi
       \item \textbf{Second Order Features}: forniscono informazioni a livello di
             composizione della texture dell'immagine.
             \begin{itemize}
-                  \item \textbf{Contrasto}: misura la variazione locale dei livelli
-                        di grigio dei pixel. Maggiore sarà il valore allora maggiore
-                        sarà il contrasto dell'immagine.
-                  \item \textbf{Energia}: misura l'eterogeneità o la variazione
-                        dell'intensità dell'immagine. Più piccolo è il valore allora
-                        meno variazioni di intensità e più omogenea sarà la texture,
-                        al contrario, più la texture è irregolare allora maggiore
-                        sarà il valore.
+                  \item \textbf{Contrasto}: misura la differenza tra i livelli di 
+                  grigio tra diverse parti dell'immagine. Maggiore sarà il valore 
+                  allora maggiore sarà la deviazione standard dei livelli di grigio
+                  nell'immagine.
+                  \item \textbf{Energia}: fornisce informazioni sulla texture e
+                  sulla complessità. Maggiore sarà il valore allora l'immagine avrà
+                  un forte contrasto o la texture è molto dettalgiata.
                   \item \textbf{ASM}: misura quanto sono distribuiti uniformemente i
-                        livelli di grigio nell'immagine. Più i livelli di grigio sono
-                        uniformemente distribuiti minore sarà il valore dell'indice.
+                  livelli di grigio nell'immagine. Maggiore sarà il valore allora
+                  più uniforme sarà la distribuzione dei livelli di grigio nell'immagine,
+                  quindi la variabilità dei livelli di grigio è ridotta.
                   \item \textbf{Entropia}: misura la randomicità dei livelli di
-                        grigio, quindi più piccolo è il valore, più la texture
-                        sarà uniforme.
-                  \item \textbf{Homogeneous}: misura secondaria del contrasto. Più
-                        alto sarà l'indice allora minore sarà il contrasto dell'immagine.
-                  \item \textbf{Dissimilarity}: misura quanto spesso differenti
-                        combinazioni dei valori di intensità dei pixel occorrono
-                        nell'immagine. Un valore alto indica che l'immagine ha una
-                        maggior variazione delle intensità dei pixel vicini,
-                        quindi più complessa sarà la texture.
-                  \item \textbf{Correlation}: misura la correlazione tra pixel nelle
-                        due diverse direzioni.
-                  \item \textbf{Coarseness}: misura quanto l'immagine è composta da
-                        regioni di intensità omogenea, ovvero quanto è granulare o
-                        fine la texture.
+                  grigio, quindi l'entropia sarà massima quando tutti i livelli 
+                  di grigio equamente probabilitò (randomness). Più precisamente
+                  immagini con un ampio range di valori dei pixel e distribuzioni
+                  uniformi di intensità tendono a aumentare il valore dell'entropia.
+                  \item \textbf{Homogeneous}: misura quanto sono uniformi i livelli 
+                  di grigio. Più alto sarà l'indice allora minore sarà il contrasto 
+                  dell'immagine.
+                  \item \textbf{Dissimilarity}: misura quanto differiscono diverse 
+                  regioni dell'immagine. Un valore alto indica che si hanno molte
+                  differenze tra diverse regioni della stessa immagine, quindi più 
+                  complessa sarà la texture.
+                  \item \textbf{Correlation}: misura la correlazione dei livelli 
+                  di grigio tra diverse regioni della stessa immagine. 
+                  \item \textbf{Coarseness}: misura il grado di variazione o di 
+                  irregolarità dei livelli di grigio, quindi misura la finezza o
+                  la granularità della texture.
             \end{itemize}
 \end{enumerate}
+
 \section{Analisi descrittiva}\label{sec:analisi-descrittiva}
-Il dataset è formato da un totale $3762$ istanze, ciascuna delle quali è descritta
-da $15$ attributi così suddivisi:
-\begin{itemize}
-      \item $13$ rappresentano le feature calcolate sulle immagini della risonanza
-            magnetica. Tutti questi attributi sono di tipo \textit{float}.
-      \item $1$, ovvero l'attributo \textit{Image}, rappresenta l'identificativo
-            dell'immagine a cui si riferisce l'istanza.
-      \item $1$, ovvero l'attributo \textit{Class}, rappresenta l'etichetta associata
-            all'immagine. Questo attributo è stato convertito da \textit{intero} a
-            \textit{categorico} per poter effettuare la classificazione.
-\end{itemize}
 
 Caricato il dataset, è stato eseguito un controllo per verificare che non ci fossero
 valori nulli. In questo caso non sono stati trovati valori nulli, quindi non è
-stato necessario eseguire alcuna operazione per la gestione di tali valori.
-% Todo: controllare se nel dataset ci sono valori duplicati
+stato necessario eseguire alcuna operazione per la gestione di tali valori. In
+secondo luogo è stato controllato se il dataset contiene dei duplicati e sono stati
+trovati un totale di $63$ duplicati e di conseguenza sono stati tutti rimossi.
 
-Successivamente, si è proceduto con il calcolo delle statistiche descrittive per
-gli attributi numerici presenti nel dataset. Questa operazione ha permesso di
-ottenere le informazioni riportate nella tabella \ref{tab:desc-stat}.
+Successivamente, si è proceduto controllando se le classi del dataset sono sbilanciate,
+per fare ciò è stato creato un instogramma che mostra la frequenza dei valori 
+della colonna \textit{Class} (visibile nella figura \ref{fig:dist-classi}).
+
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{img/analisi/distribuzioneClassi.png}
+      \caption{Distribuzione delle classi}
+      \label{fig:dist-classi}
+\end{figure}
+
+Dall'istogramma si evidenza che le classi sono abbastanza bilanciate, infatti, 
+il dataset è composto dal $45\%$ di esempi positivi, mentre il $55\%$ è composto
+da esempi negativi. 
+
+Successivamente sono stati costruiti $13$ istogrammi, uno per ogni features
+in modo tale da analizzare visivamente la distribuzione delle features, gli 
+istogrammi sono visibili nella figura \ref{fig:barplot_features}.
+
+
+\begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{img/analisi/barplot.png}
+      \caption{Barplot delle features}
+      \label{fig:barplot_features}
+\end{figure}
+
+Da questi grafici si evince che le feature \textit{Energy}, \textit{Homogeneity},
+\textit{Entropy} e \textit{Coarseness} non seguono una distribuzione normale, a differenza delle
+altre feature che possono essere considerate normali. In ogni caso, anche se non
+seguono l'ipotesi di normalità, si è deciso di non rimuoverli dal dataset anche se
+stiamo andando contro le assunzioni dei modelli che vogliamo utilizzare. Dagli 
+istogrammi si può osservare che le features che tendono a distribuirsi normalmente
+non sono standardizzate come viene anche dimostrato dal calcolo delle statistiche
+descrittive mostrate \ref{tab:desc-stat}.
 
 \begin{table}[h!]
       \begin{subtable}[h]{1\textwidth}
             \centering
             \resizebox{\textwidth}{!}{\begin{tabular}{c|c c c c c c c c c c}
-                        \hline
-                        \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Mean} & \textbf{Variance} & \textbf{Standard Deviation} & \cellcolor[HTML]{EFEFEF}\textbf{Entropy} & \textbf{Skewness} & \textbf{Kurtosis} \\ \hline
-                        \textbf{count}                                            & 3762          & 3762              & 3762                        & 3762                                     & 3762              & 3762              \\
-                        \textbf{mean}                                             & 9.488890      & 711.101063        & 25.182271                   & 0.073603                                 & 4.102727          & 24.389071         \\
-                        \textbf{std}                                              & 5.728022      & 467.466896        & 8.773526                    & 0.070269                                 & 2.560940          & 56.434747         \\
-                        \textbf{min}                                              & 0.078659      & 3.145628          & 1.773592                    & 0.000882                                 & 1.886014          & 3.942402          \\
-                        \textbf{25\%}                                             & 4.982395      & 363.225459        & 19.058475                   & 0.006856                                 & 2.620203          & 7.252852          \\
-                        \textbf{50\%}                                             & 8.477531      & 622.580417        & 24.951560                   & 0.066628                                 & 3.422210          & 12.359088         \\
-                        \textbf{75\%}                                             & 13.212723     & 966.954319        & 31.095889                   & 0.113284                                 & 4.651737          & 22.640304         \\
-                        \textbf{max}                                              & 33.239975     & 2910.581879       & 53.949809                   & 0.394539                                 & 36.931294         & 1371.640060       \\ \hline
-                  \end{tabular}}
+                  \hline
+                  \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Mean} & \textbf{Variance} & \textbf{Standard Deviation} & \cellcolor[HTML]{EFEFEF}\textbf{Entropy} & \textbf{Skewness} & \textbf{Kurtosis} \\ \hline
+                  \textbf{count}                                            & 3699   & 3699       & 3699                 & 3699                              & 3699       & 3699       \\
+                  \textbf{mean}                                             & 9.473354      & 710.895793        & 25.174138                   & 0.072940                                 & 4.108362          & 24.422551         \\
+                  \textbf{std}                                              & 5.732700      & 468.154274        & 8.785183                    & 0.069914                                 & 2.559163          & 56.292660         \\
+                  \textbf{min}                                              & 0.078659      & 3.145628          & 1.773592                    & 0.000882                                 & 1.886014          & 3.942402          \\
+                  \textbf{25\%}                                             & 4.965988      & 362.568474        & 19.041231                   & 0.006662                                 & 2.621447          & 7.265711          \\
+                  \textbf{50\%}                                             & 8.468414      & 624.708056        & 24.994160                   & 0.065681                                 & 3.422625          & 12.370334         \\
+                  \textbf{75\%}                                             & 13.184586     & 967.036275        & 31.097207                   & 0.112694                                 & 4.662941          & 22.760735         \\
+                  \textbf{max}                                              & 33.239975     & 2910.581879       & 53.949809                   & 0.394539                                 & 36.931294         & 1371.640060       \\ \hline
+            \end{tabular}}
             \caption{Statistiche descrittive delle feature \textit{Mean}, \textit{Variance}, \textit{Standard Deviation}, \textit{Entropy}, \textit{Skewness} e \textit{Kurtosis}.}
             \label{tab:primameta}
       \end{subtable}
@@ -106,13 +125,13 @@ ottenere le informazioni riportate nella tabella \ref{tab:desc-stat}.
             \resizebox{\textwidth}{!}{\begin{tabular}{c|c c c c c c c c}
                         \hline
                         \rowcolor[HTML]{EFEFEF} \cellcolor[HTML]{EFEFEF}\textbf{} & \textbf{Contrast} & \textbf{Energy} & \textbf{ASM} & \textbf{Homogeneity} & \textbf{Dissimilarity} & \textbf{Correlation} & \textbf{Coarseness} \\ \hline
-                        \textbf{count}                                            & 3762              & 3762            & 3762         & 3762                 & 3762                   & 3762                 & 3762                \\
-                        \textbf{mean}                                             & 127.961459        & 0.204705        & 0.058632     & 0.479252             & 4.698498               & 0.955767             & 7.458341e-155       \\
-                        \textbf{std}                                              & 109.499601        & 0.129352        & 0.058300     & 0.127929             & 1.850173               & 0.026157             & 0.000000e+00        \\
+                        \textbf{count}                                            & 3699       & 3699     & 3699  & 3699          & 3699            & 3699          & 3699         \\                                                                                                                                                                                                
+                        \textbf{mean}                                             & 128.119746        & 0.203546        & 0.058080     & 0.478442             & 4.702774               & 0.955697             & 7.458341e-155       \\
+                        \textbf{std}                                              & 110.168137        & 0.129047        & 0.057973     & 0.127971             & 1.856688               & 0.026061             & 0.000000e+00        \\
                         \textbf{min}                                              & 3.194733          & 0.024731        & 0.000612     & 0.105490             & 0.681121               & 0.549426             & 7.458341e-155       \\
-                        \textbf{25\%}                                             & 72.125208         & 0.069617        & 0.004847     & 0.364973             & 3.412363               & 0.947138             & 7.458341e-155       \\
-                        \textbf{50\%}                                             & 106.737418        & 0.225496        & 0.050849     & 0.512551             & 4.482404               & 0.961610             & 7.458341e-155       \\
-                        \textbf{75\%}                                             & 161.059006        & 0.298901        & 0.089342     & 0.575557             & 5.723821               & 0.971355             & 7.458341e-155       \\
+                        \textbf{25\%}                                             & 72.057782         & 0.068793        & 0.004732     & 0.364279             & 3.413266               & 0.946879             & 7.458341e-155       \\
+                        \textbf{50\%}                                             & 107.075103        & 0.223482        & 0.049944     & 0.511894             & 4.486111               & 0.961567             & 7.458341e-155       \\
+                        \textbf{75\%}                                             & 161.199093        & 0.298110        & 0.088870     & 0.575239             & 5.725644               & 0.971315             & 7.458341e-155       \\
                         \textbf{max}                                              & 3382.574163       & 0.589682        & 0.347725     & 0.810921             & 27.827751              & 0.989972             & 7.458341e-155       \\ \hline
                   \end{tabular}}
             \caption{Statistiche descrittive delle feature \textit{Contrast}, \textit{Energy}, \textit{ASM}, \textit{Homogeneity}, \textit{Dissimilarity}, \textit{Correlation} e \textit{Coarseness}.}
@@ -122,69 +141,18 @@ ottenere le informazioni riportate nella tabella \ref{tab:desc-stat}.
       \label{tab:desc-stat}
 \end{table}
 
-Questa operazione ha permesso di ottenere alcune informazioni sul dataset.
-Innanzitutto, ha permesso di osservare che i valori associati agli attributi non
-sono standardizzati dal momento che nessun dato ha media $0$ e deviazione
-standard $1$.
+Di conseguenza sarà opportuno standardizzare le features per rispettare le 
+assunzioni di SVM e della rete neurale. Per quanto riguarda Gaussian Naive
+Bayes non è necessario effettuare l'operazione sopracitata, dal momento che nel calcolo della 
+probabilità si sfrutta la formula della Gaussiana che standardizza autonomamente.
 
-La standardizzazione delle feature è stata fatta, utilizzando l'equazione
-\ref{eq:std-features}, solo per le SVM e il modello neurale, mentre per Gaussian
-Bayes la standardizzazione viene fatta in automatico dalla libreria del modello.
-\begin{equation}
-      F_{\mu, \sigma} = \frac{F - \mu}{\sigma}
-      \label{eq:std-features}
-\end{equation}
+Dal calcolo delle statistiche descrittive si può osservare che la feature \textit{Coarseness}
+assumer valori considerabili come nulli, quindi è stato pensato di convertire questa feature
+ad una scala logaritmica, pemettendo di aumentare la significatività dei valori.
+Nonostante questa trasformazione, la feature presenta una deviazione standard nulla 
+quindi questo suggerisce la sua esclusione perché sicuramente non sarà la
+feature discriminante.
 
-In aggiunta alle statistiche descrittive, per ogni feature si è realizzato un
-istogramma attraverso il quale è stato possibile realizzare una prima analisi
-visiva sulla distribuzione dei valori. Questa operazione è stata svolta per
-verificare se le feature seguono una distribuzione normale.
-
-\textbf{TODO:immagine}
-
-Da questi grafici si evince che le feature \textit{Energy}, \textit{Homogeneity}
-e \textit{Coarseness} non seguono una distribuzione normale, a differenza delle
-altre feature che possono essere considerate normali. In ogni caso, anche se non
-seguono l'ipotesi di normalità, si è deciso comunque di utilizzarli, anche se
-stiamo andando contro le assunzioni dei modelli che vogliamo utilizzare. % TODO: non ho capito cosa vuol dire
-
-Da questa analisi, è stato possibile osservare che la feature \textit{Coarseness}
-assume valori molto bassi, quindi è stato pensato di convertire questa feature
-ad una scala logaritmica, permettendo di aumentare la significatività dei valori.
-
-Nonostante questa operazione, la feature \textit{Coarseness} presenta una deviazione
-standard pari a circa $0.02$, valore non particolarmente significativo, quindi
-questo ci ha permesso di escludere questa feature perché sicuramente non sarà la
-feature più discriminante.
-
-Oltre all'analisi descrittiva delle feature, è stato eseguito anche un analisi
-sulle etichette, ovvero sulle classi. Questo è stato fatto per verificare se le
-classi sono bilanciate, ovvero se il numero di esempi positivi è simile al numero
-di esempi negativi.
-
-In questo caso, realizzando un istogramma, riportato in figura \ref{fig:dist-classi},
-che rappresenta le frequenze assolute delle classi. Da questo si può notare che
-la distribuzione di esse è bilanciate, infatti, circa il $55\%$ degli esempi sono
-negativi (assenza del tumore), contro circa il $45\%$ degli esempi sono positivi
-(presenza del tumore).
-
-\begin{figure}[!ht]
-      \centering
-      \includegraphics[width=0.5\textwidth]{img/analisi/distribuzioneClassi.png}
-      \caption{Distribuzione delle classi}
-      \label{fig:dist-classi}
-\end{figure}
-
-\textbf{Non è già stato detto prima?}
-Successivamente risulta importante analizzare se le distribuzioni si avvicinano
-ad una normale standard, di conseguenza sono stati disegnati i barplot delle frequenze
-di ciascuna feature. Dai grafici si evince che tutte le feature eccetto \textit{Energy} e
-\textit{Homogeneity} sono distribuite normalmente.
-
-Dal barplot delle features creato precedentemente, si possono ottenere ulteriori
-informazioni sulla distribuzione potenzialmente normale delle altre feature. Infatti,
-la distribuzione della \textit{Standard deviation} è simmetrica, mentre tutte
-le altre presentano una asimmetria.
 
 Ricapitolando, da questo primo studio descrittivo è stato modificato il dataset
 rimuovendo la feature \textit{Coarseness}.
@@ -308,3 +276,73 @@ $3$ attributi, permettendo di rappresentare i dati in uno spazio a $3$ dimension
 
 Dalla figura \ref{fig:pca-3d} si può osservare che i dati ottenuti dalla PCA
 sembrano essere separabili con un piano.
+\section{Preparazione dei dati} \label{sec:preparazione_dei_dati}
+Terminata la fase di analisi dei dati, si è passati alla fase di preparazione
+dei dati per l'addestramento dei modelli.
+
+Partendo dal dataset utilizzato per l'analisi, si è proceduto con la derivazione
+da esso di due dataset distinti: uno ottenuto tramite analisi esplorativa e
+attraverso lo studio delle correlazioni tra gli attributi e l'altro ottenuto
+tramite Principal Component Analysis (PCA).
+
+A livello implementativo, i due dataset sono stati rinominati nel seguente modo:
+\begin{itemize}
+    \item \texttt{dataset\_corr}: per il dataset ottenuto tramite analisi
+          esplorativa e studio delle correlazioni;
+    \item \texttt{dataset\_pca}: per il dataset ottenuto tramite PCA.
+    \item \texttt{dataset}: per il dataset originale.
+\end{itemize}
+
+La scelta di utilizzare due dataset distinti è stata fatta per confrontare
+i due approcci e valutare quale dei due fosse più adatto per l'addestramento
+dei modelli.
+
+Ottenuti i due dataset, si è proceduto con la suddivisione di ciascuno di essi
+in due sottoinsiemi: uno per l'addestramento dei modelli e l'altro per la
+validazione dei modelli. Nello specifico, si è scelto di suddividere i dataset
+in modo tale da avere l'$80\%$ delle istanze per l'addestramento e il $20\%$ per
+il test.
+
+La parte di dati dedicata all'addestramento dei modelli è stata utilizzata anche
+per una fase di \textit{cross-validation} per la scelta dei parametri migliori
+per la rete neurale e per le SVM. Per quanto riguarda la fase di ricerca degli
+iperparametri migliori, si è scelto di utilizzare una k-fold cross-validation
+con k=5.
+
+La suddivisione dei dataset in training e test set è stata effettuata in modo
+strutturato, ovvero mantenendo la stessa proporzione di istanze per ciascuna
+classe in entrambi i set. Questo è stato fatto per evitare che i modelli
+addestrati fossero influenzati da una distribuzione sbilanciata delle classi.
+
+Infine, per la rete neurale e per la SVM, si è proceduto con la standardizzazione
+dei dati, definendo due nuove varianti dei dataset \texttt{dataset\_corr} e
+\texttt{dataset\_pca}:
+\begin{itemize}
+    \item \texttt{dataset\_corr\_std}: dataset \texttt{dataset\_corr} standardizzato;
+    \item \texttt{dataset\_pca\_std}: dataset \texttt{dataset\_pca} standardizzato.
+\end{itemize}
+
+La standardizzazione dei dati è stata effettuata in quanto la rete neurale e
+la SVM sono modelli che possono essere influenzati dalla distribuzione dei dati.
+
+Nella tabella \ref{tab:riassunto_operazioni_dataset} è presentare un breve 
+riassunto di come sono stati preparati i dati per l'addestramento dei modelli e 
+quale dataset è stato utilizzato per ciascun modello.
+
+\begin{table}[ht!]
+    \begin{tabular}{@{}llc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \textbf{Nome del dataset}                                                                                          &
+        \textbf{Operazioni applicate}                                                                                      &
+        \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{Utilizzato per i seguenti modelli}}                                                                                          \\ \midrule
+        dataset\_corr                                                                                                      &
+        \begin{tabular}[c]{@{}l@{}}Riduzione della dimensionalità utilizzando l'analisi \\ della correlazione\end{tabular} &
+        GNB                                                                                                                                                                             \\
+        dateset\_corr\_std                                                                                                 & dataset\_corr con la standardizzazione dei dati & SVM e NN \\
+        dateset\_pca                                                                                                       & dataset\_corr\_std applicando l'algoritmo PCA   & GNB      \\
+        dateset\_pca\_std                                                                                                  & dataset\_pca con la standardizzazione dei dati  & SVM e NN \\ \bottomrule
+    \end{tabular}
+    \caption{Riassunto delle operazioni effettuate sui dataset e utilizzo dei dataset per i modelli.}
+    \label{tab:riassunto_operazioni_dataset}
+\end{table}
