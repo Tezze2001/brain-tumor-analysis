@@ -1,8 +1,8 @@
 \chapter{Dataset}
 \section{Struttura del dataset}
-Il dataset è composto da $13$ features estratte da un set di $3762$ immagini in bianco e nero,
-ciascuna immagine è stata ottenuta dalla risonanza magnetica del cervello di diversi pazienti.
-Di conseguenza, si hanno un totale di $3762$ istanze, ognuna etichettata con un
+Il dataset è composto da $13$ features estratte da un set di $3762$ immagini in bianco e nero, 
+ciascuna immagine è stata prodotta dalla risonanza magnetica del cervello di diversi pazienti. 
+Di conseguenza, si hanno un totale di $3762$ istanze, ognuna etichettata con un 
 valore categorico che rappresenta la presenza o meno del tumore al cervello.
 L'etichetta è presente sotto la colonna \textit{Class} e assume i seguenti valori:
 \begin{itemize}
@@ -65,10 +65,43 @@ stato necessario eseguire alcuna operazione per la gestione di tali valori. In
 secondo luogo è stato controllato se il dataset contiene dei duplicati e sono stati
 trovati un totale di $63$ duplicati e di conseguenza sono stati tutti rimossi.
 
-Successivamente, si è proceduto con il calcolo delle statistiche descrittive per
-gli attributi numerici presenti nel dataset. Questa operazione ha permesso di
-ottenere le informazioni riportate nella tabella \ref{tab:desc-stat}.
-\textbf{aggiornare tabella}\begin{table}[h!]
+Successivamente, si è proceduto controllando se le classi del dataset sono sbilanciate,
+per fare ciò è stato creato un instogramma che mostra la frequenza dei valori 
+della colonna \textit{Class} (visibile nella figura \ref{fig:dist-classi}).
+
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{img/analisi/distribuzioneClassi.png}
+      \caption{Distribuzione delle classi}
+      \label{fig:dist-classi}
+\end{figure}
+
+Dall'istogramma si evidenza che le classi sono abbastanza bilanciate, infatti, 
+il dataset è composto dal $45\%$ di esempi positivi, mentre il $55\%$ è composto
+da esempi negativi. 
+
+Successivamente sono stati costruiti $13$ istogrammi, uno per ogni features
+in modo tale da analizzare visivamente la distribuzione delle features, gli 
+istogrammi sono visibili nella figura \ref{fig:barplot_features}.
+
+
+\begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{img/analisi/barplot.png}
+      \caption{Barplot delle features}
+      \label{fig:barplot_features}
+\end{figure}
+
+Da questi grafici si evince che le feature \textit{Energy}, \textit{Homogeneity},
+\textit{Entropy} e \textit{Coarseness} non seguono una distribuzione normale, a differenza delle
+altre feature che possono essere considerate normali. In ogni caso, anche se non
+seguono l'ipotesi di normalità, si è deciso di non rimuoverli dal dataset anche se
+stiamo andando contro le assunzioni dei modelli che vogliamo utilizzare. Dagli 
+istogrammi si può osservare che le features che tendono a distribuirsi normalmente
+non sono standardizzate come viene anche dimostrato dal calcolo delle statistiche
+descrittive mostrate \ref{tab:desc-stat}.
+
+\begin{table}[h!]
       \begin{subtable}[h]{1\textwidth}
             \centering
             \resizebox{\textwidth}{!}{\begin{tabular}{c|c c c c c c c c c c}
@@ -108,72 +141,18 @@ ottenere le informazioni riportate nella tabella \ref{tab:desc-stat}.
       \label{tab:desc-stat}
 \end{table}
 
-Dalle statistiche descrittive di ciascuna feature si può notare come i valori non
-sono standardizzati dal momento che nessun dato ha media $0$ e deviazione
-standard $1$.
+Di conseguenza sarà opportuno standardizzare le features per rispettare le 
+assunzioni di SVM e della rete neurale. Per quanto riguarda Gaussian Naive
+Bayes non è necessario effettuare l'operazione sopracitata, dal momento che nel calcolo della 
+probabilità si sfrutta la formula della Gaussiana che standardizza autonomamente.
 
-La standardizzazione delle feature è stata fatta, utilizzando l'equazione
-\ref{eq:std-features}, solo per le SVM e il modello neurale, mentre per Gaussian
-Bayes la standardizzazione viene fatta in automatico dalla libreria del modello.
-\begin{equation}
-      F_{\mu, \sigma} = \frac{F - \mu}{\sigma}
-      \label{eq:std-features}
-\end{equation}
+Dal calcolo delle statistiche descrittive si può osservare che la feature \textit{Coarseness}
+assumer valori considerabili come nulli, quindi è stato pensato di convertire questa feature
+ad una scala logaritmica, pemettendo di aumentare la significatività dei valori.
+Nonostante questa trasformazione, la feature presenta una deviazione standard nulla 
+quindi questo suggerisce la sua esclusione perché sicuramente non sarà la
+feature discriminante.
 
-In aggiunta alle statistiche descrittive, per ogni feature si è realizzato un
-istogramma attraverso il quale è stato possibile realizzare una prima analisi
-visiva sulla distribuzione dei valori. Questa operazione è stata svolta per
-verificare se le feature seguono una distribuzione normale (vedi \ref{fig:barplot_features}).
-\begin{figure}
-      \centering
-      \includegraphics[width=\textwidth]{img/analisi/barplot.png}
-      \caption{Barplot delle features}
-      \label{fig:barplot_features}
-\end{figure}
-
-Da questi grafici si evince che le feature \textit{Energy}, \textit{Homogeneity}
-e \textit{Coarseness} non seguono una distribuzione normale, a differenza delle
-altre feature che possono essere considerate normali. In ogni caso, anche se non
-seguono l'ipotesi di normalità, si è deciso comunque di utilizzarli, anche se
-stiamo andando contro le assunzioni dei modelli che vogliamo utilizzare. % TODO: non ho capito cosa vuol dire
-
-Da questa analisi, è stato possibile osservare che la feature \textit{Coarseness}
-assume valori molto bassi, quindi è stato pensato di convertire questa feature
-ad una scala logaritmica, permettendo di aumentare la significatività dei valori.
-
-Nonostante questa operazione, la feature \textit{Coarseness} presenta una deviazione
-standard pari a circa $0.02$, valore non particolarmente significativo, quindi
-questo ci ha permesso di escludere questa feature perché sicuramente non sarà la
-feature più discriminante.
-
-Oltre all'analisi descrittiva delle feature, è stato eseguito anche un analisi
-sulle etichette, ovvero sulle classi. Questo è stato fatto per verificare se le
-classi sono bilanciate, ovvero se il numero di esempi positivi è simile al numero
-di esempi negativi.
-
-In questo caso, realizzando un istogramma, riportato in figura \ref{fig:dist-classi},
-che rappresenta le frequenze assolute delle classi. Da questo si può notare che
-la distribuzione di esse è bilanciate, infatti, circa il $55\%$ degli esempi sono
-negativi (assenza del tumore), contro circa il $45\%$ degli esempi sono positivi
-(presenza del tumore).
-
-\begin{figure}[!ht]
-      \centering
-      \includegraphics[width=0.5\textwidth]{img/analisi/distribuzioneClassi.png}
-      \caption{Distribuzione delle classi}
-      \label{fig:dist-classi}
-\end{figure}
-
-\textbf{Non è già stato detto prima?}
-Successivamente risulta importante analizzare se le distribuzioni si avvicinano
-ad una normale standard, di conseguenza sono stati disegnati i barplot delle frequenze
-di ciascuna feature. Dai grafici si evince che tutte le feature eccetto \textit{Energy} e
-\textit{Homogeneity} sono distribuite normalmente.
-
-Dal barplot delle features creato precedentemente, si possono ottenere ulteriori
-informazioni sulla distribuzione potenzialmente normale delle altre feature. Infatti,
-la distribuzione della \textit{Standard deviation} è simmetrica, mentre tutte
-le altre presentano una asimmetria.
 
 Ricapitolando, da questo primo studio descrittivo è stato modificato il dataset
 rimuovendo la feature \textit{Coarseness}.
