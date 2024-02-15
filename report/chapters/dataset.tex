@@ -220,7 +220,7 @@ risultati nella classi ficazione.
 Inoltre, questi grafici permettono anticipare dei primi studi sulla correlazione
 come la presenza di una correlazione logaritmica tra \textit{Skewness} e \textit{Mean}.
 
-\subsection{Analisi delle correlazioni}
+\subsection{Analisi delle correlazioni} \label{sec:correlazione}
 Il passaggio successivo è  stato quello di analizzare le correlazioni tra le feature
 dal momento che un primo modo per ridurre la dimensionalità del dataset è attraverso
 il mantenimento di solo una feature tra tutte quelle correlate.
@@ -264,8 +264,8 @@ dei livelli di grigio, aumentando di conseguenza anche l'indice di \textit{Energ
 e \textit{Homogeneity}. 
 
 Al tempo stesso, la matrice di correlazione evidenza una forte correlazione positiva
-tra gli indici che misurano la \textbf{morfologia della distribuzione dei livelli 
-di grigio}, ovvero le feature di \textit{Skewness} e \textit{Kurtosis}. Questa dipendenza implica il
+tra gli indici che misurano la \textbf{morfologia della distribuzione dei livelli di grigio},
+ovvero le feature di \textit{Skewness} e \textit{Kurtosis}. Questa dipendenza implica il
 fatto che più la distribuzione è leptokurtica (Kurtosis grande), ovvero la frequenza
 dei livelli di grigio dei pixel si concentrano interamente vicino alla media/mediana/
 moda, allora più grande sarà la Skewness, ovvero maggiore sarà la tendenza ad avere
@@ -280,8 +280,24 @@ In aggiunta dalla matrice si evidenza che le features di \textit{Dissimilarity}
 e \textit{Homogeneity} sono correlate negativo, dal momento che misurano una dissimilarità
 tra i livelli di grigio delle regioni e l'altra misura la loro l'omogeneità. 
 
-Dalla correlazione delle features è possibile ridurre la dimensionalità del dataset
-considerando sono le seguenti features:
+\section{Riduzione di dimensionalità} \label{sec:riduzone_di_dimensionalità}
+Dal momento che il dataset è composto da un totale di $13$ features, allora 
+è importante trovare il modo di ridurre la sua dimensionalità con lo scopo di
+velocizzare l'apprendimento dei modelli e semplificare il task di classificazione.
+Per ridurre la dimensionalità del dataset sono stati utilizzati due diversi metodi:
+\begin{itemize}
+      \item riduzione utilizzando la correlazione
+      \item riduzione utilizzando PCA
+\end{itemize}
+
+\subsection{Riduzione con la correlazione} \label{sec:riduzione_correlazione}
+Questo metodo si basa sulla correlazione delle features, ovvero se due features 
+sono correlate allora significa che a livello discriminante una delle due è superflua,
+di conseguenza si può rimuovere.
+
+Alla luce dello studio sulla correlazione effettuato nella sezione \ref{sec:correlazione},
+è possibile ridurre la dimensionalità del dataset considerando solo una della 
+features correlate, di conseguenza sono state considerate solo queste:
 \begin{itemize}
       \item \textbf{Mean}
       \item \textbf{Entropy}
@@ -290,18 +306,23 @@ considerando sono le seguenti features:
       \item \textbf{Correlation}
 \end{itemize}
 
-A puro scopo didattico è stato pensato di eseguire i modelli non solo sul dataset
-semplificato eliminando le correlazioni, ma anche applicando l'algoritmo PCA.
+Il nuovo dataset così composto verrà chiamato \texttt{dataset\_corr} e dal momento
+che \textbf{Entropy} è l'unico attributo che non segue una distribuzione standard,
+allora si sottolinea che non verranno rispettate le assunzioni di normalità dei 
+$3$ modelli scelti. In aggiunta, dal momento che per le SVM e NN assumono di 
+lavorare su dati con distribuzione normale stanrdard, allora per essere più 
+compatibili possibili con le assunzioni, è stata creata una versione del dataset
+normalizzata, chiamata  \texttt{dataset\_corr\_std}. 
 
-\section{PCA} \label{sec:pca}
-Precedentemente è stato presentato un primo modo per ridurre la dimensionalità
-dei dati basandoci sull'analisi delle correlazioni. In seguito, è stato pensato
-di provare ad utilizzare un metodo di trasformazione delle feature per ridurre
-la loro dimensionalità e successivamente analizzare i risultati ottenuti. La
-scelta sul metodo da utilizzare è ricaduta su PCA.
+\subsection{PCA} \label{sec:pca}
+In seguito, è stato pensato di provare ad utilizzare un metodo di trasformazione 
+delle feature per ridurre la loro dimensionalità e successivamente analizzare i 
+risultati ottenuti. La scelta sul metodo da utilizzare è ricaduta su PCA.
 
-Prima di applicare la PCA, è stato necessario standardizzare le feature, questa
-operazione è stata fatta per evitare che le feature con varianza maggiore abbiano
+Prima di applicare la PCA, è stato necessario standardizzare le feature del dataset
+originario senza i duplicati, ma con l'attributo \textbf{Coarseness}, dal momento
+che se ne occuperà PCA della sua rimozione. In aggiunta, l'operazione di standardizzazione
+è necessaria per evitare che le feature con varianza maggiore abbiano
 un peso maggiore rispetto alle altre. Senza standardizzare le feature, la PCA
 potrebbe non essere in grado di trovare le direzioni di massima varianza.
 
@@ -335,10 +356,19 @@ $3$ attributi, permettendo di rappresentare i dati in uno spazio a $3$ dimension
 \end{figure}
 
 Dalla figura \ref{fig:pca-3d} si può osservare che i dati ottenuti dalla PCA
-sembrano essere separabili con un piano.
+sembrano essere separabili con un iperpiano. Il nuovo dataset ridotto verrà 
+denominato \texttt{dataset\_pca} e dal momento che SVM e NN hanno bisogno di dati
+standardizzati, allora è stato prodotto anche la sua versione standardizzata,
+chiamata \texttt{dataset\_pca\_std}.
+
 \section{Preparazione dei dati} \label{sec:preparazione_dei_dati}
-Terminata la fase di analisi dei dati, si è passati alla fase di preparazione
-dei dati per l'addestramento dei modelli.
+Terminata la fase di riduzione della dimensionalità, si è passati alla fase di preparazione
+dei dati per l'addestramento dei modelli. Dal momento che sono state create nuove
+versioni del dataset di partenza, allora è stata prodotta la tabella \ref{tab:riassunto_operazioni_dataset}
+come riepilogo dei dataset prodotti.
+
+dataset differenti, due valutazioni diverse, la prima su una suddivisione $80-20$, la seconda una 
+cross-validation sull'intero dataset. Allora è sta  
 
 Partendo dal dataset utilizzato per l'analisi, si è proceduto con la derivazione
 da esso di due dataset distinti: uno ottenuto tramite analisi esplorativa e

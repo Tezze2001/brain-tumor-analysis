@@ -24,9 +24,35 @@ learning:
 \end{itemize}
 
 L'obiettivo sarà quello di trovare il modello migliore che riduca al minimo i falsi 
-negativi, mantenendo comunque una buona precisione sui veri negativi.
+negativi, mantenendo comunque una buona precisione sui veri negativi. Per la ricerca
+sono state effettuate le seguenti operazioni:
+\begin{itemize}
+    \item \textbf{Analisi esplorativa dei dati}: studio esplorativo del dataset
+    utile per effettuare le prime osservazioni sui dati
+    \item \textbf{Riduzione di dimensionalità e preprocessing del dataset}: 
+    applicazione di diverse trasformazioni del dataset, dalla rimozione dei duplicati,
+    fino alla rimozione dei valori costanti. In aggiunta è stata ridotta la dimensionalità
+    utilizzando due metodi, il primo basato sulla rimozione delle features correlate,
+    il secondo basato sull'utilizzo di pca. In questa fase vengono quindi generati 
+    i due dataset.
+    \item \textbf{Apprendimento dei modelli}: sono stati allenati i tre diversi modelli
+    sull'$80\%$ delle istanze dei relativi dataset per confrontare qual è la metodologia 
+    migliore per ridurre la dimensionalità. Prima di effettuare l'apprendimento
+    vengono anche effettuate tutte le operazioni di ricerca degli iperparamentri 
+    migliori per ciascun modello.
+    \item \textbf{Valutazione dei modelli}: una volta trovati gli iperparametri
+    migliori ed effettuata l'operazione di apprendimento, sono state effettuate
+    tutte le operazioni di valutazione dei modelli sul $20\%$ di istanze rimanenti
+    di entrambi i dataset.
+    \item \textbf{Valutazione della robustezza}: dal momento che il dataset è
+    di medie dimensioni allora è stata effettuata una cross-validation per 
+    accertarsi che le osservazioni indotte dalla fase precedente fossero affidabili.
+    \item \textbf{Confronto tra i vari modelli}: sono stati confrontati tutti
+    i modelli sia in merito ai criteri di valutazione, sia in merito ai tempi 
+    di apprendimento.
+\end{itemize}
 
-Infine, la struttura dell'elaborato è delineata dai seguenti capitoli:
+In conclusione, la struttura dell'elaborato è delineata dai seguenti capitoli:
 \begin{itemize}
     \item \textbf{Introduzione}: descrizione del dominio e presentazione dei modelli che 
     verranno presi in considerazione per questo progetto.
