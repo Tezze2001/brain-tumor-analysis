@@ -13,6 +13,23 @@ Per ognuno di essi verrà presentata una breve descrizione sulla loro struttura
 e sulle operazioni che sono state svolte per la loro definizione. In un secondo
 momento verranno presentati i risultati ottenuti e verrà fatta una valutazione
 sui modelli addestrati.
+
+La strategia di valutazione dei modelli si è basata sull'esecuzione sequenziale 
+dei seguenti passi:
+\begin{itemize}
+    \item \textbf{valutazione classica}: apprendimento del modello su $80\%$ del
+    dataset e valutazione sul $20\%$ del dataset rimanente
+    \item \textbf{cross-validation}: validazione del modello utilizzando 
+    $10$ fold stratified cross-validation
+\end{itemize}
+
+La scelta di effettuare due validazioni si è basata sul fatto che il numero degli
+esempi nei dataset non sono molti, più precisamente il dataset è di medie dimensioni,
+quindi la valutazione classica potrebbe non essere affidabile. Perciò si sfrutta
+la prima valutazione per effettuare lo studio degli iperparametri, allenare 
+la rete e successivamente effettuare la valutazione. La seconda valutazione 
+sfrutta gli iperparamentri precedenti per validare la robustezza dei modelli. 
+
 \section{Support Vector Machine}
 % ! Da inserire la parte su SVM
 \section{Gaussian Naive Bayes}

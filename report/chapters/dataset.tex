@@ -41,7 +41,7 @@ le features si distinguono in:
                   quindi la variabilità dei livelli di grigio è ridotta.
                   \item \textbf{Entropy}: misura la randomicità dei livelli di
                   grigio, quindi l'entropia sarà massima quando tutti i livelli 
-                  di grigio equalmente probabili (randomness). Più precisamente
+                  di grigio sono equalmente probabili (randomness). Più precisamente
                   immagini con un ampio range di valori dei pixel e distribuzioni
                   uniformi di intensità tendono a aumentare il valore dell'entropia.
                   \item \textbf{Homogeneous}: misura quanto sono uniformi i livelli 
@@ -147,11 +147,11 @@ confermata dal calcolo delle statistiche descrittive mostrate nella tabella \ref
 Di conseguenza sarà opportuno standardizzare le features per rispettare le 
 assunzioni di SVM e della rete neurale. Per quanto riguarda Gaussian Naive
 Bayes non è necessario effettuare l'operazione sopracitata, dal momento che nel calcolo della 
-probabilità si sfrutta la formula della Gaussiana che standardizza autonomamente.
+probabilità si sfrutta la formula della Gaussiana che standardizza implicitamente.
 
 Dal calcolo delle statistiche descrittive si può osservare che la feature \textit{Coarseness}
 assume un valore quasi insignificativo tendente a $0$, quindi è stato pensato di convertire questa feature
-ad una scala logaritmica, pemettendo di aumentare la significatività dei valori.
+ad una scala logaritmica, permettendo di aumentare la significatività dei valori.
 Nonostante questa trasformazione, la feature presenta una deviazione standard nulla 
 quindi questo suggerisce la sua esclusione perché sicuramente non sarà la
 feature discriminante.
@@ -190,7 +190,7 @@ nel grafico mediante un punto. Il punto esprime $2$ informazioni:
 \end{itemize} 
 
 In aggiunta, sono stati costruiti due grafici per ogni combinazione, per identificare
-quante istanze di classi diverse si sofrappongo. Tutti grafici vengono mostrati nella figura
+quante istanze di classi diverse si sovrappongo. Tutti grafici vengono mostrati nella figura
 \ref{fig:scatterplot_features}
 
 \newpage
@@ -205,8 +205,8 @@ quante istanze di classi diverse si sofrappongo. Tutti grafici vengono mostrati 
 I grafici evidenziano il fatto che per ogni coppia di features si ha almeno una lieve sovrapposizione
 delle nuvole di punti rappresentanti le due classi, questo significa che in due 
 dimensioni le classi non sono linearmente separabili a meno di accettare notevoli 
-errori. In ogni caso, si pososno osservare le coppie con meno sovrapposizioni tra classi 
-che in questo caso sono:
+errori. In ogni caso, si possono osservare le coppie con meno sovrapposizioni tra classi,
+ovvero:
 \begin{itemize}
       \item \textit{Entropy} e \textit{Mean}  
       \item \textit{Skewness} e \textit{Mean}  
@@ -214,14 +214,15 @@ che in questo caso sono:
       \item \textit{Contrast} e \textit{Entropy}  
       \item \textit{Correlation} e \textit{Entropy}  
 \end{itemize} 
-Osservando queste coppie hanno un numero di istanze sovrapposte ridotto, allora 
+% TODO: da controllare se va bene
+Queste coppie hanno un numero di istanze sovrapposte ridotto, allora 
 si può affermare che le SVM con un buon kernel potrebbero ottenere degli ottimi 
-risultati nella classi ficazione.
-Inoltre, questi grafici permettono anticipare dei primi studi sulla correlazione
+risultati nella classificazione.
+Inoltre, questi grafici anticipano dei primi studi sulla correlazione
 come la presenza di una correlazione logaritmica tra \textit{Skewness} e \textit{Mean}.
 
 \subsection{Analisi delle correlazioni} \label{sec:correlazione}
-Il passaggio successivo è  stato quello di analizzare le correlazioni tra le feature
+Il passaggio successivo è  stato quello di analizzare le correlazioni tra le feature,
 dal momento che un primo modo per ridurre la dimensionalità del dataset è attraverso
 il mantenimento di solo una feature tra tutte quelle correlate.
 
@@ -241,12 +242,12 @@ feature. Innanzitutto, si può notare una forte correlazione positiva tra le fea
 \textit{Mean}, \textit{Variance} e \textit{Standard deviation}. Questa correlazione
 è facilmente spiegabile analizzando le immagini prodotte dalle risonanze magnetiche.
 Infatti, essendo in bianco e nero, se la media tende a $1$ (colore bianco) allora
-la varianza e la deviazione standard aumentano, perché sono presenti diversi
+la varianza e la deviazione standard aumentano, perché si passa da pixel neri a 
 pixel bianchi. Questo comporta che le transizioni dal nero assoluto al bianco
 assoluto necessitano di regioni di pixel maggiore rispetto ad una transizione
 tra nero assoluto e grigio ($0.5$).
 
-Invece, la correlazione tra varianza è deviazione standard facilmente spiegabile
+Invece, la correlazione tra varianza e deviazione standard è facilmente spiegabile,
 perché la deviazione standard è la radice quadrata della varianza, quindi sono 
 misure dipendenti.
 
@@ -260,7 +261,7 @@ se si ha un valore molto alto della feature \textit{Entropy}, significa che la
 texture non è uniforme, ovvero si hanno strutture complesse e irregolari, quindi
 più uniforme sarà la distribuzione dei livelli di grigio, aumentando l'indice
 di \textit{ASM}, comportando di conseguenza un aumento delle variazioni di intensità
-dei livelli di grigio, aumentando di conseguenza anche l'indice di \textit{Energy}
+dei livelli di grigio, aumentando di conseguenza anche gli indici di \textit{Energy}
 e \textit{Homogeneity}. 
 
 Al tempo stesso, la matrice di correlazione evidenza una forte correlazione positiva
@@ -274,11 +275,12 @@ alla coda di sinistra).
 
 La matrice della correlazione evidenzia anche una correlazione positiva tra le
 feature di \textit{Contrast} e \textit{Dissimilarity}, ovvero maggiore sarà il
-contrasto e maggiore sarà la complessità della texture.
+contrasto e maggiore sarà la complessità della texture e quindi la metrica 
+\textit{Dissimilarity}.
 
-In aggiunta dalla matrice si evidenza che le features di \textit{Dissimilarity}
-e \textit{Homogeneity} sono correlate negativo, dal momento che misurano una dissimilarità
-tra i livelli di grigio delle regioni e l'altra misura la loro l'omogeneità. 
+In aggiunta, dalla matrice si evidenza che le features di \textit{Dissimilarity}
+e \textit{Homogeneity} sono correlate negativamente, dal momento che la prima 
+misura la dissimilarità tra i livelli di grigio delle regioni e l'altra misura la loro l'omogeneità. 
 
 \section{Riduzione di dimensionalità} \label{sec:riduzone_di_dimensionalità}
 Dal momento che il dataset è composto da un totale di $13$ features, allora 
@@ -312,7 +314,7 @@ allora si sottolinea che non verranno rispettate le assunzioni di normalità dei
 $3$ modelli scelti. In aggiunta, dal momento che per le SVM e NN assumono di 
 lavorare su dati con distribuzione normale stanrdard, allora per essere più 
 compatibili possibili con le assunzioni, è stata creata una versione del dataset
-normalizzata, chiamata  \texttt{dataset\_corr\_std}. 
+normalizzata, chiamata \texttt{dataset\_corr\_std}. 
 
 \subsection{PCA} \label{sec:pca}
 In seguito, è stato pensato di provare ad utilizzare un metodo di trasformazione 
@@ -359,58 +361,36 @@ Dalla figura \ref{fig:pca-3d} si può osservare che i dati ottenuti dalla PCA
 sembrano essere separabili con un iperpiano. Il nuovo dataset ridotto verrà 
 denominato \texttt{dataset\_pca} e dal momento che SVM e NN hanno bisogno di dati
 standardizzati, allora è stato prodotto anche la sua versione standardizzata,
-chiamata \texttt{dataset\_pca\_std}.
+chiamata \texttt{dataset\_pca\_std}. 
 
 \section{Preparazione dei dati} \label{sec:preparazione_dei_dati}
-Terminata la fase di riduzione della dimensionalità, si è passati alla fase di preparazione
-dei dati per l'addestramento dei modelli. Dal momento che sono state create nuove
-versioni del dataset di partenza, allora è stata prodotta la tabella \ref{tab:riassunto_operazioni_dataset}
-come riepilogo dei dataset prodotti.
+Dal momento che sono stati creati diverse versioni del dataset, allora è stata 
+prodotta la tabella \ref{tab:riassunto_operazioni_dataset} contenente il resoconto
+di tutte le versioni con le operazioni applicate.
 
-dataset differenti, due valutazioni diverse, la prima su una suddivisione $80-20$, la seconda una 
-cross-validation sull'intero dataset. Allora è sta  
+Successivamente, sono state definite $2$ versioni per ogni modello, una per ogni 
+metodo di riduzione del dataset, in questo modo è possibile effettuare un confronto
+tra i vari modelli allenati sulle diverse versioni del dataset per identificare 
+il più adatto al dominio in questione. 
 
-Partendo dal dataset utilizzato per l'analisi, si è proceduto con la derivazione
-da esso di due dataset distinti: uno ottenuto tramite analisi esplorativa e
-attraverso lo studio delle correlazioni tra gli attributi e l'altro ottenuto
-tramite Principal Component Analysis (PCA).
-
-A livello implementativo, i due dataset sono stati rinominati nel seguente modo:
+La strategia di valutazione dei modelli si è basata sull'esecuzione sequenziale 
+dei seguenti passi:
 \begin{itemize}
-      \item \texttt{dataset\_corr}: per il dataset ottenuto tramite analisi
-            esplorativa e studio delle correlazioni;
-      \item \texttt{dataset\_pca}: per il dataset ottenuto tramite PCA.
-      \item \texttt{dataset}: per il dataset originale.
+      \item \textbf{valutazione classica}: apprendimento del modello su $80\%$ del
+      dataset e valutazione sul $20\%$ del dataset rimanente
+      \item \textbf{cross-validation}: validazione del modello utilizzando 
+      $10$ fold stratified cross-validation
 \end{itemize}
 
-La scelta di utilizzare due dataset distinti è stata fatta per confrontare
-i due approcci e valutare quale dei due fosse più adatto per l'addestramento
-dei modelli.
-
-Ottenuti i due dataset, si è proceduto con la suddivisione di ciascuno di essi
-in due sottoinsiemi: uno per l'addestramento dei modelli e l'altro per la
-validazione dei modelli. Nello specifico, si è scelto di suddividere i dataset
-in modo tale da avere l'$80\%$ delle istanze per l'addestramento e il $20\%$ per
-il test.
-
-La parte di dati dedicata all'addestramento dei modelli è stata utilizzata anche
-per una fase di \textit{cross-validation} per la scelta dei parametri migliori
-per la rete neurale e per le SVM. Per quanto riguarda la fase di ricerca degli
-iperparametri migliori, si è scelto di utilizzare una k-fold cross-validation
-con k=5.
-
-La suddivisione dei dataset in training e test set è stata effettuata in modo
-strutturato, ovvero mantenendo la stessa proporzione di istanze per ciascuna
-classe in entrambi i set. Questo è stato fatto per evitare che i modelli
-addestrati fossero influenzati da una distribuzione sbilanciata delle classi.
-
-Infine, per la rete neurale e per la SVM, si è proceduto con la standardizzazione
-dei dati, definendo due nuove varianti dei dataset \texttt{dataset\_corr} e
-\texttt{dataset\_pca}:
-\begin{itemize}
-      \item \texttt{dataset\_corr\_std}: dataset \texttt{dataset\_corr} standardizzato;
-      \item \texttt{dataset\_pca\_std}: dataset \texttt{dataset\_pca} standardizzato.
-\end{itemize}
+Perciò a causa della prima valutazione è stata applicata una suddivisione 
+stratificata $80-20$ di tutti i dataset ridotti, ovvero su 
+\texttt{d ataset\_corr}, \texttt{dataset\_corr\_std}, \texttt{dataset\_pca}
+e \texttt{dataset\_pca\_std}. La suddivisione è stata effettuata in modo stratificato
+per mantenere bilanciate le classi sia nell'insieme di train, sia nell'insieme di test.
+Inoltre, per l'apprendimento dei modelli è stato necessario effettuare una ricerca
+degli iperparametri migliori, quindi è stata effettuata una \textit{cross-validation} 
+sul training set ottenuto precedentemente, più precisamente si è scelto di utilizzare 
+una k-fold cross-validation con k=5.
 
 La standardizzazione dei dati è stata effettuata in quanto la rete neurale e
 la SVM sono modelli che possono essere influenzati dalla distribuzione dei dati.
