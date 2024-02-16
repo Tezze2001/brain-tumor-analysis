@@ -1,6 +1,6 @@
 % ! Struttura presentata nell'introduzione
 \chapter{Modelli} \label{ch:modelli}
-In questo capitolo verranno presentati i modelli che si è deciso di addestrare 
+In questo capitolo verranno presentati i modelli che si è deciso di addestrare
 per svolgere il compito di classificazione. I modelli sono stati scelti in base
 ai risultati ottenuti nella fase di analisi esplorativa e in base alle
 caratteristiche del dataset. In particolare, si è deciso di addestrare:
@@ -8,84 +8,80 @@ caratteristiche del dataset. In particolare, si è deciso di addestrare:
     \item \textbf{Support Vector Machine}
     \item \textbf{Gaussian Naive Bayes}
     \item \textbf{Rete Neurale}
-\end{itemize} 
+\end{itemize}
 Per ognuno di essi verrà presentata una breve descrizione sulla loro struttura
 e sulle operazioni che sono state svolte per la loro definizione. In un secondo
 momento verranno presentati i risultati ottenuti e verrà fatta una valutazione
 sui modelli addestrati.
 
-Più precisamente per ogni modello sono state due versioni, la prima viene allenata
-sul dataset ridotto analizzando le correlazione, la seconda viene allenata sul
-dataset ridotto con pca. Nella tabella \ref{tab:riassunto_operazioni_dataset} è 
+Più precisamente per ogni modello sono state addestrate due versioni, la prima
+viene allenata sul dataset ridotto analizzando le correlazione, la seconda
+su quello ridotto con PCA. Nella tabella \ref{tab:riassunto_operazioni_dataset} è
 presente un breve riepilogo delle versioni dei dataset e dei modelli.
 
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{\begin{tabular}{@{}llc@{}}
-                \toprule
-                \rowcolor[HTML]{EFEFEF}
-                \textbf{Nome del dataset}                                                                                          &
-                \textbf{Operazioni applicate}                                                                                      &
-                \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{Utilizzato per i seguenti modelli}}                                                                                          \\ \midrule
-                \texttt{dataset\_corr}                                                                                             &
-                \begin{tabular}[c]{@{}l@{}}Riduzione della dimensionalità utilizzando l'analisi \\ della correlazione\end{tabular} &
-                GNB\_corr                                                                                                                                                                             \\
-                \texttt{dateset\_corr\_std}                                                                                        & dataset\_corr con la standardizzazione dei dati & SVM\_corr e NN\_corr \\
-                \texttt{dateset\_pca}                                                                                              & dataset\_corr\_std applicando l'algoritmo PCA   & GNB\_pca      \\
-                \texttt{dateset\_pca\_std}                                                                                         & dataset\_pca con la standardizzazione dei dati  & SVM\_pca e NN\_pca \\ \bottomrule
-          \end{tabular}}
+            \toprule
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{Nome del dataset}                                                                                          &
+            \textbf{Operazioni applicate}                                                                                      &
+            \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{Utilizzato per i seguenti modelli}}                                                                                                      \\ \midrule
+            \texttt{dataset\_corr}                                                                                             &
+            \begin{tabular}[c]{@{}l@{}}Riduzione della dimensionalità utilizzando l'analisi \\ della correlazione\end{tabular} &
+            GNB\_corr                                                                                                                                                                                   \\
+            \texttt{dateset\_corr\_std}                                                                                        & dataset\_corr con la standardizzazione dei dati & SVM\_corr e NN\_corr \\
+            \texttt{dateset\_pca}                                                                                              & dataset\_corr\_std applicando l'algoritmo PCA   & GNB\_pca             \\
+            \texttt{dateset\_pca\_std}                                                                                         & dataset\_pca con la standardizzazione dei dati  & SVM\_pca e NN\_pca   \\ \bottomrule
+        \end{tabular}}
     \caption{Riassunto delle operazioni effettuate sui dataset e utilizzo dei dataset per i modelli.}
     \label{tab:riassunto_operazioni_dataset}
 \end{table}
 
-Successivamente, per ogni versione di ciascun modello
-si effettuano due fasi di validazione:
+Successivamente, per ogni versione di ciascun modello saranno presentate due
+tipologie di valutazione delle performance:
 \begin{itemize}
-    \item \textbf{valutazione $80/20$}: si effettuano gli apprendimenti di ciascuna
-    versione sull'$80\%$ del dataset di riferimento e si valida al versione del 
-    modello sul $20\%$ del dataset di riferimento rimanente.
-    \item \textbf{cross-validation}: si effettua una $10$-fold stratified 
-    cross-validation per studiare la robustezza della versione del modello validata
-    precedentemente.
+    \item \textbf{Valutazione $80/20$}: si effettuano gli apprendimenti di
+          ciascuna versione sull'$80\%$ del dataset di riferimento e si valida
+          al versione del modello sul $20\%$ del dataset di riferimento rimanente.
+    \item \textbf{Cross-validation}: si effettua una $10$-fold stratified
+          cross-validation per studiare la robustezza della versione del modello
+          validata precedentemente.
 \end{itemize}
+La scelta di effettuare una valutazione in due fase si basa sul fatto che il
+numero degli esempi presenti nel dataset non è molto elevato, più precisamente
+il dataset è di medie dimensioni, quindi la valutazione $80/20$ potrebbe non
+essere affidabile. La seconda valutazione si effettua per verificare la
+robustezza dei modelli creati, calcolando gli intervalli di confidenza delle
+metriche di valutazione.
 
-La scelta di effettuare due validazioni si è basata sul fatto che il numero degli
-esempi nei dataset non sono molti, più precisamente il dataset è di medie dimensioni,
-quindi la valutazione $80/20$ potrebbe non essere affidabile. Perciò si sfrutta
-la prima valutazione per effettuare lo studio degli iperparametri, allenare 
-la rete e successivamente effettuare la valutazione della versione del modello 
-con gli iperparamentri migliori. La seconda valutazione sfrutta sempre gli iperparamentri 
-migliori trovati nella fase precedente e si effettua una valutazione sulla sua 
-robustezza, calcolando gli intervalli di confidenza delle metriche di valutazione. 
-
-Per lo studio dei migliori iperparamentri, è stata effettuata mediante una $5$-fold
-stratified cross-validation dell'$80\%$ del dataset di riferimento della prima fase
-di valutazione.
-
+La porzione di dati dedicata all'addestramento dei modelli, composta dall'$80\%$ 
+delle istanze, è anche stata utilizzata con una $5$-fold stratified cross-validation 
+per la ricerca degli iperparametri migliori per la rete neurale e per la SVM.
 \section{Support Vector Machine}
 % ! Da inserire la parte su SVM
 \section{Gaussian Naive Bayes}
-Di seguito verrà presentato il processo di addestramento del modello 
-\textbf{Gaussian Naive Bayes}. È importante precisare che la scelta di utilizzare 
-questo modello è stata fatta con la consapevolezza che non tutte le features 
-derivano da una distribuzione normale, andando contro le ipotesi del modello. 
-Tuttavia, abbiamo deciso di utilizzarlo in quanto volevamo distaccarci da un 
+Di seguito verrà presentato il processo di addestramento del modello
+\textbf{Gaussian Naive Bayes}. È importante precisare che la scelta di utilizzare
+questo modello è stata fatta con la consapevolezza che non tutte le features
+derivano da una distribuzione normale, andando contro le ipotesi del modello.
+Tuttavia, abbiamo deciso di utilizzarlo in quanto volevamo distaccarci da un
 approccio geometrico e sfruttare un modello probabilistico.
 \subsection{Addestramento di Gaussian Naive Bayes}
 Come per gli altri approcci, abbiamo deciso di addestrare due modelli, uno su
 \texttt{dataset\_corr} e l'altro su \texttt{dataset\_pca}.
 
-La libreria utilizzata per l'implementazione di Gaussian Naive Bayes non 
+La libreria utilizzata per l'implementazione di Gaussian Naive Bayes non
 presenta degli iperparametri da stimare, quindi non è stato necessario effettuare
 un processo di ricerca della combinazione migliore.
 \section{Rete Neurale}
-In questa sezione verrà presentata la \textbf{rete neurale}. Nello specifico, si 
-andranno a presentare i passaggi che sono stati effettuati per la realizzazione 
-di questo modello, prestando particolare attenzione alla fase di definizione 
+In questa sezione verrà presentata la \textbf{rete neurale}. Nello specifico, si
+andranno a presentare i passaggi che sono stati effettuati per la realizzazione
+di questo modello, prestando particolare attenzione alla fase di definizione
 della struttura della rete neurale e alla fase di addestramento della stessa.
 
-In questo capitolo tutte le operazioni effettuate sono state realizzate 
-utilizzando i dataset standardizzati (\texttt{dataset\_corr\_std} e 
-\texttt{dataset\_pca\_std}) presentati nella fase di preparazione dei 
+In questo capitolo tutte le operazioni effettuate sono state realizzate
+utilizzando i dataset standardizzati (\texttt{dataset\_corr\_std} e
+\texttt{dataset\_pca\_std}) presentati nella fase di preparazione dei
 dati \ref{sec:preparazione_dei_dati}.
 \subsection{Struttura della rete neurale}
 La fase di definizione della struttura della rete neurale è stata effettuata
@@ -204,7 +200,7 @@ accuratezza si è ottenuto un tempo di addestramento minore di circa $12$ second
 Dalla fase di analisi è stato selezionato un sottoinsieme di feature le quali
 sono state utilizzate come input della rete neurale. Questo sottoinsieme è
 composto da 5 elementi, il che ha permesso di definire la struttura del layer di
-input della rete neurale, questo primo strato è composto da 5 neuroni, uno per 
+input della rete neurale, questo primo strato è composto da 5 neuroni, uno per
 ogni feature selezionata.
 
 I risultati ottenuti dalla fase di grid search hanno permesso di definire la
