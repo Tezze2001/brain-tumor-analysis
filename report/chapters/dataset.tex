@@ -365,55 +365,33 @@ denominato \texttt{dataset\_pca} e dal momento che SVM e NN hanno bisogno di dat
 standardizzati, allora è stato prodotto anche la sua versione standardizzata,
 chiamata \texttt{dataset\_pca\_std}. 
 
-\section{Preparazione dei dati} \label{sec:preparazione_dei_dati}
-Terminata la fase di riduzione della dimensionalità, si è passati alla fase di 
-preparazione dei dati per l'addestramento dei modelli. Dal momento che sono state 
-create nuove versioni del dataset di partenza, allora è stata prodotta la tabella 
-\ref{tab:riassunto_operazioni_dataset} come riepilogo dei dataset prodotti.
+% \section{Preparazione dei dati} \label{sec:preparazione_dei_dati}
+% Terminata la fase di riduzione della dimensionalità, si è passati alla fase di 
+% preparazione dei dati per l'addestramento dei modelli. Dal momento che sono state 
+% create nuove versioni del dataset di partenza, allora è stata prodotta la tabella 
+% \ref{tab:riassunto_operazioni_dataset} come riepilogo dei dataset prodotti.
 
-dataset differenti, due valutazioni diverse, la prima su una suddivisione $80-20$, 
-la seconda una cross-validation sull'intero dataset. Allora è sta
+% dataset differenti, due valutazioni diverse, la prima su una suddivisione $80-20$, 
+% la seconda una cross-validation sull'intero dataset. Allora è sta
 
-La strategia di valutazione dei modelli si è basata sull'esecuzione sequenziale 
-dei seguenti passi:
-\begin{itemize}
-      \item \textbf{valutazione classica}: apprendimento del modello su $80\%$ del
-      dataset e valutazione sul $20\%$ del dataset rimanente
-      \item \textbf{cross-validation}: validazione del modello utilizzando 
-      $10$ fold stratified cross-validation
-\end{itemize}
+% La strategia di valutazione dei modelli si è basata sull'esecuzione sequenziale 
+% dei seguenti passi:
+% \begin{itemize}
+%       \item \textbf{valutazione classica}: apprendimento del modello su $80\%$ del
+%       dataset e valutazione sul $20\%$ del dataset rimanente
+%       \item \textbf{cross-validation}: validazione del modello utilizzando 
+%       $10$ fold stratified cross-validation
+% \end{itemize}
 
-Perciò a causa della prima valutazione è stata applicata una suddivisione 
-stratificata $80-20$ di tutti i dataset ridotti, ovvero su 
-\texttt{d ataset\_corr}, \texttt{dataset\_corr\_std}, \texttt{dataset\_pca}
-e \texttt{dataset\_pca\_std}. La suddivisione è stata effettuata in modo stratificato
-per mantenere bilanciate le classi sia nell'insieme di train, sia nell'insieme di test.
-Inoltre, per l'apprendimento dei modelli è stato necessario effettuare una ricerca
-degli iperparametri migliori, quindi è stata effettuata una \textit{cross-validation} 
-sul training set ottenuto precedentemente, più precisamente si è scelto di utilizzare 
-una k-fold cross-validation con k=5.
+% Perciò a causa della prima valutazione è stata applicata una suddivisione 
+% stratificata $80-20$ di tutti i dataset ridotti, ovvero su 
+% \texttt{dataset\_corr}, \texttt{dataset\_corr\_std}, \texttt{dataset\_pca}
+% e \texttt{dataset\_pca\_std}. La suddivisione è stata effettuata in modo stratificato
+% per mantenere bilanciate le classi sia nell'insieme di train, sia nell'insieme di test.
+% Inoltre, per l'apprendimento dei modelli è stato necessario effettuare una ricerca
+% degli iperparametri migliori, quindi è stata effettuata una \textit{cross-validation} 
+% sul training set ottenuto precedentemente, più precisamente si è scelto di utilizzare 
+% una k-fold cross-validation con k=5.
 
-La standardizzazione dei dati è stata effettuata in quanto la rete neurale e
-la SVM sono modelli che possono essere influenzati dalla distribuzione dei dati.
-
-Nella tabella \ref{tab:riassunto_operazioni_dataset} è presentare un breve
-riassunto di come sono stati preparati i dati per l'addestramento dei modelli e
-quale dataset è stato utilizzato per ciascun modello.
-
-\begin{table}[!ht]
-      \resizebox{\textwidth}{!}{\begin{tabular}{@{}llc@{}}
-                  \toprule
-                  \rowcolor[HTML]{EFEFEF}
-                  \textbf{Nome del dataset}                                                                                          &
-                  \textbf{Operazioni applicate}                                                                                      &
-                  \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{Utilizzato per i seguenti modelli}}                                                                                          \\ \midrule
-                  \texttt{dataset\_corr}                                                                                             &
-                  \begin{tabular}[c]{@{}l@{}}Riduzione della dimensionalità utilizzando l'analisi \\ della correlazione\end{tabular} &
-                  GNB                                                                                                                                                                             \\
-                  \texttt{dateset\_corr\_std}                                                                                        & dataset\_corr con la standardizzazione dei dati & SVM e NN \\
-                  \texttt{dateset\_pca}                                                                                              & dataset\_corr\_std applicando l'algoritmo PCA   & GNB      \\
-                  \texttt{dateset\_pca\_std}                                                                                         & dataset\_pca con la standardizzazione dei dati  & SVM e NN \\ \bottomrule
-            \end{tabular}}
-      \caption{Riassunto delle operazioni effettuate sui dataset e utilizzo dei dataset per i modelli.}
-      \label{tab:riassunto_operazioni_dataset}
-\end{table}
+% La standardizzazione dei dati è stata effettuata in quanto la rete neurale e
+% la SVM sono modelli che possono essere influenzati dalla distribuzione dei dati.
