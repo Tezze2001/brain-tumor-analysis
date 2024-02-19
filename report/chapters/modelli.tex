@@ -54,8 +54,8 @@ essere affidabile. La seconda valutazione si effettua per verificare la
 robustezza dei modelli creati, calcolando gli intervalli di confidenza delle
 metriche di valutazione.
 
-La porzione di dati dedicata all'addestramento dei modelli, composta dall'$80\%$ 
-delle istanze, è anche stata utilizzata con una $5$-fold stratified cross-validation 
+La porzione di dati dedicata all'addestramento dei modelli, composta dall'$80\%$
+delle istanze, è anche stata utilizzata con una $5$-fold stratified cross-validation
 per la ricerca degli iperparametri migliori per la rete neurale e per la SVM.
 \section{Support Vector Machine}
 % ! Da inserire la parte su SVM
@@ -160,10 +160,21 @@ Ottenuti i risultati, si è proceduto con l'analisi di questi, in modo tale da
 definire la struttura della rete neurale. Per effettuare questa valutazione sono
 state utilizzate le misure precedentemente citate.
 
-Il modello selezionato è stato scelto in base al seguente criterio:
-\begin{center}
-    \textit{Modello = 2 * Accuratezza + 2 * Tempo di addestramento + 1 * Intervalli di confidenza}
-\end{center}
+Il modello selezionato è stato scelto attraverso i seguenti passaggi:
+\begin{itemize}
+    \item Calcolo della dimensione degli intervalli di confidenza, in modo tale
+          da valutare la variabilità delle prestazioni della rete neurale.
+          Questa operazione è stata effettuata sia per l'accuratezza che per il
+          tempo di addestramento calcolando la differenza tra il massimo e il
+          minimo valore dell'intervallo di confidenza.
+    \item Assegnazione di un ordinamento per ogni metrica calcolata, in modo tale
+          da valutare la posizione di ogni modello nella classifica.
+    \item Calcolo del modello migliore attraverso la seguente formula considerando
+          la posizione nella classifica di ogni modello per ogni metrica calcolata:
+          \begin{center}
+              \textit{Modello = 2 * Accuracy + 2 * Tempo di addestramento + 1 * dimensione intervallo di confidenza della Accuracy + 1 * dimensione intervallo di confidenza del Tempo di addestramento}
+          \end{center}
+\end{itemize}
 Le misure di accuratezza e tempo di addestramento si riferiscono alla media
 calcolata attraverso la cross validation.
 
