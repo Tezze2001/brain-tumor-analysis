@@ -69,7 +69,7 @@ utilizzando i dataset standardizzati (\texttt{dataset\_corr\_std} e
 \texttt{dataset\_pca\_std}) presentati nella fase di preparazione dei 
 dati.
 
-\subsection{Selezione degli iperparametri per SVM}
+\subsection{Selezione degli iperparametri per kernel}
 La fase di selezione degli iperparametri per SVM è stata effettuata tramite 
 l'utilizzo di una grid search con una cross validation a 5 fold per ogni kernel.
 Questa scelta è stata necessaria in quanto ogni kernel ha dei parametri diversi,
@@ -141,6 +141,7 @@ di convergenza del modello.
         \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce l'importanza del
             prodotto scalare sulla misura di similarità. Un valore elevato porta
             ad essere più sensibili alle variazioni.
+            I valori testati sono stati 'scale', 'auto', 1e-3, 1, 1e3.
     \end{itemize}
 
     Di seguito è riportato il miglior candidato per il kernel polinomiale:
@@ -187,7 +188,47 @@ di convergenza del modello.
 
     \subsubsection*{Kernel sigmoidale $\tanh(\gamma\langle x,x'\rangle + r)$}
 
-    %ToDo: Spiegare kernel sigmoidale
+    Il kernel polinomiale si occupa di trasformare i dati in uno spazio di
+    feature di dimensione superiore tramite la funzione tangente iperbolica 
+    ispirandosi alla funzione di attivazione nelle reti neurali.
+    È molto sensibile rispetto ai suoi parametri $\gamma$ e $r$.
+    Essendo che anche nei casi più complessi il tempo di addestramento
+    rimane contenuto, si è deciso di testare anche quegli iperparametri che 
+    hanno ricoperto un ruolo meno significativo durante la fase preliminare della 
+    grid search.
+    Sono stati studiati i seguenti iperparamentri:
+    \begin{itemize}
+        \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
+            la complessità del modello e la corretta classificazione dei dati.
+            Un suo valore elevato porta ad avere un hard margin.
+            I valori testati sono stati 1, 100, 1e6.
+        \item Coefficente di bias \textbf{r}: termine indipendente di bias che 
+            controlla la posizione dell'iperpiano di separazione.
+            I valori testati sono stati -1, 0, 1.
+        \item Tolleranza \textbf{tol}: parametro di tolleranza, controlla la 
+            tolleranza accettata per la convergenza del modello.
+            I valori testati sono stati 1e-2, 1e-3, 1e-5.
+        \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce l'importanza del
+            prodotto scalare sulla misura di similarità. Un valore elevato porta
+            ad essere più sensibili alle variazioni.
+            I valori testati sono stati 'scale' e 'auto'.
+    \end{itemize}
+
+    Di seguito è riportato il miglior candidato per il kernel sigmoidale:
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|}
+        \hline
+            \textbf{params} & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} & \textbf{mean\_test\_score} & \textbf{std\_test\_score} \\ \hline
+            C: 1, r: -1.0, $\gamma$: scale, tol: 0.01 & 0.037 & 0.002 & 0.9145 & 0.0106 \\ \hline
+        \end{tabular}
+        \caption{Miglior candidato per il kernel sigmoidale}
+        \label{tab:top_sigmoid_corr}
+    \end{table}
+
+    \subsection{Selezione miglior kernel}
+    \subsection{SVM su dataset con dataset PCA}
+    \subsection{Confronto tra dataset ridotto e PCA}
 
 % ==============================================================================
 \section{Gaussian Naive Bayes}
