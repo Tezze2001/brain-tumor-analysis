@@ -35,22 +35,24 @@ sono state effettuate le seguenti operazioni:
     utilizzando due metodi, il primo basato sulla rimozione delle features correlate,
     il secondo basato sull'utilizzo di pca. In questa fase vengono quindi generati 
     i due dataset.
-    \item \textbf{Apprendimento dei modelli}: sono stati allenati i tre diversi modelli
-    sull'$80\%$ delle istanze dei relativi dataset per confrontare qual è la metodologia 
-    migliore per ridurre la dimensionalità. Prima di effettuare l'apprendimento
-    vengono anche effettuate tutte le operazioni di ricerca degli iperparamentri 
-    migliori per ciascun modello.
-    \item \textbf{Valutazione dei modelli}: una volta trovati gli iperparametri
-    migliori ed effettuata l'operazione di apprendimento, sono state effettuate
-    tutte le operazioni di valutazione dei modelli sul $20\%$ di istanze rimanenti
-    di entrambi i dataset.
-    \item \textbf{Valutazione della robustezza}: dal momento che il dataset è
-    di medie dimensioni allora è stata effettuata una cross-validation per 
-    accertarsi che le osservazioni indotte dalla fase precedente fossero affidabili.
+    \item \textbf{Valutazione dei modelli}: per ciascun dataset si è effettuata 
+    una valutazione dei modelli in due passi, la prima è una valutazione su ciascuna 
+    effettuando un allenamento sull'$80\%$ delle istanze e valuntando sul $20\%$
+    rimanente, la seconda è una $10$-fold stratified cross-validation per una valutazione
+    più affidabile e robusta. 
+    Nella prima valutazione, durante la fase di training si effettua anche una 
+    $5$-fold stratified cross-validation sul training set, per ricercare gli 
+    iperparamentri migliori da utilizzare nel modello che verrà poi valutato nelle 
+    due fasi.
     \item \textbf{Confronto tra i vari modelli}: sono stati confrontati tutti
     i modelli sia in merito ai criteri di valutazione, sia in merito ai tempi 
     di apprendimento.
 \end{itemize}
+
+Sono state effettuate due validazioni a causa della dimensione
+del dataset, infatti, vista la sua media dimensione è stato deciso di confermare
+le osservazioni indotte dalla prima valutazione effettuando una cross-validation
+con gli iperparametri trovati nella prima validazione. 
 
 In conclusione, la struttura dell'elaborato è delineata dai seguenti capitoli:
 \begin{itemize}

@@ -11,14 +11,14 @@ o meno del tumore al cervello. L'etichetta è presente sotto la colonna
       \item \textbf{Assenza del tumore}: $T = 0$
 \end{itemize}
 
-Le features vengono già date e si assumono che siano corrette rispetto alle
-risonanze magnetiche del dateset\cite{explanation-features}. Più precisamente
-le features si distinguono in:
+Le features vengono già date, inoltre, si assumono appartenenti ad una distribuzione 
+normale e si assumono corrette rispetto alle immagini delle risonanze magnetiche
+associate\cite{explanation-features}. Le features sono si dividono in:
 \begin{enumerate}
       \item \textbf{First Order Features}: forniscono informazioni legate alle
             distribuzione dei livelli di grigio dell'immagine. Queste features
-            corrispondono alle statistiche descrittive calcolate sui valori di
-            ciascun pixel dell'immagine e corrispondono a:
+            corrispondono alle statistiche descrittive dei valori dei pixel 
+            dell'immagine e corrispondono a:
             \begin{itemize}
                   \item \textbf{Media}
                   \item \textbf{Varianza}
@@ -26,8 +26,8 @@ le features si distinguono in:
                   \item \textbf{Indice di asimmetria}
                   \item \textbf{Indice di kurtosis}
             \end{itemize}
-      \item \textbf{Second Order Features}: forniscono informazioni a livello di
-            composizione della texture dell'immagine e si dividono in:
+      \item \textbf{Second Order Features}: forniscono informazioni sulla composizione
+            della texture dell'immagine e si dividono in:
             \begin{itemize}
                   \item \textbf{Contrast}: misura la differenza tra i livelli di
                         grigio tra diverse parti dell'immagine. Maggiore sarà il
@@ -44,10 +44,10 @@ le features si distinguono in:
                         di grigio è ridotta.
                   \item \textbf{Entropy}: misura la randomicità dei livelli di
                         grigio, quindi l'entropia sarà massima quando tutti i
-                        livelli di grigio equamente probabili (randomness). Più
-                        precisamente immagini con un ampio range di valori dei
-                        pixel e distribuzioni uniformi di intensità tendono a
-                        aumentare il valore dell'entropia.
+                        livelli di grigio sono equamente probabili (randomness). Più
+                        precisamente immagini con un ampio range di valori che i
+                        pixel assumono e un uniforme distribuzione di dei valori 
+                        dei pixel tendono ad aumentare il valore dell'entropia.
                   \item \textbf{Homogeneous}: misura quanto sono uniformi i
                         livelli di grigio. Più alto sarà l'indice allora minore
                         sarà il contrasto dell'immagine.
@@ -101,10 +101,11 @@ nella figura \ref{fig:barplot_features}).
 Da questi grafici si evince che le features \textit{Energy}, \textit{ASM},
 \textit{Homogeneity}, \textit{Entropy} e \textit{Coarseness} non seguono una
 distribuzione normale, a differenza delle altre feature che hanno un andamento
-simile ad una gaussiana. In ogni caso, anche se alcune feature non seguono
+più vicino ad una gaussiana. In ogni caso, anche se alcune feature non seguono
 l'ipotesi di normalità, si è deciso di non procedere con la loro rimozione dal
-dataset ma di considerare quanto osservato nella fase di valutazione delle performance
-dei modelli. In aggiunta, dal grafico si può notare che le features con una
+dataset, ma di eseguire i modelli scelti senza rispettare le loro assunzioni di 
+normalità.
+In aggiunta, dal grafico si può notare che le features con una
 distribuzione simile ad una normale non sono standardizzate, questa affermazione
 viene anche confermata dal calcolo delle statistiche descrittive mostrate nella
 tabella \ref{tab:desc-stat}.
@@ -248,7 +249,7 @@ pixel bianchi. Questo comporta che le transizioni dal nero assoluto al bianco
 assoluto necessitano di regioni di pixel maggiore rispetto ad una transizione
 tra nero assoluto e grigio ($0.5$).
 
-Invece, la correlazione tra varianza è deviazione standard facilmente spiegabile
+Invece, la correlazione tra varianza è deviazione standard è facilmente spiegabile
 perché la deviazione standard è la radice quadrata della varianza, quindi sono
 misure dipendenti.
 
@@ -281,7 +282,7 @@ contrasto e maggiore sarà la complessità della texture e quindi la metrica
 \textit{Dissimilarity}.
 
 In aggiunta dalla matrice si evidenza che le features di \textit{Dissimilarity}
-e \textit{Homogeneity} sono correlate negativo, dal momento che misurano una
+e \textit{Homogeneity} sono correlate negativo, dal momento che una misura la
 dissimilarità tra i livelli di grigio delle regioni e l'altra misura la loro
 l'omogeneità.
 
@@ -301,7 +302,7 @@ sono correlate allora significa che a livello discriminante una delle due è sup
 di conseguenza si può rimuovere.
 
 Alla luce dello studio sulla correlazione effettuato nella sezione \ref{sec:correlazione},
-è possibile ridurre la dimensionalità del dataset considerando solo una della
+è possibile ridurre la dimensionalità del dataset considerando solo una delle
 features correlate, di conseguenza sono state considerate solo queste:
 \begin{itemize}
       \item \textbf{Mean}
@@ -327,7 +328,7 @@ Prima di applicare la PCA, è stato necessario standardizzare le feature del dat
 originario senza i duplicati, ma con l'attributo \textbf{Coarseness}, dal momento
 che se ne occuperà PCA della sua rimozione. In aggiunta, l'operazione di 
 standardizzazione è necessaria per evitare che le feature con varianza maggiore 
-abbiano un peso maggiore rispetto alle altre. Senza standardizzare le feature, 
+abbiano un peso maggiore rispetto alle altre. Senza standardizzare delle feature, 
 la PCA potrebbe non essere in grado di trovare le direzioni di massima varianza.
 
 La prima parte dell'analisi è stata quella di trovare il corretto numero di

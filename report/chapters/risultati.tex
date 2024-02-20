@@ -31,7 +31,7 @@ sono state calcolate le metriche associate alla matrice appena calcolata:
 Inoltre, sono state calcolate le curve ROC per analizzare TP rate e FP rate.
 Infine, per la seconda fase di validazione, dal momento che è stata effettuata una 
 $10$-fold cross-validation, sono state calcolate per ciascuno dei 10 apprendimenti
-le metriche di Accuracy, Precission, Recall e F1-score in modo da ottenere gli 
+le metriche di Accuracy, Precision, Recall e F1-score in modo da ottenere gli 
 intervalli di confidenza, per analizzare la robustezza dei modelli 
 
 % Nelle successive sezioni verranno esposti i risultati ottenuti per ciascun
@@ -47,7 +47,7 @@ raffigurate nella figura \ref{fig:matrice_di_confusione_per_corr}.
 
 Dalle matrici di confusione si possono calcolare le metriche di Accuracy, Precission, 
 Recall e F1-score. Nella tabella \ref{tab:risultati} sono riportati i valori delle 
-metriche di valutazione ottenutes per ciascun modello calcolate sul test set, il quale
+metriche di valutazione ottenute per ciascun modello calcolate sul test set, il quale
 composto dal $20\%$ di \texttt{dataset\_corr} e \texttt{dataset\_corr\_std}.
 \begin{table}[!ht]
     \centering
@@ -110,7 +110,9 @@ efficacemente.
 
 In seguito, si è deciso di confrontare i modelli utilizzando un ulteriore metrica,
 ovvero AUC e le curve ROC, le quali permettono di confrontare i modelli in termini 
-di trade-off tra tasso di veri positivi e tasso di falsi positivi.
+di trade-off tra tasso di veri positivi e tasso di falsi positivi, in aggiunta,
+le curve ROC confrontano i modelli indipendentemente dalla soglia scelta e questo
+risparia l'ottimizzazione del modello rispetto alla soglia.
 
 Le curve ROC dei tre modelli allenati su \texttt{dataset\_corr} e \texttt{dataset\_corr\_std}
 sono visibili nella figura \ref{fig:roc_curve_corr}.
@@ -132,7 +134,7 @@ $0.99$. Questi valori suggeriscono che la rete neurale è leggermente superiore
 al Gaussian Naive Bayes in termini di capacità di discriminazione tra le due
 classi, anche se entrambi i modelli ottengono dei buoni risultati.
 
-Come anticipato precedentemnte, dal momento che il dataset è di medie dimensioni
+Come anticipato precedentemente, dal momento che il dataset è di medie dimensioni
 allora si è deciso di effettuare anche uno studio di robustezza dei modelli.
 Per fare ciò si è deciso di condurre una valutazione tramite la tecnica della
 $10$-fold stratified cross validation. Tale tecnica permette di ottenere una

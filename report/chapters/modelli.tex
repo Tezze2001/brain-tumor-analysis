@@ -55,8 +55,9 @@ robustezza dei modelli creati, calcolando gli intervalli di confidenza delle
 metriche di valutazione.
 
 La porzione di dati dedicata all'addestramento dei modelli, composta dall'$80\%$
-delle istanze, è anche stata utilizzata con una $5$-fold stratified cross-validation
-per la ricerca degli iperparametri migliori per la rete neurale e per la SVM.
+delle istanze, è anche stata utilizzata anche per ricercare gli iperparamentri 
+migliori per la rete neurale e per la SVM, più precisamente è stato effettuati 
+una $5$-fold stratified cross-validation.
 \section{Support Vector Machine}
 % ! Da inserire la parte su SVM
 \section{Gaussian Naive Bayes}
@@ -70,9 +71,12 @@ approccio geometrico e sfruttare un modello probabilistico.
 Come per gli altri approcci, abbiamo deciso di addestrare due modelli, uno su
 \texttt{dataset\_corr} e l'altro su \texttt{dataset\_pca}.
 
-La libreria utilizzata per l'implementazione di Gaussian Naive Bayes non
-presenta degli iperparametri da stimare, quindi non è stato necessario effettuare
-un processo di ricerca della combinazione migliore.
+La libreria utilizzata per l'implementazione di Gaussian Naive Bayes
+presenta come iperparametri solo la definizione delle prior, il problema è che non
+essendo esperti del dominio, non possiamo sapere con certezza la probabilità 
+di presenza del tumore nei pazienti. Perciò non è stato effettuato un processo di 
+ricerca delle prior.
+
 \section{Rete Neurale}
 In questa sezione verrà presentata la \textbf{rete neurale}. Nello specifico, si
 andranno a presentare i passaggi che sono stati effettuati per la realizzazione
