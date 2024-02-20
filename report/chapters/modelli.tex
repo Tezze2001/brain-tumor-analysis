@@ -1,4 +1,3 @@
-% ! Struttura presentata nell'introduzione
 \chapter{Modelli} \label{ch:modelli}
 In questo capitolo verranno presentati i modelli che si è deciso di addestrare
 per svolgere il compito di classificazione. I modelli sono stati scelti in base
@@ -18,7 +17,6 @@ Più precisamente per ogni modello sono state addestrate due versioni, la prima
 viene allenata sul dataset ridotto analizzando le correlazione, la seconda
 su quello ridotto con PCA. Nella tabella \ref{tab:riassunto_operazioni_dataset} è
 presente un breve riepilogo delle versioni dei dataset e dei modelli.
-
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{\begin{tabular}{@{}llc@{}}
             \toprule
@@ -59,7 +57,6 @@ delle istanze, è anche stata utilizzata anche per ricercare gli iperparamentri
 migliori per la rete neurale e per la SVM, più precisamente è stato effettuati 
 una $5$-fold stratified cross-validation.
 \section{Support Vector Machine}
-% ! Da inserire la parte su SVM
 \section{Gaussian Naive Bayes}
 Di seguito verrà presentato il processo di addestramento del modello
 \textbf{Gaussian Naive Bayes}. È importante precisare che la scelta di utilizzare
@@ -86,7 +83,7 @@ della struttura della rete neurale e alla fase di addestramento della stessa.
 In questo capitolo tutte le operazioni effettuate sono state realizzate
 utilizzando i dataset standardizzati (\texttt{dataset\_corr\_std} e
 \texttt{dataset\_pca\_std}) presentati nella fase di preparazione dei
-dati \ref{sec:preparazione_dei_dati}.
+dati \ref{sec:riduzione_correlazione}.
 \subsection{Struttura della rete neurale}
 La fase di definizione della struttura della rete neurale è stata effettuata
 attraverso una serie di passaggi. Inizialmente, è stata effettuata un'analisi
@@ -248,7 +245,7 @@ La struttura della rete neurale è riassunta nella figura \ref{fig:strutturaRete
     \caption{Struttura della rete neurale}
     \label{fig:strutturaReteNeurale}
 \end{figure}
-\subsubsection{Altri iperparametri} % TODO: titolo migliore
+\subsubsection{Altri iperparametri}
 Oltre alla ricerca della struttura della rete neurale, la fase di grid search è
 stata utilizzata per valutare l'algoritmo di ottimizzazione, il numero di epoche
 e la dimensione del batch.

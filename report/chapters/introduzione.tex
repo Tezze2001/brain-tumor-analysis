@@ -1,70 +1,70 @@
 \chapter{Introduzione}
+Nei capitoli successivi verrà presentato il progetto realizzato per l'esame di
+Machine Learning del corso di laurea magistrale in informatica dell'Università
+degli Studi di Milano-Bicocca.
 
-Questo è un progetto per l'esame di Machine Learning del primo anno del corso 
-di laurea magistrale in informatica dell'Università degli Studi di Milano-Bicocca.
+L'intero progetto si basa sul riconoscimento della presenza di un tumore al
+cervello data l'immagine di una risonanza magnetica.
 
-L'intero progetto si basa sul riconoscimento della presenza di un tumore al cervello
-data l'immagine di una risonanza magnetica.
-
-Il dataset scelto per questo progetto è scaricabile dal seguente 
+Il dataset scelto per questo progetto è scaricabile dal seguente
 \href{https://www.kaggle.com/datasets/jakeshbohaju/brain-tumor/data}{link} ed è
-composto da un insieme di features estratte dalle immagini ottenute dalle risonanze 
-magnetiche del cervello di diversi pazienti.
+composto da un insieme di immagini di risonanze magnetiche del cervello di
+diversi pazienti e da un file contenete delle features estratte da esse.
 
-Per il riconoscimento del tumore sono stati allenati i seguenti modelli di machine
-learning:
+Per il riconoscimento del tumore sono stati allenati i seguenti modelli:
 \begin{itemize}
     \item \textbf{SVM}: è stato scelto questo modello vista la buona capacità
-    teorica nel generalizzare.
-    \item \textbf{Gaussian Naive Bayes}: è stato scelto questo modello dal momento
-    che permette di modellare le probabilità esplicitamente.
-    % TODO: anche la rete neurale e SVM possono essere probabilistica
-    \item \textbf{Rete neurale}: è stato scelto questo modello per confrontare 
-    i primi due con una soluzione neurale.
+          teorica nel generalizzare.
+    \item \textbf{Gaussian Naive Bayes}: è stato scelto questo modello dal
+          momento che permette di modellare le probabilità esplicitamente.
+    \item \textbf{Rete neurale}: è stato scelto questo modello per confrontare
+          i primi due con una soluzione neurale.
 \end{itemize}
-
-L'obiettivo sarà quello di trovare il modello migliore che riduca al minimo i falsi 
-negativi, mantenendo comunque una buona precisione sui veri negativi. Per la ricerca
-sono state effettuate le seguenti operazioni:
+L'obiettivo sarà quello di trovare il modello migliore che riduca al minimo i
+falsi negativi, mantenendo comunque una buona precisione sui veri negativi. Per
+la ricerca sono state effettuate le seguenti operazioni:
 \begin{itemize}
     \item \textbf{Analisi esplorativa dei dati}: studio esplorativo del dataset
-    utile per effettuare le prime osservazioni sui dati
-    \item \textbf{Riduzione di dimensionalità e preprocessing del dataset}: 
-    applicazione di diverse trasformazioni del dataset, dalla rimozione dei duplicati,
-    fino alla rimozione dei valori costanti. In aggiunta è stata ridotta la dimensionalità
-    utilizzando due metodi, il primo basato sulla rimozione delle features correlate,
-    il secondo basato sull'utilizzo di pca. In questa fase vengono quindi generati 
-    i due dataset.
-    \item \textbf{Valutazione dei modelli}: per ciascun dataset si è effettuata 
-    una valutazione dei modelli in due passi, la prima è una valutazione su ciascuna 
-    effettuando un allenamento sull'$80\%$ delle istanze e valuntando sul $20\%$
-    rimanente, la seconda è una $10$-fold stratified cross-validation per una valutazione
-    più affidabile e robusta. 
-    Nella prima valutazione, durante la fase di training si effettua anche una 
-    $5$-fold stratified cross-validation sul training set, per ricercare gli 
-    iperparamentri migliori da utilizzare nel modello che verrà poi valutato nelle 
-    due fasi.
+          utile per effettuare le prime osservazioni sui dati.
+    \item \textbf{Riduzione di dimensionalità e preprocessing del dataset}:
+          applicazione di diverse trasformazioni del dataset, dalla rimozione
+          dei duplicati, fino alla rimozione dei valori costanti. In aggiunta è
+          stata ridotta la dimensionalità utilizzando due metodi, il primo
+          basato sulla rimozione delle features correlate, il secondo basato
+          sull'utilizzo della Principal Component Analysis (PCA). In questa fase
+          vengono quindi generati i due dataset.
+    \item \textbf{Valutazione dei modelli}: per ciascun dataset si è effettuata
+          una valutazione dei modelli in due passi, la prima è una valutazione
+          su ciascuna effettuando un allenamento sull'$80\%$ delle istanze e
+          valutando sul rimanente $20\%$, la seconda è una $10$-fold stratified
+          cross-validation per una valutazione più affidabile e robusta.
+          Nella prima valutazione, durante la fase di training si effettua anche
+          una $5$-fold stratified cross-validation sul training set, per
+          ricercare gli iperparamentri migliori da utilizzare nel modello che
+          verrà successivamente valutato nelle due fasi.
     \item \textbf{Confronto tra i vari modelli}: sono stati confrontati tutti
-    i modelli sia in merito ai criteri di valutazione, sia in merito ai tempi 
-    di apprendimento.
+          i modelli sia in merito ai criteri di valutazione, sia in merito ai
+          tempi di apprendimento.
 \end{itemize}
+Sono state effettuate due validazioni a causa della dimensione del dataset,
+infatti, vista la sua media dimensione si è deciso di confermare le osservazioni
+indotte dalla prima valutazione effettuando una cross-validation con gli
+iperparametri trovati nella fase di validazione validazione.
 
-Sono state effettuate due validazioni a causa della dimensione
-del dataset, infatti, vista la sua media dimensione è stato deciso di confermare
-le osservazioni indotte dalla prima valutazione effettuando una cross-validation
-con gli iperparametri trovati nella prima validazione. 
-
-In conclusione, la struttura dell'elaborato è delineata dai seguenti capitoli:
+Per concludere, illustriamo la struttura dell'elaborato, la quale si articola
+nei seguenti capitoli:
 \begin{itemize}
-    \item \textbf{Introduzione}: descrizione del dominio e presentazione dei modelli che 
-    verranno presi in considerazione per questo progetto.
-    \item \textbf{Dataset}: descrizione di come è stato costruito il dataset a partire
-    dalle immagini, ovvero come sono state ricavate le features, e analisi esplorativa.
-    \item \textbf{Rete neurale}: descrizione e analisi delle performance della rete.
+    \item \textbf{Introduzione}: descrizione del dominio e presentazione dei
+          modelli che verranno presi in considerazione per questo progetto.
+    \item \textbf{Dataset}: descrizione di come è stato costruito il dataset a
+          partire dalle immagini, ovvero come sono state ricavate le features, e
+          analisi esplorativa.
+    \item \textbf{Rete neurale}: descrizione e analisi delle performance della
+          rete.
     \item \textbf{SVM}: descrizione e analisi delle performance delle SVM.
-    \item \textbf{Gaussian Naive Bayes}: descrizione e analisi delle performance 
-    per Gaussian Naive Bayes.
-    \item \textbf{Analisi dei risultati}: analisi comparata dei risultati tra i 
-    tre modelli considerati.
+    \item \textbf{Gaussian Naive Bayes}: descrizione e analisi delle performance
+          per Gaussian Naive Bayes.
+    \item \textbf{Analisi dei risultati}: analisi comparata dei risultati tra i
+          tre modelli considerati.
     \item \textbf{Conclusioni}: conclusioni sull'elaborato.
 \end{itemize}
