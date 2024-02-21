@@ -113,7 +113,7 @@ di convergenza del modello.
               la complessità del modello e la corretta classificazione dei dati.
               Un suo valore elevato porta ad avere un hard margin.
               I valori testati sono stati 1, 100, 1e6.
-        \item \textbf{tol}: parametro di tolleranza, controlla la tolleranza
+        \item Tolleranza \textbf{tol}: parametro di tolleranza, controlla la tolleranza
               accettata per la convergenza del modello.
               I valori testati sono stati 1e-2, 1e-3, 1e-5.
     \end{itemize}
@@ -293,15 +293,66 @@ di convergenza del modello.
         \label{fig:roc_SVM_corr}
     \end{figure}
 
+    \newpage
+
     Dalla tabella \ref{tab:top_metrics_kernels_corr} si può notare che il kernel Rbf
     è quello che ha ottenuto i risultati migliori per tutte le metriche. Inoltre anche
     per il confronto delle curve roc \ref{fig:roc_SVM_corr} Rbf risulta essere il
     migliore anche se i risultati degli altri kernel rimangono ottime opzioni esclusa
     la sigmoide.
 
+    
 \subsection{SVM su dataset con dataset PCA}
 
-% ==============================================================================
+    Anche per il dataset PCA sono stati effettuati gli stessi passaggi per la selezione
+    del miglior kernel. I risultati ottenuti sono riportati nelle tabelle 
+    \ref*{tab:top_time_kernels_pca}, \ref*{tab:top_metrics_kernels_pca} e nel grafico 
+    \ref*{fig:roc_SVM_PCA}:
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
+            \textbf{kernel} & \textbf{params} & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} & \textbf{mean\_test\_sc} & \textbf{std\_test\_sc} \\ \hline
+            Linear & C:1, tol: 0.01 & 0.045 & 0.003 & 0.9778 & 0.0058 \\ \hline
+            Poly & C:1, r:10, d:2, $\gamma$:auto & 0.049 & 0.002 & 0.9804 & 0.0048 \\ \hline
+            Rbf & C:100, $\gamma$:scale & 0.042 & 0.001 & 0.9787 & 0.0047 \\ \hline
+            Sigmoid & C:100, r:-1, $\gamma$:scale, tol:1e-05 & 0.058 & 0.002 & 0.9199 & 0.0128 \\ \hline
+        \end{tabular}
+        \caption{Risultati delle migliori combinazioni per kernel sul dataset PCA}
+        \label{tab:top_time_kernels_pca}
+    \end{table}
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|}
+        \hline
+            \textbf{kernel} & \textbf{accuracy} & \textbf{precision} & \textbf{recall} & \textbf{f1-score} \\ \hline
+            Linear & 96.89\% & 99.68\% & 93.41\% & 96.45\%  \\ \hline
+            Poly & 97.30\% & 99.68\% & 94.31\% & 96.92\%  \\ \hline
+            Rbf & 97.43\% & 99.68\% & 94.61\% & 97.08\%  \\ \hline
+            Sigmoid & 90.00\% & 87.79\% & 90.42\% & 89.09\%  \\ \hline
+        \end{tabular}
+        \caption{Risultati delle metriche principali per kernel sul dataset PCA}
+        \label{tab:top_metrics_kernels_pca}
+    \end{table}
+
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.75\textwidth]{img/svm/SVM_roc_pca.png}
+        \caption{Curva ROC dei vari kernel SVM a confronto su dataset PCA}
+        \label{fig:roc_SVM_PCA}
+    \end{figure}
+
+    Come per il dataset ridotto, anche per il dataset PCA il kernel Rbf 
+    è quello che ha ottenuto i risultati migliori. Si nota inoltre che dal 
+    grafico \ref{fig:roc_SVM_PCA} non è possibili distinguere quale kernel sia
+    il migliore in quanto le curve roc sono molto simili tra loro e l' auc è la
+    stessa per più kernel, quindi la scelta è stata effettuata unicamenta in base
+    ai risultati delle metriche principali. 
+
+\newpage
+
 \section{Gaussian Naive Bayes}
 Di seguito verrà presentato il processo di addestramento del modello
 \textbf{Gaussian Naive Bayes}. È importante precisare che la scelta di utilizzare
