@@ -10,24 +10,24 @@ o meno del tumore al cervello. L'etichetta è presente sotto la colonna
       \item \textbf{Presenza del tumore}: $T = 1$
       \item \textbf{Assenza del tumore}: $T = 0$
 \end{itemize}
-
-Le features vengono già date, inoltre, si assumono appartenenti ad una distribuzione 
-normale e si assumono corrette rispetto alle immagini delle risonanze magnetiche
-associate\cite{explanation-features}. Le features sono si dividono in:
+Le features vengono già date, inoltre, si assumono appartenenti ad una
+distribuzione normale e si assumono corrette rispetto alle immagini delle
+risonanze magnetiche associate\cite{explanation-features}. Le features sono si
+dividono in:
 \begin{enumerate}
       \item \textbf{First Order Features}: forniscono informazioni legate alle
             distribuzione dei livelli di grigio dell'immagine. Queste features
-            corrispondono alle statistiche descrittive dei valori dei pixel 
-            dell'immagine e corrispondono a:
+            corrispondono alle statistiche descrittive dei valori dei pixel
+            che compongono l'immagine e corrispondono a:
             \begin{itemize}
-                  \item \textbf{Media}
-                  \item \textbf{Varianza}
-                  \item \textbf{Deviazione standard}
-                  \item \textbf{Indice di asimmetria}
-                  \item \textbf{Indice di kurtosis}
+                  \item \textbf{Media}.
+                  \item \textbf{Varianza}.
+                  \item \textbf{Deviazione standard}.
+                  \item \textbf{Indice di asimmetria}.
+                  \item \textbf{Indice di kurtosis}.
             \end{itemize}
-      \item \textbf{Second Order Features}: forniscono informazioni sulla composizione
-            della texture dell'immagine e si dividono in:
+      \item \textbf{Second Order Features}: forniscono informazioni sulla
+            composizione della texture dell'immagine e si dividono in:
             \begin{itemize}
                   \item \textbf{Contrast}: misura la differenza tra i livelli di
                         grigio tra diverse parti dell'immagine. Maggiore sarà il
@@ -44,10 +44,11 @@ associate\cite{explanation-features}. Le features sono si dividono in:
                         di grigio è ridotta.
                   \item \textbf{Entropy}: misura la randomicità dei livelli di
                         grigio, quindi l'entropia sarà massima quando tutti i
-                        livelli di grigio sono equamente probabili (randomness). Più
-                        precisamente immagini con un ampio range di valori che i
-                        pixel assumono e un uniforme distribuzione di dei valori 
-                        dei pixel tendono ad aumentare il valore dell'entropia.
+                        livelli di grigio sono equamente probabili (randomness).
+                        Più precisamente immagini con un ampio range di valori
+                        che i pixel assumono e un uniforme distribuzione di dei
+                        valori dei pixel tendono ad aumentare il valore
+                        dell'entropia.
                   \item \textbf{Homogeneous}: misura quanto sono uniformi i
                         livelli di grigio. Più alto sarà l'indice allora minore
                         sarà il contrasto dell'immagine.
@@ -66,16 +67,15 @@ associate\cite{explanation-features}. Le features sono si dividono in:
 Caricato il dataset, è stato eseguito un controllo per verificare che non ci
 fossero valori nulli. In questo caso non sono stati trovati valori nulli, quindi
 non è stato necessario eseguire alcuna operazione per la gestione di tali valori.
-In secondo luogo è stato controllato se il dataset fossero presenti dei valori
-duplicati e, una volta verificata la presenza si è proceduto a rimuovere un
-totale di $63$ duplicati.
+In secondo luogo è stato controllato se nel dataset fossero presenti dei valori
+duplicati. Nel dataset sono stati trovati un totale di $63$ valori duplicati,
+i quali sono stati rimossi.
 
 Successivamente, è stato eseguito un controllo sulla suddivisione degli esempi
 in base alla classe di appartenenza. In particolare, questa operazione è stata
 effettuata per verificare se il dataset fosse sbilanciato. Per fare ciò è stato
-creato un istogramma che mostra la frequenza dei valori della colonna
-\textit{Class} (visibile nella figura \ref{fig:dist-classi}).
-
+creato un istogramma, riportato nella figura \ref{fig:dist-classi}, che mostra
+la frequenza dei valori rispetto l'attributo \textit{Class}.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/analisi/distribuzioneClassi.png}
@@ -83,14 +83,14 @@ creato un istogramma che mostra la frequenza dei valori della colonna
       \label{fig:dist-classi}
 \end{figure}
 
-Dall'istogramma si evidenza che le classi sono abbastanza bilanciate, infatti,
-il dataset è composto dal $45\%$ di esempi positivi, mentre il $55\%$ è composto
-da esempi negativi.
+Dall'istogramma emerge un bilanciamento soddisfacente tra le classi, con il
+$45\%$ degli esempi positivi, rappresentati in verde, e il $55\%$ degli esempi
+negativi, evidenziati in rosso, nel dataset.
 
-Successivamente sono stati costruiti $13$ istogrammi, uno per ogni features
-in modo tale da analizzare visivamente la loro distribuzione (i grafici sono visibili
-nella figura \ref{fig:barplot_features}).
-
+Dopo un'analisi della distribuzione relativa al valore del target, sono stati
+generati $13$ istogrammi, presentati nella figura \ref{fig:barplot_features},
+ciascuno dedicato a una specifica feature al fine di esaminarne la distribuzione
+attraverso un'analisi visiva.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=\textwidth]{img/analisi/barplot.png}
@@ -98,18 +98,29 @@ nella figura \ref{fig:barplot_features}).
       \label{fig:barplot_features}
 \end{figure}
 
-Da questi grafici si evince che le features \textit{Energy}, \textit{ASM},
-\textit{Homogeneity}, \textit{Entropy} e \textit{Coarseness} non seguono una
-distribuzione normale, a differenza delle altre feature che hanno un andamento
-più vicino ad una gaussiana. In ogni caso, anche se alcune feature non seguono
-l'ipotesi di normalità, si è deciso di non procedere con la loro rimozione dal
-dataset, ma di eseguire i modelli scelti senza rispettare le loro assunzioni di 
-normalità.
-In aggiunta, dal grafico si può notare che le features con una
-distribuzione simile ad una normale non sono standardizzate, questa affermazione
-viene anche confermata dal calcolo delle statistiche descrittive mostrate nella
-tabella \ref{tab:desc-stat}.
-\newpage
+% Da questi grafici si evince che le features \textbf{Energy}, \textbf{ASM},
+% \textbf{Homogeneity}, \textbf{Entropy} e \textbf{Coarseness} non seguono una
+% distribuzione normale, a differenza delle altre feature che hanno un andamento
+% più vicino ad una gaussiana. In ogni caso, anche se alcune feature non seguono
+% l'ipotesi di normalità, si è deciso di non procedere con la loro rimozione dal
+% dataset, ma di eseguire i modelli scelti senza rispettare le loro assunzioni di
+% normalità.
+
+% In aggiunta, dal grafico si può notare che le features con una
+% distribuzione simile ad una normale non sono standardizzate, questa affermazione
+% viene anche confermata dal calcolo delle statistiche descrittive mostrate nella
+% tabella \ref{tab:desc-stat}.
+L'analisi dei grafici rivela che le features \textbf{Energy}, \textbf{ASM},
+\textbf{Homogeneity}, \textbf{Entropy} e \textbf{Coarseness} non aderiscono a
+una distribuzione normale, contrariamente alle altre feature le cui distribuzioni
+mostrano un profilo più vicino alla distribuzione gaussiana. Tuttavia, nonostante
+l'assenza di normalità in alcune features, si è deciso di non procedere con la
+loro rimozione dal dataset. Invece, si è scelto di implementare i modelli senza
+richiedere il rispetto delle loro ipotesi di normalità.
+
+Inoltre, si nota che le features con una distribuzione simile a una normale non
+sono state standardizzate, come indicato anche dalle statistiche descrittive
+presentate nella tabella \ref{tab:desc-stat}
 \begin{table}[!ht]
       \begin{subtable}[h]{1\textwidth}
             \centering
@@ -149,47 +160,48 @@ tabella \ref{tab:desc-stat}.
       \caption{Statistiche descrittive degli attributi}
       \label{tab:desc-stat}
 \end{table}
-
+\newpage
 Di conseguenza sarà opportuno standardizzare le features per rispettare le
-assunzioni di SVM e della rete neurale. Per quanto riguarda Gaussian Naive
-Bayes non è necessario effettuare l'operazione sopracitata, dal momento che nel
-calcolo della probabilità si sfrutta la formula della Gaussiana nella quale
-viene fatta una standardizzazione implicita.
+assunzioni delle \textbf{SVM} e della \textbf{rete neurale}. Per quanto riguarda
+\textbf{Gaussian Naive Bayes} non è necessario effettuare l'operazione
+sopracitata, dal momento che nel calcolo della probabilità si sfrutta la formula
+della Gaussiana nella quale viene fatta una standardizzazione implicita.
 
 Dal calcolo delle statistiche descrittive si può osservare che la feature
-\textit{Coarseness} assume un valore poco significativo tendente a $0$, quindi è
-stato pensato di convertire questa feature ad una scala logaritmica, permettendo
+\textbf{Coarseness} assume un valore poco significativo tendente a $0$, quindi
+si è pensato di convertire questa feature ad una scala logaritmica, permettendo
 di aumentare la significatività dei valori. Nonostante questa trasformazione,
 la feature presenta una deviazione standard nulla quindi questo suggerisce la
 sua esclusione dal dataset in quanto sarà quasi sicuramente una feature poco
 discriminante.
 
-Per la fase di analisi risulta cruciale effettuare uno studio sulla potenzialità
-di discriminazione dei dati. Per fare ciò sono stati prodotti un totale di $13$
-grafici, uno per ogni feature, ciascuno composto da due box plot rappresentanti
-i percentili delle feature separati per le classi $0$ e $1$. I grafici sono visibili
-nella figura \ref{fig:boxplot_features}.
+Durante la fase di analisi, risulta cruciale condurre uno studio sulla capacità
+discriminante dei dati. A tale scopo, sono stati generati un totale di $13$
+grafici, corrispondenti a ciascuna delle feature, ognuno composto da due box
+plot che mostrano i percentili delle feature divise per le classi $0$ e $1$.
+Tali grafici sono visualizzabili nella figura \ref{fig:boxplot_features}.
 \newpage
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=\textwidth]{img/analisi/boxplot.png}
-      \caption{Barplot delle features}
+      \caption{Box plot delle features}
       \label{fig:boxplot_features}
 \end{figure}
 
 Dai box plot si può osservare che nel dataset sono presenti numerosi outliers, in
 aggiunta le distribuzioni delle features separate per classi si sovrappongono
-quasi tutte, eccetto per \textit{Entropy}, \textit{Energy}, \textit{ASM} e
-\textit{Homogeneity}. Questo implica il fatto che potenzialmente sono le più
+quasi tutte, eccetto per \textbf{Entropy}, \textbf{Energy}, \textbf{ASM} e
+\textbf{Homogeneity}. Questo implica il fatto che potenzialmente sono le più
 discriminanti rispetto alle altre features. In aggiunta, i grafici confermano
-che la \textit{Coarseness} è costante, quindi dal momento che non può essere un
+che la \textbf{Coarseness} è costante, quindi dal momento che non può essere un
 attributo discriminate si può rimuovere dal dataset.
 
-Infine, è stato effettuato un confronto tra features estratte 2 a 2 per poter
-analizzare se le classi sono separabili linearmente considerando gruppi di due
-feature. In questo modo sono state calcolate tutte le combinazioni di feature,
-per ogni combinazione è stato prodotto un grafico cartesiano e un'istanza sarà
-disegnata nel grafico mediante un punto. Il punto esprime $2$ informazioni:
+Al fine di concludere la fase di analisi, è stato condotto un confronto
+sistematico delle features estratte a coppie al fine di valutare la possibilità
+di separare linearmente le classi. A tal fine, sono state esaminate tutte le
+possibili combinazioni di coppie di feature. Per ciascuna combinazione, è stato
+generato un grafico cartesiano in cui ciascuna istanza è rappresentata da un
+punto. Ogni punto sul grafico trasmette due informazioni fondamentali:
 \begin{itemize}
       \item Il colore del punto specifica la classe dell'istanza
       \item Le coordinate saranno i valori delle due features considerate
@@ -198,13 +210,7 @@ disegnata nel grafico mediante un punto. Il punto esprime $2$ informazioni:
 In aggiunta, sono stati costruiti due grafici per ogni combinazione, per
 identificare quante istanze di classi diverse si sovrappongo. Tutti grafici
 vengono mostrati nella figura \ref{fig:scatterplot_features}.
-\newpage
-\begin{figure}[!ht]
-      \centering
-      \includegraphics[height=\textheight]{img/analisi/scatterplot.png}
-      \caption{Scatterplot di tutte le combinazioni di features}
-      \label{fig:scatterplot_features}
-\end{figure}
+% ! Spostato in appendice
 
 I grafici evidenziano il fatto che per ogni coppia di features si ha almeno una
 lieve sovrapposizione delle nuvole di punti rappresentanti le due classi, questo
@@ -223,6 +229,7 @@ si può affermare che le SVM, con un kernel scelto in modo accurato, potrebbero
 ottenere degli ottimi risultati nella classificazione. Inoltre, questi grafici
 permettono anticipare dei primi studi sulla correlazione come la presenza di una
 correlazione logaritmica tra \textit{Skewness} e \textit{Mean}.
+% TODO: non solo questi ci sono molte altre correlazioni
 \subsection{Analisi delle correlazioni} \label{sec:correlazione}
 Il passaggio successivo è  stato quello di analizzare le correlazioni tra le
 feature dal momento che un primo modo per ridurre la dimensionalità del dataset
@@ -231,7 +238,6 @@ feature dal momento che un primo modo per ridurre la dimensionalità del dataset
 Perciò per prima cosa è stata prodotta una matrice di correlazione, riportata in
 figura \ref{fig:corr-matrix}, attraverso la quale è stato possibile osservare le
 correlazioni tra le feature.
-
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/analisi/corr.png}
@@ -240,14 +246,14 @@ correlazioni tra le feature.
 \end{figure}
 
 Dall'analisi di questa matrice, si possono osservare diverse correlazioni tra le
-feature. Innanzitutto, si può notare una forte correlazione positiva tra le feature
-\textit{Mean}, \textit{Variance} e \textit{Standard deviation}. Questa correlazione
-è facilmente spiegabile analizzando le immagini prodotte dalle risonanze magnetiche.
-Infatti, essendo in bianco e nero, se la media tende a $1$ (colore bianco) allora
-la varianza e la deviazione standard aumentano, perché si passa da pixel neri a 
-pixel bianchi. Questo comporta che le transizioni dal nero assoluto al bianco
-assoluto necessitano di regioni di pixel maggiore rispetto ad una transizione
-tra nero assoluto e grigio ($0.5$).
+feature. Innanzitutto, si può notare una forte correlazione positiva tra le
+feature \textit{Mean}, \textit{Variance} e \textit{Standard deviation}. Questa
+correlazione è facilmente spiegabile analizzando le immagini prodotte dalle
+risonanze magnetiche. Infatti, essendo in bianco e nero, se la media tende a $1$
+(colore bianco) allora la varianza e la deviazione standard aumentano, perché si 
+passa da pixel neri a pixel bianchi. Questo comporta che le transizioni dal nero 
+assoluto al bianco assoluto necessitano di regioni di pixel maggiore rispetto 
+ad una transizione tra nero assoluto e grigio ($0.5$).
 
 Invece, la correlazione tra varianza è deviazione standard è facilmente spiegabile
 perché la deviazione standard è la radice quadrata della varianza, quindi sono
@@ -264,7 +270,7 @@ texture non è uniforme, ovvero si hanno strutture complesse e irregolari, quind
 più uniforme sarà la distribuzione dei livelli di grigio, aumentando l'indice
 di \textit{ASM}, comportando di conseguenza un aumento delle variazioni di intensità
 dei livelli di grigio, aumentando di conseguenza anche gli indici di \textit{Energy}
-e \textit{Homogeneity}. 
+e \textit{Homogeneity}.
 
 Al tempo stesso, la matrice di correlazione evidenza una forte correlazione positiva
 tra gli indici che misurano la \textbf{morfologia della distribuzione dei livelli
@@ -278,28 +284,27 @@ sinistra).
 
 La matrice della correlazione evidenzia anche una correlazione positiva tra le
 feature di \textit{Contrast} e \textit{Dissimilarity}, ovvero maggiore sarà il
-contrasto e maggiore sarà la complessità della texture e quindi la metrica 
+contrasto e maggiore sarà la complessità della texture e quindi la metrica
 \textit{Dissimilarity}.
 
 In aggiunta dalla matrice si evidenza che le features di \textit{Dissimilarity}
 e \textit{Homogeneity} sono correlate negativo, dal momento che una misura la
 dissimilarità tra i livelli di grigio delle regioni e l'altra misura la loro
 l'omogeneità.
-
 \section{Riduzione di dimensionalità} \label{sec:riduzone_di_dimensionalità}
 Dal momento che il dataset è composto da un totale di $13$ features, allora
 è importante trovare il modo di ridurre la sua dimensionalità con lo scopo di
 velocizzare l'apprendimento dei modelli e semplificare il task di classificazione.
 Per ridurre la dimensionalità del dataset sono stati utilizzati due diversi metodi:
 \begin{itemize}
-      \item riduzione utilizzando la correlazione
-      \item riduzione utilizzando PCA
+      \item Riduzione basata sullo studio della correlazione delle features.
+      \item Riduzione utilizzando la Principal Component Analysis (PCA).
 \end{itemize}
 
 \subsection{Riduzione con la correlazione} \label{sec:riduzione_correlazione}
 Questo metodo si basa sulla correlazione delle features, ovvero se due features
-sono correlate allora significa che a livello discriminante una delle due è superflua,
-di conseguenza si può rimuovere.
+sono correlate allora significa che a livello discriminante una delle due è 
+superflua, di conseguenza si può rimuovere.
 
 Alla luce dello studio sulla correlazione effettuato nella sezione \ref{sec:correlazione},
 è possibile ridurre la dimensionalità del dataset considerando solo una delle
@@ -317,18 +322,17 @@ allora si sottolinea che non verranno rispettate le assunzioni di normalità dei
 $3$ modelli scelti. In aggiunta, dal momento che per le SVM e NN assumono di
 lavorare su dati con distribuzione normale stanrdard, allora per essere più
 compatibili possibili con le assunzioni, è stata creata una versione del dataset
-normalizzata, chiamata \texttt{dataset\_corr\_std}. 
-
+normalizzata, chiamata \texttt{dataset\_corr\_std}.
 \subsection{PCA} \label{sec:pca}
 In seguito, è stato pensato di provare ad utilizzare un metodo di trasformazione
 delle feature per ridurre la loro dimensionalità e successivamente analizzare i
-risultati ottenuti. La scelta sul metodo da utilizzare è ricaduta su PCA.
+risultati ottenuti. La scelta sul metodo da utilizzare è ricaduta su \textbf{PCA}.
 
 Prima di applicare la PCA, è stato necessario standardizzare le feature del dataset
 originario senza i duplicati, ma con l'attributo \textbf{Coarseness}, dal momento
-che se ne occuperà PCA della sua rimozione. In aggiunta, l'operazione di 
-standardizzazione è necessaria per evitare che le feature con varianza maggiore 
-abbiano un peso maggiore rispetto alle altre. Senza standardizzare delle feature, 
+che se ne occuperà PCA della sua rimozione. In aggiunta, l'operazione di
+standardizzazione è necessaria per evitare che le feature con varianza maggiore
+abbiano un peso maggiore rispetto alle altre. Senza standardizzare delle feature,
 la PCA potrebbe non essere in grado di trovare le direzioni di massima varianza.
 
 La prima parte dell'analisi è stata quella di trovare il corretto numero di
@@ -340,7 +344,6 @@ del dataset, quindi sono state escluse le colonne \textit{Image} e \textit{Class
 Rimosse le colonne non necessarie, è stato possibile computare la PCA utilizzando
 la libreria \textit{sklearn} e successivamente è stato possibile osservare la
 percentuale di varianza spiegata per ogni componente, riportata in figura \ref{fig:pca}.
-
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.45\textwidth]{img/analisi/pcaVarianza.png}
@@ -352,7 +355,6 @@ Dall'analisi della percentuale di varianza spiegata per ogni componente, si può
 osservare che le prime $3$ componenti spiegano circa l'$85\%$ della varianza
 dei dati. Questo ci ha permesso di ridurre la dimensionalità del dataset a soli
 $3$ attributi, permettendo di rappresentare i dati in uno spazio a $3$ dimensioni.
-
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.4\textwidth]{img/analisi/pcaNuovoDataset.png}
@@ -364,7 +366,7 @@ Dalla figura \ref{fig:pca-3d} si può osservare che i dati ottenuti dalla PCA
 sembrano essere separabili con un iperpiano. Il nuovo dataset ridotto verrà
 denominato \texttt{dataset\_pca} e dal momento che SVM e NN hanno bisogno di dati
 standardizzati, allora è stato prodotto anche la sua versione standardizzata,
-chiamata \texttt{dataset\_pca\_std}. 
+chiamata \texttt{dataset\_pca\_std}.
 
 % \section{Preparazione dei dati} \label{sec:preparazione_dei_dati}
 % Terminata la fase di riduzione della dimensionalità, si è passati alla fase di 

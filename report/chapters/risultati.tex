@@ -1,10 +1,10 @@
 \chapter{Risultati} \label{chp:risultati}
-In questo capitolo verranno presentati i risultati ottenuti dalle due fasi di valutazione
-delle diverse versioni dei modelli separati in base ai dataset su cui sono stati 
-allenati: \texttt{dataset\_corr} e \texttt{dataset\_pca}. Prima verranno presentati
-i risultati ottenuti dalla validazione $80/20$ con gli iperparametri migliori 
-ottenuti nel capito precedente, successivamente verranno presentati
-i risultati ottenuti dalla cross-validation.
+In questo capitolo verranno presentati i risultati ottenuti dalle due fasi di
+valutazione delle diverse versioni dei modelli separati in base ai dataset su
+cui sono stati allenati: \texttt{dataset\_corr} e \texttt{dataset\_pca}. Prima
+verranno presentati i risultati ottenuti dalla validazione $80/20$ con gli
+iperparametri migliori ottenuti nel capitolo precedente, successivamente verranno
+presentati i risultati ottenuti dalla $10$-fold cross-validation.
 
 % Prima di esporre i risultati ottenuti, è opportuno enunciare la seguente premessa.
 % Considerando la natura del contesto, mirante alla classificazione di dati medici,
@@ -18,8 +18,9 @@ i risultati ottenuti dalla cross-validation.
 % stata adottata per conferire maggior rilevanza al valore di richiamo, che valuta
 % l'efficacia del modello nell'individuare i veri positivi.
 
-I classificatori sono stati valutati calcolando la matrice di confusione, successivamente
-sono state calcolate le metriche associate alla matrice appena calcolata:
+I classificatori sono stati valutati calcolando la matrice di confusione,
+successivamente sono state calcolate le metriche associate alla matrice appena
+calcolata:
 \begin{itemize}
     \item \textbf{Accuracy}: misura la frazione di esempi classificati correttamente.
     \item \textbf{Precision}: misura la frazione di esempi classificati come
@@ -29,24 +30,25 @@ sono state calcolate le metriche associate alla matrice appena calcolata:
     \item \textbf{F1-score}: media armonica tra precisione e recall.
 \end{itemize}
 Inoltre, sono state calcolate le curve ROC per analizzare TP rate e FP rate.
-Infine, per la seconda fase di validazione, dal momento che è stata effettuata una 
+Infine, per la seconda fase di validazione, dal momento che è stata effettuata una
 $10$-fold cross-validation, sono state calcolate per ciascuno dei 10 apprendimenti
-le metriche di Accuracy, Precision, Recall e F1-score in modo da ottenere gli 
-intervalli di confidenza, per analizzare la robustezza dei modelli 
+le metriche di Accuracy, Precision, Recall e F1-score in modo da ottenere gli
+intervalli di confidenza, per analizzare la robustezza dei modelli.
 
 % Nelle successive sezioni verranno esposti i risultati ottenuti per ciascun
 % modello, confrontando i valori delle metriche di valutazione e le curve ROC
 % generate. I risultati saranno suddivisi in due sezioni, una per il confronto
 % sul dataset le cui feature sono state selezionate manualmente, una per il
 % confronto sul dataset le cui feature sono state selezionate con PCA.
-\section{Risultati dei modelli allenati su \texttt{dataset\_corr} e \texttt{dataset\_corr\_std}} \label{sec:risultati_corr}
-Per prima cosa sono state prodotte le matrici di confusione per ciascun modello
-raffigurate nella figura \ref{fig:matrice_di_confusione_per_corr}.
+\section{Risultati dei modelli allenati su \texttt{dataset\_corr} e 
+\texttt{dataset\_corr\_std}} \label{sec:risultati_corr} Per prima cosa sono state 
+prodotte le matrici di confusione per ciascun modello raffigurate nella figura 
+\ref{fig:matrice_di_confusione_per_corr}.
 
-\textbf{TODO:confronto dei valori nelle matrici di confusione}.
+\textbf{TODO: confronto dei valori nelle matrici di confusione}.
 
-Dalle matrici di confusione si possono calcolare le metriche di Accuracy, Precission, 
-Recall e F1-score. Nella tabella \ref{tab:risultati} sono riportati i valori delle 
+Dalle matrici di confusione si possono calcolare le metriche di Accuracy, Precision,
+Recall e F1-score. Nella tabella \ref{tab:risultati} sono riportati i valori delle
 metriche di valutazione ottenute per ciascun modello calcolate sul test set, il quale
 composto dal $20\%$ di \texttt{dataset\_corr} e \texttt{dataset\_corr\_std}.
 \begin{table}[!ht]
@@ -64,6 +66,7 @@ composto dal $20\%$ di \texttt{dataset\_corr} e \texttt{dataset\_corr\_std}.
 \end{table}
 
 \textbf{TODO:controllare se è vero}
+
 % ! Commento da riguardare e sistemare
 I risultati ottenuti rivelano prestazioni superiori per i modelli basati su una
 manipolazione geometrica dei dati, come la rete neurale e il Support Vector
@@ -85,7 +88,7 @@ efficacemente.
     \centering
     \begin{subfigure}{0.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/analisi/pcaVarianza.png}
+        \includegraphics[width=\textwidth]{img/svm/matrice_confusione_corr.png}
         \caption{Support Vector Machine}
         \label{fig:matrice_di_confusione_per_SVM_corr}
     \end{subfigure}
@@ -106,17 +109,15 @@ efficacemente.
     \caption{Matrici di confusione per i modelli addestrati su \texttt{dataset\_corr} e \texttt{dataset\_corr\_std}}
     \label{fig:matrice_di_confusione_per_corr}
 \end{figure}
-% TODO: Creare le immagini nuove per le matrici di confusione senza griglia
 
 In seguito, si è deciso di confrontare i modelli utilizzando un ulteriore metrica,
-ovvero AUC e le curve ROC, le quali permettono di confrontare i modelli in termini 
+ovvero AUC e le curve ROC, le quali permettono di confrontare i modelli in termini
 di trade-off tra tasso di veri positivi e tasso di falsi positivi, in aggiunta,
 le curve ROC confrontano i modelli indipendentemente dalla soglia scelta e questo
-risparia l'ottimizzazione del modello rispetto alla soglia.
+risparmia l'ottimizzazione del modello rispetto alla soglia.
 
 Le curve ROC dei tre modelli allenati su \texttt{dataset\_corr} e \texttt{dataset\_corr\_std}
 sono visibili nella figura \ref{fig:roc_curve_corr}.
-
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{img/ris/roc_curve_corr.png}
@@ -146,13 +147,13 @@ le metriche di Accuracy, Precision, Recall e F1-score. I risultati ottenuti
 dall'esecuzione della cross validation sono stati utilizzati per calcolare gli
 intervalli di confidenza al $90\%$ delle metriche sopracitate.
 
-Per svolgere questa operazione sono stati utilizzati \texttt{dataset\_corr} e 
-\texttt{dataset\_corr\_std} completo, ovvero senza alcuna suddivisione in training 
+Per svolgere questa operazione sono stati utilizzati \texttt{dataset\_corr} e
+\texttt{dataset\_corr\_std} completo, ovvero senza alcuna suddivisione in training
 set e test set.
 
 I risultati ottenuti sono stati riportati sia in forma numerica che grafica
 per facilitare la comprensione. In particolare, i valori delle metriche ottenuti
-sono stati riportati in figura \ref{fig:intervalli_confidenza_corr} e
+sono stati riportati in figura \ref{fig:img_intervalli_confidenza_corr} e
 nella tabella \ref{tab:intervalli_confidenza_corr}.
 
 \begin{table}[!ht]
@@ -161,7 +162,7 @@ nella tabella \ref{tab:intervalli_confidenza_corr}.
         \begin{tabular}{@{}cllll@{}}
             \toprule
             \rowcolor[HTML]{EFEFEF}
-            \textbf{Modello}                                      & \textbf{Accuracy}         & \textbf{Precision}          & \textbf{Recall}            & \textbf{F1-score}            \\ \midrule
+            \textbf{Modello}                                      & \textbf{Accuracy}            & \textbf{Precision}           & \textbf{Recall}              & \textbf{F1-score}            \\ \midrule
             \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     \\
             \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{95 \%}    & \multicolumn{1}{c}{90 \%}    & \multicolumn{1}{c}{99 \%}    & \multicolumn{1}{c}{94 \%}    \\
             \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{98.27 \%} & \multicolumn{1}{c}{97.99 \%} & \multicolumn{1}{c}{98.15 \%} & \multicolumn{1}{c}{98.06 \%} \\ \bottomrule
@@ -175,49 +176,48 @@ nella tabella \ref{tab:intervalli_confidenza_corr}.
         \begin{tabular}{@{}cllll@{}}
             \toprule
             \rowcolor[HTML]{EFEFEF}
-            \textbf{Modello}                                      & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall}  & \textbf{F1-score}  \\ \midrule
-            \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & []                   & []                  & []                 & []                 \\
-            \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & []                   & []                  & []                 & []                 \\
-            \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & [97.98\%, 98.55\%]   & [97.47\%, 98.52\%]  & [97.49\%, 98.81\%] & [97.75\%, 98.38\%] \\ \bottomrule
+            \textbf{Modello}                                      & \textbf{Accuracy}  & \textbf{Precision} & \textbf{Recall}    & \textbf{F1-score}  \\ \midrule
+            \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & []                 & []                 & []                 & []                 \\
+            \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & []                 & []                 & []                 & []                 \\
+            \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & [97.98\%, 98.55\%] & [97.47\%, 98.52\%] & [97.49\%, 98.81\%] & [97.75\%, 98.38\%] \\ \bottomrule
         \end{tabular}
         \caption{Intervalli di confidenza delle metriche ottenute dalla cross validation}
         \label{tab:intervalli_confidenza_corr}
     \end{subtable}
     \caption{Risultati ottenuti dalla cross validation}
-    \label{tab:intervalli_confidenza_corr}
+    \label{tab:metriche_intervalli_confidenza_corr}
 \end{table}
-% TODO: cambiare le immagini con quelle nuove
 \begin{figure}[!ht]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/rete/intervalliAcc.png}
+        \includegraphics[width=\textwidth]{img/ris/accuracy_inter_corr.png}
         \caption{Accuracy}
         \label{fig:acc}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/rete/intervalliF1.png}
+        \includegraphics[width=\textwidth]{img/ris/fscore_inter_corr.png}
         \caption{F1 score}
         \label{fig:f1}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/rete/intervalliPrecision.png}
+        \includegraphics[width=\textwidth]{img/ris/precision_inter_corr.png}
         \caption{Precision}
         \label{fig:precision}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/rete/intervalliRecall.png}
+        \includegraphics[width=\textwidth]{img/ris/recall_inter_corr.png}
         \caption{Recall}
         \label{fig:recall}
     \end{subfigure}
     \caption{Intervalli di confidenza ottenuti dai modelli addestrati con e senza PCA}
-    \label{fig:intervalli_confidenza_corr}
+    \label{fig:img_intervalli_confidenza_corr}
 \end{figure}
 
 % ! Commento sugli intervalli di confidenza e confronto con i valori ottenuti
@@ -225,7 +225,7 @@ nella tabella \ref{tab:intervalli_confidenza_corr}.
 \section{Risultati dei modelli allenati su \texttt{dataset\_pca} e \texttt{dataset\_pca\_std}} \label{sec:risultati_pca}
 Un ragionamento analogo a quello svolto nella sezione \ref{sec:risultati_corr} può essere
 applicato ai modelli addestrati sul dataset le cui feature sono state selezionate
-attraverso Principal Component Analysis (PCA). 
+attraverso Principal Component Analysis (PCA).
 
 Come prima cosa, nella figura \ref{fig:matrice_di_confusione_per_pca} vengono
 mostrate le matrici di confusione dei modelli.
@@ -234,7 +234,7 @@ mostrate le matrici di confusione dei modelli.
     \centering
     \begin{subfigure}{0.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/analisi/pcaVarianza.png}
+        \includegraphics[width=\textwidth]{img/svm/matrice_confusione_pca.png}
         \caption{Support Vector Machine}
         \label{fig:matrice_di_confusione_per_SVM_pca}
     \end{subfigure}
@@ -256,8 +256,8 @@ mostrate le matrici di confusione dei modelli.
     \label{fig:matrice_di_confusione_per_pca}
 \end{figure}
 
-Successivamente sono state ricavate dalle matrici di correlazione le metriche 
-di valutazioen dei vari modelli, i valori sono riportati nella tabella 
+Successivamente sono state ricavate dalle matrici di correlazione le metriche
+di valutazione dei vari modelli, i valori sono riportati nella tabella
 \ref{tab:risultati_pca}.
 
 \begin{table}[!ht]
@@ -265,7 +265,7 @@ di valutazioen dei vari modelli, i valori sono riportati nella tabella
     \begin{tabular}{@{}cllll@{}}
         \toprule
         \rowcolor[HTML]{EFEFEF}
-        \textbf{Modello}                                      & \textbf{Accuracy}         & \textbf{Precision}          & \textbf{Recall}            & \textbf{F1-score}            \\ \midrule
+        \textbf{Modello}                                      & \textbf{Accuracy}            & \textbf{Precision}           & \textbf{Recall}              & \textbf{F1-score}            \\ \midrule
         \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     \\
         \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    \\
         \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{98.27 \%} & \multicolumn{1}{c}{97.92 \%} & \multicolumn{1}{c}{98.21 \%} & \multicolumn{1}{c}{98.07 \%} \\ \bottomrule
@@ -295,8 +295,8 @@ che suggerisce che questi classificatori sono leggermente peggiori rispetto a
 quelli addestrati sul dataset le cui feature sono state selezionate manualmente.
 
 Infine, per restare coerenti con quanto fatto in precedenza, è possibile effettuare
-una valutazioen di robustezza dei modelli addestrati tramite la tecnica della 
-$10$-fold stratified cross validation. 
+una valutazione di robustezza dei modelli addestrati tramite la tecnica della
+$10$-fold stratified cross validation.
 I risultati ottenuti sono riportati in figura \ref{fig:intervalli_confidenza_pca}
 e nella tabella \ref{tab:intervalli_confidenza_pca}.
 
@@ -332,33 +332,32 @@ e nella tabella \ref{tab:intervalli_confidenza_pca}.
     \label{tab:intervalli_confidenza_pca}
 \end{table}
 
-% TODO: Sono da calcolare e inserire
 \begin{figure}[!ht]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/rete/intervalliAcc.png}
+        \includegraphics[width=\textwidth]{img/ris/accuracy_inter_pca.png}
         \caption{Accuracy}
         \label{fig:acc_pca}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/rete/intervalliF1.png}
+        \includegraphics[width=\textwidth]{img/ris/fscore_inter_pca.png}
         \caption{F1 score}
         \label{fig:f1_pca}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/rete/intervalliPrecision.png}
+        \includegraphics[width=\textwidth]{img/ris/precision_inter_pca.png}
         \caption{Precision}
         \label{fig:precision_pca}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{img/rete/intervalliRecall.png}
+        \includegraphics[width=\textwidth]{img/ris/recall_inter_pca.png}
         \caption{Recall}
         \label{fig:recall_pca}
     \end{subfigure}
