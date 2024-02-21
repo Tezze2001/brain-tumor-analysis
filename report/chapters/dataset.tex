@@ -219,17 +219,35 @@ di accettare notevoli errori. In ogni caso, si possono osservare le coppie con
 meno sovrapposizioni tra classi in questo caso sono:
 \begin{itemize}
       \item \textit{Entropy} e \textit{Mean}
-      \item \textit{Skewness} e \textit{Mean}
-      \item \textit{Skewness} e \textit{Entropy}
-      \item \textit{Contrast} e \textit{Entropy}
-      \item \textit{Correlation} e \textit{Entropy}
+      \item \textit{Energy} e \textit{Mean}
+      \item \textit{ASM} e \textit{Mean}
+      \item \textit{Homogeneity} e \textit{Mean}
+      \item \text{Entropy} e \textit{Variance}
+      \item \textit{Energy} e \textit{Variance}
+      \item \textit{ASM} e \textit{Variance}
+      \item \textit{Standard Deviation} e \textit{Entropy}
+      \item \textit{Standard Deviation} e \textit{Energy}
+      \item \textit{Standard Deviation} e \textit{ASM}
+            % \item \textit{Skewness} e \textit{Mean}
+            % \item \textit{Skewness} e \textit{Entropy}
+            % \item \textit{Contrast} e \textit{Entropy}
+            % \item \textit{Correlation} e \textit{Entropy}
 \end{itemize}
 Osservando queste coppie hanno un numero di istanze sovrapposte ridotto, allora
 si può affermare che le SVM, con un kernel scelto in modo accurato, potrebbero
 ottenere degli ottimi risultati nella classificazione. Inoltre, questi grafici
 permettono anticipare dei primi studi sulla correlazione come la presenza di una
-correlazione logaritmica tra \textit{Skewness} e \textit{Mean}.
-% TODO: non solo questi ci sono molte altre correlazioni
+forte correlazione tra:
+\begin{itemize}
+      \item \textit{Mean} e \textit{Skewness}: 
+      \item \textit{Variance} e \textit{Standard Deviation}: questa correlazione
+            è facilmente spiegabile dal momento che la deviazione standard è la 
+            radice quadrata della varianza, quindi sono misure dipendenti.
+      \item \textit{Entropy} e \textit{ASM}
+      \item \textit{Entropy} e \textit{Energy}
+      \item \textit{Skewness} e \textit{Kurtosis}
+      \item \textit{Energy} e \textit{ASM}
+\end{itemize}
 \subsection{Analisi delle correlazioni} \label{sec:correlazione}
 Il passaggio successivo è  stato quello di analizzare le correlazioni tra le
 feature dal momento che un primo modo per ridurre la dimensionalità del dataset
@@ -250,9 +268,9 @@ feature. Innanzitutto, si può notare una forte correlazione positiva tra le
 feature \textit{Mean}, \textit{Variance} e \textit{Standard deviation}. Questa
 correlazione è facilmente spiegabile analizzando le immagini prodotte dalle
 risonanze magnetiche. Infatti, essendo in bianco e nero, se la media tende a $1$
-(colore bianco) allora la varianza e la deviazione standard aumentano, perché si 
-passa da pixel neri a pixel bianchi. Questo comporta che le transizioni dal nero 
-assoluto al bianco assoluto necessitano di regioni di pixel maggiore rispetto 
+(colore bianco) allora la varianza e la deviazione standard aumentano, perché si
+passa da pixel neri a pixel bianchi. Questo comporta che le transizioni dal nero
+assoluto al bianco assoluto necessitano di regioni di pixel maggiore rispetto
 ad una transizione tra nero assoluto e grigio ($0.5$).
 
 Invece, la correlazione tra varianza è deviazione standard è facilmente spiegabile
@@ -303,7 +321,7 @@ Per ridurre la dimensionalità del dataset sono stati utilizzati due diversi met
 
 \subsection{Riduzione con la correlazione} \label{sec:riduzione_correlazione}
 Questo metodo si basa sulla correlazione delle features, ovvero se due features
-sono correlate allora significa che a livello discriminante una delle due è 
+sono correlate allora significa che a livello discriminante una delle due è
 superflua, di conseguenza si può rimuovere.
 
 Alla luce dello studio sulla correlazione effettuato nella sezione \ref{sec:correlazione},
