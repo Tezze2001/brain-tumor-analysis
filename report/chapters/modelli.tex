@@ -65,7 +65,10 @@ la valutazione dei risultati ottenuti.
 In questo capitolo tutte le operazioni effettuate sono state realizzate 
 utilizzando i dataset standardizzati (\texttt{dataset\_corr\_std} e 
 \texttt{dataset\_pca\_std}) presentati nella fase di preparazione dei 
-dati.
+dati.\\
+Si fa presente che lo studio dei tempi per questa parte dipende da dove è stato
+eseguito il codice. Per aggirare questo problema si è deciso di confrontare tra 
+loro solo i tempi eseguiti sulla stessa macchina.
 
 \subsection{Selezione degli iperparametri per kernel}
 La fase di selezione degli iperparametri per SVM è stata effettuata tramite 
@@ -82,7 +85,19 @@ Sono stati valutati i seguenti kernel:
     \item Sigmoidale
 \end{itemize}
 
-% ToDo: Spiegare valutazione migliore combinazione per kernel
+Prima di effettuare lo studio completo degli iperparametri essendo che le 
+combinazioni possibili sono esponenziali è stato effettuato un pre-studio
+per valutare quali fossero i parametri più significativi per ogni kernel in modo
+da non doverli analizzare tutti.\\
+
+Da tutte le combinazioni ricavate dalla grid search, sono stati selezionati le 
+migliori configurazioni per ogni kernel. 
+Per effettuare questa scelta è stata calcolata la media e la deviazione standard 
+dell'accuratezza e del tempo di addestramento per ogni combinazione di iperparametri.
+In seguito si è attibuito un punteggio ad ogni casistica in base al suo 
+posizionamento rispetto alle altre combinazioni per ogni metrica.
+Infine sommando i due valori di rank è stato scelto il modello con il punteggio
+più basso, in quanto rappresenta il miglior compromesso tra accuratezza e tempo.\\
 
 Inoltre si fa presente che per il kernel lineare e polinomiale è stato impostato
 un numero massimo di iterazioni pari a 100000 per rimanere competitivi con i tempi
@@ -224,9 +239,67 @@ di convergenza del modello.
         \label{tab:top_sigmoid_corr}
     \end{table}
 
-    \subsection{Selezione miglior kernel}
-    \subsection{SVM su dataset con dataset PCA}
-    \subsection{Confronto tra dataset ridotto e PCA}
+\subsection{Selezione miglior kernel}
+    La fase successiva è stata quella di confrontare i migliori candidati per
+    determinare il miglior kernel per il dataset.
+    
+    I risultati dei tempi confrontabili sono riportati nella seguente tabella:
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|}
+        \hline
+            \textbf{kernel} & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} \\ \hline
+            Linear & 0.055 & 0.013  \\ \hline
+            Poly & 0.073 & 0.004  \\ \hline
+            Rbf & 0.054 & 0.018  \\ \hline
+            Sigmoid & 0.071 & 0.032  \\ \hline
+        \end{tabular}
+        \caption{Risultati dei tempi delle migliori combinazioni per kernel}
+        \label{tab:top_time_kernels_corr}
+    \end{table}
+
+    Da questa tabella si può notare che i tempi rimangono contenuti per ogni kernel,
+    anche se il lineare e rbf risultano essere i più veloci.\\
+
+    Successivamente per ogni kernel riaddestrato sono state calcolate 
+    le metriche principali, ossia
+    \begin{itemize}
+        \item Accuratezza
+        \item Precision
+        \item Recall
+        \item F1-score
+    \end{itemize}
+    e le relative curve roc.
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|}
+        \hline
+            \textbf{kernel} & \textbf{accuracy} & \textbf{precision} & \textbf{recall} & \textbf{f1-score} \\ \hline
+            Linear & 97.97\% & 99.69\% & 95.81\% & 97.71\%  \\ \hline
+            Poly & 97.57\% & 99.38\% & 95.21\% & 97.24\%  \\ \hline
+            Rbf & 98.11\% & 99.38\% & 96.41\% & 97.87\%  \\ \hline
+            Sigmoid & 89.45\% & 87.43\% & 89.52\% & 88.46\%  \\ \hline
+        \end{tabular}
+        \caption{Risultati delle metriche principali per kernel}
+        \label{tab:top_metrics_kernels_corr}
+    \end{table}
+
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.75\textwidth]{img/svm/roc_SVM.png}
+        \caption{Curva ROC dei vari kernel SVM a confronto}
+        \label{fig:roc_SVM_corr}
+    \end{figure}
+
+    Dalla tabella \ref{tab:top_metrics_kernels_corr} si può notare che il kernel Rbf
+    è quello che ha ottenuto i risultati migliori per tutte le metriche. Inoltre anche
+    per il confronto delle curve roc \ref{fig:roc_SVM_corr} Rbf risulta essere il
+    migliore anche se i risultati degli altri kernel rimangono ottime opzioni esclusa
+    la sigmoide.
+
+\subsection{SVM su dataset con dataset PCA}
 
 % ==============================================================================
 \section{Gaussian Naive Bayes}
