@@ -56,7 +56,179 @@ La porzione di dati dedicata all'addestramento dei modelli, composta dall'$80\%$
 delle istanze, è anche stata utilizzata anche per ricercare gli iperparamentri 
 migliori per la rete neurale e per la SVM, più precisamente è stato effettuati 
 una $5$-fold stratified cross-validation.
+
 \section{Support Vector Machine}
+In questa sezione verrà presentato il processo di addestramento e selezione del modello
+candidato per \textbf{SVM}. Nello specifico si andranno a presentare le varie scelte
+effettuate per la definizione del modello tramite la selezione degli iperparametri e 
+la valutazione dei risultati ottenuti.
+In questo capitolo tutte le operazioni effettuate sono state realizzate 
+utilizzando i dataset standardizzati (\texttt{dataset\_corr\_std} e 
+\texttt{dataset\_pca\_std}) presentati nella fase di preparazione dei 
+dati.
+
+\subsection{Selezione degli iperparametri per kernel}
+La fase di selezione degli iperparametri per SVM è stata effettuata tramite 
+l'utilizzo di una grid search con una cross validation a 5 fold per ogni kernel.
+Questa scelta è stata necessaria in quanto ogni kernel ha dei parametri diversi,
+risultando in un numero di combinazioni di iperparametri molto elevato e spesso 
+privo di significato.
+Sono stati valutati i seguenti kernel:
+
+\begin{itemize}
+    \item Lineare
+    \item Polinomiale
+    \item RBF
+    \item Sigmoidale
+\end{itemize}
+
+% ToDo: Spiegare valutazione migliore combinazione per kernel
+
+Inoltre si fa presente che per il kernel lineare e polinomiale è stato impostato
+un numero massimo di iterazioni pari a 100000 per rimanere competitivi con i tempi
+essendo che alcune combinazioni di iperparametri rallentavano notevolmente il tempo 
+di convergenza del modello.
+
+\subsubsection*{Kernel lineare $\langle x,x'\rangle$}
+    Il kernel lineare si limita ad effettuare il prodotto scalare tra due vettori,
+    risultando particolarmente utile quando i dati sono linearmente separabili.
+    Per questo motivo sono stati valutati solamente i seguenti iperparamentri:
+    \begin{itemize}
+        \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
+              la complessità del modello e la corretta classificazione dei dati.
+              Un suo valore elevato porta ad avere un hard margin.
+              I valori testati sono stati 1, 100, 1e6.
+        \item \textbf{tol}: parametro di tolleranza, controlla la tolleranza
+              accettata per la convergenza del modello.
+              I valori testati sono stati 1e-2, 1e-3, 1e-5.
+    \end{itemize}
+
+    Di seguito è riportato il miglior candidato per il kernel lineare:
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|}
+        \hline
+            \textbf{params} & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} & \textbf{mean\_test\_score} & \textbf{std\_test\_score} \\ \hline
+            C: 1, tol: 0.01 & 0.019 & 0.001 & 0.9824 & 0.0048 \\ \hline
+        \end{tabular}
+        \caption{Miglior candidato per il kernel lineare}
+        \label{tab:top_linear_corr}
+    \end{table}
+
+    \subsubsection*{Kernel polinomiale $(\gamma\langle x,x'\rangle + r)^d$}
+    Il kernel polinomiale si occupa di trasformare i dati in uno spazio di
+    feature di dimensione superiore utilizzando la funzione polinomiale.
+    Solo per questo tipo di kernel è stata presa la decisione di impostare 
+    una tolleranza alta comune a tutte le combinazioni per raggiungere più 
+    velocemente la convergenza.
+    Sono stati studiati i seguenti iperparamentri:
+    \begin{itemize}
+        \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
+            la complessità del modello e la corretta classificazione dei dati.
+            Un suo valore elevato porta ad avere un hard margin.
+            I valori testati sono stati 1, 100, 1e3.
+            Da notare che è stato abbassato il valore massimo di C in quanto per
+            valori più elevati il modello non riusciva ad ottenere dei risultati
+            paragonabili.
+        \item Coefficente di bias \textbf{r}: termine indipendente di bias che 
+            controlla la posizione dell'iperpiano di separazione.
+            I valori testati sono stati 10.0, 1, 0.1.
+        \item Grado del polinomio \textbf{d}: controlla la complessità del modello
+            impostando il grado del polinomio.
+            I valori testati sono stati 2, 3, 4.
+        \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce l'importanza del
+            prodotto scalare sulla misura di similarità. Un valore elevato porta
+            ad essere più sensibili alle variazioni.
+            I valori testati sono stati 'scale', 'auto', 1e-3, 1, 1e3.
+    \end{itemize}
+
+    Di seguito è riportato il miglior candidato per il kernel polinomiale:
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|}
+        \hline
+            \textbf{params} & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} & \textbf{mean\_test\_score} & \textbf{std\_test\_score} \\ \hline
+            C: 1, r: 1.0, d: 4, $\gamma$: scale & 0.026 & 0.002 & 0.9868 & 0.0032 \\ \hline
+        \end{tabular}
+        \caption{Miglior candidato per il kernel polinomiale}
+        \label{tab:top_poly_corr}
+    \end{table}
+
+    \subsubsection*{Kernel RBF $\exp(-\gamma|| x,x'||^2)$}
+    Anche il kernel RBF si occupa di trasformare i dati in uno spazio di
+    feature di dimensione superiore esponenzialmente (radiale). 
+    Non viene più effettuato il prodotto scalare tra i vettori ma si misura
+    la loro distanza euclidea.
+    Tende ad effettuare frontiere decisionali radiali.
+    Sono stati studiati i seguenti iperparamentri:
+    \begin{itemize}
+        \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
+            la complessità del modello e la corretta classificazione dei dati.
+            Un suo valore elevato porta ad avere un hard margin.
+            I valori testati sono stati 1, 100, 1e6.
+        \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce la dimensione 
+            del kernel RBF. Un valore elevato porta ad essere più sensibili ai dati
+            di training.
+            Sono stati testati i valori 'scale', 'auto', 1e-3, 1, 1e3.
+    \end{itemize}
+
+    Di seguito è riportato il miglior candidato per il kernel rbf:
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|}
+        \hline
+            \textbf{params} & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} & \textbf{mean\_test\_score} & \textbf{std\_test\_score} \\ \hline
+            C: 100, $\gamma$: auto & 0.048 & 0.010 & 0.9915 & 0.0035 \\ \hline
+        \end{tabular}
+        \caption{Miglior candidato per il kernel rbf}
+        \label{tab:top_rbf_corr}
+    \end{table}
+
+    \subsubsection*{Kernel sigmoidale $\tanh(\gamma\langle x,x'\rangle + r)$}
+
+    Il kernel polinomiale si occupa di trasformare i dati in uno spazio di
+    feature di dimensione superiore tramite la funzione tangente iperbolica 
+    ispirandosi alla funzione di attivazione nelle reti neurali.
+    È molto sensibile rispetto ai suoi parametri $\gamma$ e $r$.
+    Essendo che anche nei casi più complessi il tempo di addestramento
+    rimane contenuto, si è deciso di testare anche quegli iperparametri che 
+    hanno ricoperto un ruolo meno significativo durante la fase preliminare della 
+    grid search.
+    Sono stati studiati i seguenti iperparamentri:
+    \begin{itemize}
+        \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
+            la complessità del modello e la corretta classificazione dei dati.
+            Un suo valore elevato porta ad avere un hard margin.
+            I valori testati sono stati 1, 100, 1e6.
+        \item Coefficente di bias \textbf{r}: termine indipendente di bias che 
+            controlla la posizione dell'iperpiano di separazione.
+            I valori testati sono stati -1, 0, 1.
+        \item Tolleranza \textbf{tol}: parametro di tolleranza, controlla la 
+            tolleranza accettata per la convergenza del modello.
+            I valori testati sono stati 1e-2, 1e-3, 1e-5.
+        \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce l'importanza del
+            prodotto scalare sulla misura di similarità. Un valore elevato porta
+            ad essere più sensibili alle variazioni.
+            I valori testati sono stati 'scale' e 'auto'.
+    \end{itemize}
+
+    Di seguito è riportato il miglior candidato per il kernel sigmoidale:
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|}
+        \hline
+            \textbf{params} & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} & \textbf{mean\_test\_score} & \textbf{std\_test\_score} \\ \hline
+            C: 1, r: -1.0, $\gamma$: scale, tol: 0.01 & 0.037 & 0.002 & 0.9145 & 0.0106 \\ \hline
+        \end{tabular}
+        \caption{Miglior candidato per il kernel sigmoidale}
+        \label{tab:top_sigmoid_corr}
+    \end{table}
+
+    \subsection{Selezione miglior kernel}
+    \subsection{SVM su dataset con dataset PCA}
+    \subsection{Confronto tra dataset ridotto e PCA}
+
+% ==============================================================================
 \section{Gaussian Naive Bayes}
 Di seguito verrà presentato il processo di addestramento del modello
 \textbf{Gaussian Naive Bayes}. È importante precisare che la scelta di utilizzare
