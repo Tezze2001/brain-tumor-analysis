@@ -45,23 +45,29 @@ intervalli di confidenza, per analizzare la robustezza dei modelli.
 prodotte le matrici di confusione per ciascun modello raffigurate nella figura 
 \ref{fig:matrice_di_confusione_per_corr}.
 
-\textbf{TODO: confronto dei valori nelle matrici di confusione}.
+Dalle matrici di confunsione si evidenza il fatto che i tre modelli sono molto
+buoni a classificare, più precisamente SVM e NN sono identiche, mentre il modello 
+che effettua più errori è GNB. Per tutti i modelli si può notare una tendenza ad
+effettuare più errori sulla classificazione degli esempi negativi rispetto agli
+esempi positivi, suggerendo una sofferenza di overfitting sulla classe negativa
+dovuta potenzialmente al leggero sbilanciamento non significativo delle classi nel dataset.    
 
-Dalle matrici di confusione si possono calcolare le metriche di Accuracy, Precision,
-Recall e F1-score. Nella tabella \ref{tab:risultati} sono riportati i valori delle
-metriche di valutazione ottenute per ciascun modello calcolate sul test set, il quale
+Si può effettuare uno studio più approfondito dei modelli, calcolando dalle 
+matrici di confusione le metriche di Accuracy, Precision, Recall e F1-score. 
+Nella tabella \ref{tab:risultati} sono riportati i valori delle
+metriche di valutazione ottenute per ciascun modello calcolate sul test set, quest'ultimo
 composto dal $20\%$ di \texttt{dataset\_corr} e \texttt{dataset\_corr\_std}.
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{@{}cllll@{}}
+    \begin{tabular}{@{}clllll@{}}
         \toprule
         \rowcolor[HTML]{EFEFEF}
-        \textbf{Modello}                                      & \textbf{Accuratezza}         & \textbf{Precisione}          & \textbf{Richiamo}            & \textbf{F1 score}            \\ \midrule
-        \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     \\
-        \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{95 \%}    & \multicolumn{1}{c}{90 \%}    & \multicolumn{1}{c}{99 \%}    & \multicolumn{1}{c}{94 \%}    \\
-        \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{98.93 \%} & \multicolumn{1}{c}{98.52 \%} & \multicolumn{1}{c}{99.10 \%} & \multicolumn{1}{c}{98.81 \%} \\ \bottomrule
+        \textbf{Modello}                                      & \textbf{Accuracy}            & \textbf{Precision}           & \textbf{Recall}              & \textbf{F1-score}            & \textbf{Tempo}\\ \midrule
+        \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{98.10 \%}     & \multicolumn{1}{c}{99.38 \%}     & \multicolumn{1}{c}{96.40 \%}     & \multicolumn{1}{c}{97.87 \%}     & \multicolumn{1}{c}{0.216 s} \\
+        \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{94.05 \%}    & \multicolumn{1}{c}{98.98 \%}    & \multicolumn{1}{c}{87.87 \%}    & \multicolumn{1}{c}{93.01 \%}    &  \multicolumn{1}{c}{0.006 s} \\
+        \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{98.93 \%} & \multicolumn{1}{c}{98.52 \%} & \multicolumn{1}{c}{99.10 \%} & \multicolumn{1}{c}{98.81 \%} & \multicolumn{1}{c}{6.363 s} \\ \bottomrule
     \end{tabular}
-    \caption{Risultati ottenuti dal modello addestrato}
+    \caption{Risultati ottenuti dal modello addestrato} 
     \label{tab:risultati}
 \end{table}
 
@@ -73,16 +79,16 @@ manipolazione geometrica dei dati, come la rete neurale e il Support Vector
 Machine (SVM), rispetto al modello fondato su una manipolazione probabilistica,
 come il Gaussian Naive Bayes.
 
-Tale fenomeno può essere razionalizzato considerando che le distribuzioni delle
-caratteristiche del dataset non rispecchiano una distribuzione gaussiana, come
-supposto dal modello Gaussian Naive Bayes. Inoltre, la rete neurale e il SVM
+Tale fenomeno può essere motivato considerando che una feature non rispetta 
+la distribuzione gaussiana, quindi dal momento che si calcola la verosimiglianza utilizzando la formula della normale,
+Gaussian Naive Bayes risulta più sensibile alla sua assunzione. Inoltre, la rete neurale e SVM 
 sono modelli intrinsecamente più complessi rispetto al Gaussian Naive Bayes,
 consentendo loro di catturare relazioni più intricate tra le features e
-la variabile target.
-
-In aggiunta, l'ottimo risultato osservato suggerisce una distinta separazione tra le
-due classi del dataset, suggerendo che i modelli sono capaci di generalizzare
-efficacemente.
+la variabile target. Per lo più ritornando al diagramma di dispersione delle features
+alla figura \ref{fig:scatterplot_features}, si può notare che per le features 
+persenti in \texttt{dataset\_corr} si hanno leggere sovrapposizioni delle classi,
+questo suggerisce che a dimensioni maggiori le classi potrebbero essere più facilmente
+separabili.
 
 \begin{figure}[!ht]
     \centering
@@ -114,10 +120,11 @@ In seguito, si è deciso di confrontare i modelli utilizzando un ulteriore metri
 ovvero AUC e le curve ROC, le quali permettono di confrontare i modelli in termini
 di trade-off tra tasso di veri positivi e tasso di falsi positivi, in aggiunta,
 le curve ROC confrontano i modelli indipendentemente dalla soglia scelta e questo
-risparmia l'ottimizzazione del modello rispetto alla soglia.
+risparmia l'ottimizzazione del modello rispetto ad una particolare soglia.
 
-Le curve ROC dei tre modelli allenati su \texttt{dataset\_corr} e \texttt{dataset\_corr\_std}
-sono visibili nella figura \ref{fig:roc_curve_corr}.
+Le curve ROC del classificatore casuale e dei tre modelli allenati su 
+\texttt{dataset\_corr} e \texttt{dataset\_corr\_std} sono visibili nella figura 
+\ref{fig:roc_curve_corr}.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{img/ris/roc_curve_corr.png}
@@ -125,31 +132,33 @@ sono visibili nella figura \ref{fig:roc_curve_corr}.
     \label{fig:roc_curve_corr}
 \end{figure}
 
-Le curve ROC permettono di confrontare i modelli addestrati anche con il classificatore
-casuale, il quale corrisponde alla retta $y = x$. Il grafico riportato in figura
-\ref{fig:roc_curve_corr} mostra che la rete neurale e il Gaussian Naive Bayes
-hanno delle prestazioni molto simili tra loro, è quindi utile confrontare i due
-due tramite l'area sottesa alla curva ROC (AUC). L'area sotto la curva ROC
-per la rete neurale è pari a $1.00$, mentre per il Gaussian Naive Bayes è pari a
-$0.99$. Questi valori suggeriscono che la rete neurale è leggermente superiore
-al Gaussian Naive Bayes in termini di capacità di discriminazione tra le due
-classi, anche se entrambi i modelli ottengono dei buoni risultati.
+Il grafico riportato in figura
+\ref{fig:roc_curve_corr} mostra che i tre modelli appena allenati 
+hanno delle prestazioni molto simili tra loro e nettamente migliori rispetto al 
+classificatore randomico. Con queste premesse risulta fondamentale concentrarsi
+sul confronto dell'area sottesa alla curva ROC (AUC). L'area sottesa alla curva ROC
+per la rete neurale e per SVM è pari a $1.00$, mentre per il Gaussian Naive Bayes è pari a
+$0.99$. Questi valori suggeriscono che i modelli basati sulla manipolazione geometrica
+leggermente superiore a Gaussian Naive Bayes in termini di capacità di discriminazione tra le due
+classi, anche se a livello assoluto tutti e tre i modelli sono ottimi per la 
+classificazione.
 
 Come anticipato precedentemente, dal momento che il dataset è di medie dimensioni
 allora si è deciso di effettuare anche uno studio di robustezza dei modelli.
 Per fare ciò si è deciso di condurre una valutazione tramite la tecnica della
-$10$-fold stratified cross validation. Tale tecnica permette di ottenere una
+$10$-fold stratified cross-validation. Tale tecnica permette di ottenere una
 stima più accurata delle performance del modello, riducendo l'effetto della
 variabilità dei dati.
 
 In questo processo ogni modello che è stato addestrato è stato valutato attraverso
 le metriche di Accuracy, Precision, Recall e F1-score. I risultati ottenuti
-dall'esecuzione della cross validation sono stati utilizzati per calcolare gli
+dall'esecuzione della cross-validation sono stati utilizzati per calcolare gli
 intervalli di confidenza al $90\%$ delle metriche sopracitate.
 
 Per svolgere questa operazione sono stati utilizzati \texttt{dataset\_corr} e
 \texttt{dataset\_corr\_std} completo, ovvero senza alcuna suddivisione in training
-set e test set.
+set e test set, dal momento che le separazioni vengono effettuate all'interno 
+della crosss-validation.
 
 I risultati ottenuti sono stati riportati sia in forma numerica che grafica
 per facilitare la comprensione. In particolare, i valori delle metriche ottenuti
@@ -159,13 +168,13 @@ nella tabella \ref{tab:intervalli_confidenza_corr}.
 \begin{table}[!ht]
     \begin{subtable}[h]{1\textwidth}
         \centering
-        \begin{tabular}{@{}cllll@{}}
+        \begin{tabular}{@{}clllll@{}}
             \toprule
             \rowcolor[HTML]{EFEFEF}
-            \textbf{Modello}                                      & \textbf{Accuracy}            & \textbf{Precision}           & \textbf{Recall}              & \textbf{F1-score}            \\ \midrule
-            \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     \\
-            \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{95 \%}    & \multicolumn{1}{c}{90 \%}    & \multicolumn{1}{c}{99 \%}    & \multicolumn{1}{c}{94 \%}    \\
-            \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{98.27 \%} & \multicolumn{1}{c}{97.99 \%} & \multicolumn{1}{c}{98.15 \%} & \multicolumn{1}{c}{98.06 \%} \\ \bottomrule
+            \textbf{Modello}                                      & \textbf{Accuracy}            & \textbf{Precision}           & \textbf{Recall}              & \textbf{F1-score}            & \textbf{Tempo}\\ \midrule
+            \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{98.10 \%}     & \multicolumn{1}{c}{99.38 \%}     & \multicolumn{1}{c}{96.40 \%}     & \multicolumn{1}{c}{97.87 \%}     & \multicolumn{1}{c}{0.216 s} \\
+            \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{94.05 \%}    & \multicolumn{1}{c}{98.98 \%}    & \multicolumn{1}{c}{87.87 \%}    & \multicolumn{1}{c}{93.01 \%}    &  \multicolumn{1}{c}{0.006 s} \\
+            \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{98.27 \%} & \multicolumn{1}{c}{97.99 \%} & \multicolumn{1}{c}{98.15 \%} & \multicolumn{1}{c}{98.06 \%}  &  \multicolumn{1}{c}{6.363 s} \\ \bottomrule
         \end{tabular}
         \caption{Valore medio delle metriche ottenute dalla cross validation}
         \label{tab:risultati_cross_val_corr}
@@ -220,7 +229,23 @@ nella tabella \ref{tab:intervalli_confidenza_corr}.
     \label{fig:img_intervalli_confidenza_corr}
 \end{figure}
 
-% ! Commento sugli intervalli di confidenza e confronto con i valori ottenuti
+Dagli intervalli di confidenza si nota immediatamente che GNB è il peggiore rispetto 
+agli altri modelli secondo le metriche di Accuracy, Recall e F1-score, non solo
+in termini di media degli intervalli, ma anche in termini di varianza delle metriche.
+Questo significa che tra tutti i modelli allenati sulla versione \texttt{dataset\_corr}
+\texttt{dataset\_corr\_std}, i migliori sono quelli che manipolano i dati geometricamente, 
+più precisamente si hanno risultati migliori del circa $4\%/8\%$ sulle metriche di
+Accuracy, Recall e F1-score. Al contrario la Precision di GNB risulta più confrontabile 
+con gli altri modelli, ma suggerisce solo che si hanno pochi errori sulla classe 
+positiva come anche dimostrato dalla matrice di confusione di GNB. Il problema è
+che le altre metriche specificano più errori sulla classe negativa che nel dominio
+in questione non è una caratteristica accettabile, dal momento che l'obiettivo 
+dovrebbe essere quello di ridurre il più possibile i falsi negativi, massimizzando 
+la Recall, ma massimizzando il più possibile la precision. Con tutte queste 
+osservazioni il modello migliore è SVM dal momento che in generare ha degli ottimi
+risultati sia in termini di correttezza nella classificazione, sia in termini
+di minimizzazione dei falsi negativi, mantenendo un ridotto errore dei falsi positivi.
+
 
 \section{Risultati dei modelli allenati su \texttt{dataset\_pca} e \texttt{dataset\_pca\_std}} \label{sec:risultati_pca}
 Un ragionamento analogo a quello svolto nella sezione \ref{sec:risultati_corr} può essere
@@ -256,19 +281,21 @@ mostrate le matrici di confusione dei modelli.
     \label{fig:matrice_di_confusione_per_pca}
 \end{figure}
 
-Successivamente sono state ricavate dalle matrici di correlazione le metriche
-di valutazione dei vari modelli, i valori sono riportati nella tabella
-\ref{tab:risultati_pca}.
+Dalle matrici di confusione si evidenzia come GNB continua ad essere il modello 
+con più errori, in ogni caso si uniforma agli altri a livello di falsi negativi,
+ma ha molti più falsi positivi. Per completezza sono state ricavate dalle matrici 
+di correlazione le metriche di valutazione dei vari modelli e i valori sono riportati 
+nella tabella \ref{tab:risultati_pca}.
 
 \begin{table}[!ht]
     \centering
-    \begin{tabular}{@{}cllll@{}}
+    \begin{tabular}{@{}clllll@{}}
         \toprule
         \rowcolor[HTML]{EFEFEF}
-        \textbf{Modello}                                      & \textbf{Accuracy}            & \textbf{Precision}           & \textbf{Recall}              & \textbf{F1-score}            \\ \midrule
-        \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     & \multicolumn{1}{c}{0 \%}     \\
-        \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    \\
-        \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{98.27 \%} & \multicolumn{1}{c}{97.92 \%} & \multicolumn{1}{c}{98.21 \%} & \multicolumn{1}{c}{98.07 \%} \\ \bottomrule
+        \textbf{Modello}                                      & \textbf{Accuracy}            & \textbf{Precision}           & \textbf{Recall}              & \textbf{F1-score}            & \textbf{Tempo} \\ \midrule
+        \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{97.43 \%}     & \multicolumn{1}{c}{100 \%}     & \multicolumn{1}{c}{94.31 \%}     & \multicolumn{1}{c}{97.07 \%}     & \multicolumn{1}{c}{0.196 s}\\
+        \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}   & \multicolumn{1}{c}{0.006 s} \\
+        \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{98.27 \%} & \multicolumn{1}{c}{97.92 \%} & \multicolumn{1}{c}{98.21 \%} & \multicolumn{1}{c}{98.07 \%} & \multicolumn{1}{c}{3.326 s} \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dal modello addestrato}
     \label{tab:risultati_pca}
