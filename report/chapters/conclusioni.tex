@@ -4,4 +4,61 @@ L'intero progetto si è basato sul riconoscimento della presenza del tumore del
 cervello a partire da immagini in bianco e nero prodotte dalla risonanza magnetica
 dei pazienti.
 
-Innanzitutto 
+Innanzitutto è stato compreso la modalità di ottenimento delle features dalle immagini
+delle risonanze magnetiche, in questo modo si è potuto scoprire il significato 
+delle features calcolate, operazione necessaria per poter commentare tutte le 
+analisi esplorative sul dataset.
+
+Una volta compresa la composizione del dataset, è stato effettuato lo studio esplorativo,
+dal quale sono state applicate diverse trasformazioni per rimuovere eventuali valori
+nulli o costanti. Successivamente si è studiato se le classi del dataset 
+fossero bilanciate e, inoltre, sono state controllate le distribuzioni delle features
+attraverso la creazione di un grafico a barre. Da questi studi si è osservato il fatto
+che le classi fossero bilanciate e che alcune features non fossero normali.
+In seguito allo studio delle distribuzioni, è stato prodotto anche una serie di
+boxplot delle singole features separando le due classi del dataset, in questo
+modo è stato possibile riconoscere eventuali attributi costanti ed eventuali 
+features fortemente discriminanti.
+
+Durante l'analisi esplorativa, è stata eseguita un'analisi delle correlazioni
+tra le features in modo tale da studiare eventuiali relazioni tra i diversi attributi.
+Da questa fase sono state riconosciute diverse relazioni tra le features che misurano
+la distribuzione dei livelli di grigio e le features legate alla misurazione del 
+contrasto e omogeneità delle texture.
+
+Terminata l'analisi esplorativa, è stato necessario effettuare una riduzione di
+dimensionalità prima di consegnare i dati agli algoritmi di machine learning. Notando 
+diverse correlazioni tra gli attributi, è stato pensato di non limitarsi a ridurre
+la dimensionalità del dataset solo con PCA, ma in realtà è stato pensato di ridurlo
+attraverso la rimozione delle correlazioni. Con questa premessa sono stati quindi 
+prodotti due dataset differenti: \texttt{dataset\_corr} e \texttt{dataset\_pca}.
+In questo modo è stato possibile confrontare non solo i modelli, ma anche i due 
+metodi di riduzione della dimensionalità, in modo tale da comprendere la necessità
+di utilizzare un vero algoritmo di riduzione di dimensionalità.
+
+Una volta prodotti i due dataset ridotti, sono stati valutati i modelli scelti su 
+entrambi i dataset. Più precisamente la valutazione si è articolata in due fasi,
+la prima suddividento ciascun dataset in train e test per allenare i modelli sul
+train e poi valutarli sul test, mentre la seconda fase è stata effettuata con una
+cross-validation calcolando gli intervalli di confidenza delle metriche. Per 
+quei modelli che hanno bisogno anche di una ottimizzazione degli iperparametri,
+questa è stata effettuata in cross-validation sul train set della prima valutazione,
+inoltre, gli stessi iperparametri vengono utilizzati anche per la seconda valutazione.
+Parlando dei risultati ottenuti sulle valutazioni dei modelli, si evidenzia immediatamente
+come tutti e tre i modelli sono dei buoni classificatori per il problema, dal momento 
+che, per ogni metrica di valutazione, sono stati ottenuti dei valori superiori al 
+$90\%$.
+Un confronto più approfondito tra i vari modelli evidenzia che la metodologia di riduzione di dimensionalità 
+non influisce molto sui risultati, infatti, sia per quanto riguarda la prima valutazione,
+sia per quanto riguarda la seconda valutazione, le metriche e gli intervalli sono 
+molto simili. Per quanto riguarda la bontà dei modelli, si è notato che i migliori
+sono quelli basati sulla manipolazione geometrica dei dati, ovvero la rete neurale 
+e SVM. Al contrario, Gaussian Naive Bayes non raggiunge i medesimi risultati, eccetto
+che per l'Accuracy che è comparabile con gli altri, ma dal momento che in questo
+dominio la metrica più importante è la Recall allora una buona Accuracy non è 
+sufficiente. In ogni caso si può selezionare il modello SVM come il migliore 
+rispetto anche alla rete neurale considerando nel confronto anche i tempi di addestramento
+e i tempi per la ricerca degli iperparametri che sono inferiori per SVM.
+
+In conclusione, tutti e tre i modelli sono molto buoni per il problema di classificazione
+del tumore, ma il migliore in termini di errori e tempi di addestramento è SVM.
