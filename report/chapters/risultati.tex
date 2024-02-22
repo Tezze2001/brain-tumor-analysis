@@ -309,9 +309,11 @@ che l'applicazione di PCA potrebbe essere un operazione superflua. Questa idea
 deve essere ulteriormente verificata attraverso l'analisi delle curve ROC e
 il processo di valutazione attraverso la cross-validation.
 
-In aggiunta all'analisi sulle metriche, è stato condotto un confronto tra i
-modelli mediante l'utilizzo delle curve ROC, le quali sono presentate nella
-figura \ref{fig:roc_curve_pca}.
+Nelle curve ROC create con i modelli addestrati sul dataset estratto con PCA (vedi figura \ref{fig:roc_curve_pca}), si
+può notare una maggiore distanza tra le curve della rete neurale e SVM rispetto
+a quella del Gaussian Naive Bayes. Questo si nota principalmente nella parte
+sinistra del grafico, dove si ha un tasso di falsi positivi molto basso.
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{img/ris/roc_curve_pca.png}
@@ -319,24 +321,19 @@ figura \ref{fig:roc_curve_pca}.
     \label{fig:roc_curve_pca}
 \end{figure}
 
-Nelle curve ROC create con i modelli addestrati sul dataset estratto con PCA, si
-può notare una maggiore distanza tra le curve della rete neurale e SVM rispetto
-a quella del Gaussian Naive Bayes. Questo si nota principalmente nella parte
-sinistra del grafico, dove si ha un tasso di falsi positivi molto basso.
-
 In casi come questo, dove le curve ROC sono molto simili, è possibile confrontare
 i modelli in termini di AUC. L'area sottesa alla curva ROC per la rete neurale e
 della SVM sono pari a $0.99$, mentre per il Gaussian Naive Bayes è pari a $0.98$.
-Questi valori suggeriscono che i modelli basati sulla manipolazione geometrica
-siano leggermente superiori a Gaussian Naive Bayes in termini di capacità di
-discriminazione tra le due classi.
+Questi valori suggeriscono, come per la sezione precedente, che i modelli basati sulla manipolazione geometrica
+siano leggermente superiori a Gaussian Naive Bayes in termini di capacità
+discriminante tra le due classi.
 
-Questo studio suggerisce che l'applicazione di PCA non ha portato a miglioramenti
-significativi nelle performance dei modelli.
+Questo studio porta ad affermare che l'applicazione di PCA non ha portato a miglioramenti
+significativi nelle performance dei modelli, addirittura livello numerico si è ridotta di un
+punto percentuale la metrica AUC dei modelli, un decremento non significativo.
 \newpage
-Per concludere, è stato condotto uno studio di robustezza dei modelli tramite
-la tecnica della $10$-fold stratified cross-validation. I risultati ottenuti
-sono stati riportati in figura \ref{fig:intervalli_confidenza_pca} e nella
+Per concludere, è stata effettuata la seconda valutazione con una $10$-fold stratified 
+cross-validation. I risultati ottenuti sono stati riportati in figura \ref{fig:intervalli_confidenza_pca} e nella
 tabella \ref{tab:intervalli_confidenza_pca}.
 \begin{table}[!ht]
     \begin{subtable}[h]{1\textwidth}
@@ -370,22 +367,20 @@ tabella \ref{tab:intervalli_confidenza_pca}.
     \label{tab:media_intervalli_confidenza_pca}
 \end{table}
 
-Analizzando i risultati della cross-validation, si può notare che i modelli
-basati sulla manipolazione geometrica dei dati continuano a mostrare performance
+Analizzando i risultati della cross-validation, la seconda valutazione conferma che i modelli
+basati sulla manipolazione geometrica dei dati mostrano performance
 superiori rispetto a Gaussian Naive Bayes. In particolare, SVM è il modello che
 mostra le performance migliori si in termini di media delle metriche, sia in
 termini di varianza delle stesse. Questo suggerisce che SVM è il modello più
 robusto tra i tre.
 
 A differenza di quanto osservato nel dataset le cui feature sono state selezionate
-manualmente, in questo caso l'applicazione di PCA ha portato a degli intervalli
-di confidenza leggermente più piccoli per quanto riguarda la rete neurale, 
-suggerendo che l'applicazione di PCA potrebbe aver portato a una maggiore
-robustezza del modello.
-Per quanto riguarda Gaussian Naive Bayes si hanno valori medi delle metriche
-minori rispetto agli altri modelli, e con intervalli di confidenza più ampi
-nella maggior parte delle metriche, suggerendo che questo modello è il meno
-robusto tra i tre.
+manualmente, in questo caso l'applicazione di PCA non porta significativi incrementi
+alle metriche dal momento che rimangono invariate. Tra i singoli modelli la media 
+e l'ampiezza degli intervalli di confidenza non ha avuto particolari miglioramenti 
+o peggioramenti sulle metriche. L'unica differenza insignificativa è per GNB che 
+hai decrementi sui valori medi delle metriche e un aumento dell'ampiezza degli
+intervalli, suggerendo una perdita di robustezza.
 \begin{figure}[!ht]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
