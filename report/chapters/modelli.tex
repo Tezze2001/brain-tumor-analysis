@@ -53,31 +53,32 @@ robustezza dei modelli creati, calcolando gli intervalli di confidenza delle
 metriche di valutazione.
 
 La porzione di dati dedicata all'addestramento dei modelli, composta dall'$80\%$
-delle istanze, è anche stata utilizzata anche per ricercare gli iperparamentri 
-migliori per la rete neurale e per la SVM, più precisamente è stato effettuati 
+delle istanze, è anche stata utilizzata anche per ricercare gli iperparamentri
+migliori per la rete neurale e per la SVM, più precisamente è stato effettuati
 una $5$-fold stratified cross-validation.
 
 \section{Support Vector Machine}
-In questa sezione verrà presentato il processo di addestramento e selezione del modello
-candidato per \textbf{SVM}. Nello specifico si andranno a presentare le varie scelte
-effettuate per la definizione del modello tramite la selezione degli iperparametri e 
-la valutazione dei risultati ottenuti.
-In questo capitolo tutte le operazioni effettuate sono state realizzate 
-utilizzando i dataset standardizzati (\texttt{dataset\_corr\_std} e 
-\texttt{dataset\_pca\_std}) presentati nella fase di preparazione dei 
-dati.\\
-Si fa presente che lo studio dei tempi per questa parte dipende da dove è stato
-eseguito il codice. Per aggirare questo problema si è deciso di confrontare tra 
-loro solo i tempi eseguiti sulla stessa macchina.
+In questa sezione verrà presentato il processo di addestramento e selezione del
+modello candidato per \textbf{SVM}. Nello specifico si andranno a presentare le
+varie scelte effettuate per la definizione del modello tramite la selezione
+degli iperparametri e la valutazione dei risultati ottenuti. Tutte le operazioni
+effettuate sono state realizzate utilizzando i dataset standardizzati
+(\texttt{dataset\_corr\_std} e \texttt{dataset\_pca\_std}) presentati nella fase
+di preparazione dei dati.
 
+% Si fa presente che lo studio dei tempi per questa parte dipende da dove è stato
+% eseguito il codice. Per aggirare questo problema si è deciso di confrontare tra
+% loro solo i tempi eseguiti sulla stessa macchina.
 \subsection{Selezione degli iperparametri per kernel}
-La fase di selezione degli iperparametri per SVM è stata effettuata tramite 
-l'utilizzo di una grid search con una cross validation a 5 fold per ogni kernel.
-Questa scelta è stata necessaria in quanto ogni kernel ha dei parametri diversi,
-risultando in un numero di combinazioni di iperparametri molto elevato e spesso 
-privo di significato.
-Sono stati valutati i seguenti kernel:
-
+La fase di selezione degli iperparametri per il classificatore SVM è stata
+condotta mediante l'impiego di procedure di grid search. Nello specifico, si è
+adottata una grid search per ciascun kernel, utilizzando una tecnica di
+cross-validation a 5 fold. Tale decisione è stata motivata dalla necessità di
+ottimizzare gli iperparametri specifici di ciascun kernel. Considerando che i
+kernel presentano parametri differenti da ottimizzare, il processo di selezione
+deve affrontare un elevato numero di combinazioni, il che potrebbe generare
+combinazioni prive di significato se svolto in un unico processo. Pertanto, sono
+stati valutati i seguenti kernel:
 \begin{itemize}
     \item Lineare
     \item Polinomiale
@@ -85,38 +86,78 @@ Sono stati valutati i seguenti kernel:
     \item Sigmoidale
 \end{itemize}
 
-Prima di effettuare lo studio completo degli iperparametri essendo che le 
-combinazioni possibili sono esponenziali è stato effettuato un pre-studio
-per valutare quali fossero i parametri più significativi per ogni kernel in modo
-da non doverli analizzare tutti.\\
+Per effettuare il processo di selezione di iperparametri, si è deciso di
+effettuare uno studio preliminare per valutare quali fossero quelli più
+significativi per ogni kernel, in modo da non doverli analizzare tutti e di
+conseguenza ridurre il tempo di esecuzione. Questo studio ha portato a definire
+i seguenti iperparametri da analizzare:
+\begin{itemize}
+    \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
+          la complessità del modello e la corretta classificazione dei dati.
+          Un suo valore elevato porta ad avere un hard margin.
+    \item Tolleranza \textbf{tol}: parametro di tolleranza, controlla la
+          tolleranza accettata per la convergenza del modello.
+    \item Coefficiente di bias \textbf{r}: termine indipendente di bias che
+          controlla la posizione dell'iperpiano di separazione nel caso di
+          kernel polinomiale.
+    \item Grado del polinomio \textbf{d}: controlla la complessità del modello
+          impostando il grado del polinomio utile solo per il kernel polinomiale.
+    \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce l'importanza del
+          prodotto scalare sulla misura di similarità per il kernel polinomiale.
+          Per il kernel rbf gestisce la dimensione del kernel. Un valore elevato
+          porta ad essere più sensibili alle variazioni.
+\end{itemize}
 
-Da tutte le combinazioni ricavate dalla grid search, sono stati selezionati le 
-migliori configurazioni per ogni kernel. 
-Per effettuare questa scelta è stata calcolata la media e la deviazione standard 
+Dai risultati ottenuti si è proceduto con la valutazione dei modelli ottenuti
+attraverso la selezione della miglior combinazione di iperparametri per il dataset.
+Per effettuare questa scelta è stata calcolata la media e la deviazione standard
 dell'accuratezza e del tempo di addestramento per ogni combinazione di iperparametri.
-In seguito si è attibuito un punteggio ad ogni casistica in base al suo 
-posizionamento rispetto alle altre combinazioni per ogni metrica.
-Infine sommando i due valori di rank è stato scelto il modello con il punteggio
-più basso, in quanto rappresenta il miglior compromesso tra accuratezza e tempo.\\
+In seguito si è attribuito un punteggio ad ogni casistica in base al suo
+posizionamento rispetto alle altre combinazioni per ogni metrica. Infine
+sommando i due valori di rank è stato scelto il modello con il punteggio
+più basso, in quanto rappresenta il miglior compromesso tra accuratezza e tempo.
 
 Inoltre si fa presente che per il kernel lineare e polinomiale è stato impostato
-un numero massimo di iterazioni pari a 100000 per rimanere competitivi con i tempi
-essendo che alcune combinazioni di iperparametri rallentavano notevolmente il tempo 
-di convergenza del modello.
-
+un numero massimo di iterazioni pari a 100000 per rimanere competitivi con i
+tempi essendo che alcune combinazioni di iperparametri rallentavano notevolmente
+il tempo di convergenza del modello.
 \subsubsection*{Kernel lineare $\langle x,x'\rangle$}
-    Il kernel lineare si limita ad effettuare il prodotto scalare tra due vettori,
-    risultando particolarmente utile quando i dati sono linearmente separabili.
-    Per questo motivo sono stati valutati solamente i seguenti iperparamentri:
-    \begin{itemize}
-        \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
-              la complessità del modello e la corretta classificazione dei dati.
-              Un suo valore elevato porta ad avere un hard margin.
-              I valori testati sono stati 1, 100, 1e6.
-        \item Tolleranza \textbf{tol}: parametro di tolleranza, controlla la tolleranza
-              accettata per la convergenza del modello.
-              I valori testati sono stati 1e-2, 1e-3, 1e-5.
-    \end{itemize}
+Il kernel lineare si limita ad effettuare il prodotto scalare tra due vettori,
+risultando particolarmente utile quando i dati sono linearmente separabili.
+Per questo motivo sono stati valutati solamente i seguenti iperparamentri:
+\begin{itemize}
+    \item Parametro di regolarizzazione \textbf{C}: valori testati sono stati 1,
+          100, 1e6.
+    \item Tolleranza \textbf{tol}: valori testati sono stati 1e-2, 1e-3, 1e-5.
+\end{itemize}
+Di seguito è riportato il miglior candidato per il kernel lineare:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{@{}ccccc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \textbf{params} & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} & \textbf{mean\_test\_score} & \textbf{std\_test\_score} \\ \midrule
+        C: 1, tol: 0.01 & 0.019                    & 0.001                   & 0.9824                     & 0.0048                    \\ \bottomrule
+    \end{tabular}
+    \caption{Miglior candidato per il kernel lineare}
+    \label{tab:top_linear_corr}
+\end{table}
+\subsubsection*{Kernel polinomiale $(\gamma\langle x,x'\rangle + r)^d$}
+Il kernel polinomiale si occupa di trasformare i dati in uno spazio di
+feature di dimensione superiore utilizzando la funzione polinomiale.
+Solo per questo tipo di kernel è stata presa la decisione di impostare
+una tolleranza alta comune a tutte le combinazioni per raggiungere più
+velocemente la convergenza. Sono stati studiati i seguenti iperparamentri:
+\begin{itemize}
+    \item Parametro di regolarizzazione \textbf{C}: valori testati sono stati 1,
+          100, 1e3. Da notare che è stato abbassato il valore massimo di C in
+          quanto per valori più elevati il modello non riusciva ad ottenere dei
+          risultati paragonabili. \textbf{TODO: rispetto a cosa sono paragonabili?}
+    \item Coefficiente di bias \textbf{r}: valori testati sono stati 10.0, 1, 0.1.
+    \item Grado del polinomio \textbf{d}: valori testati sono stati 2, 3, 4.
+    \item Coefficiente di scala $\boldsymbol{\gamma}$: valori testati sono stati
+          'scale', 'auto', 1e-3, 1, 1e3.
+\end{itemize}
 
     Di seguito è riportato il miglior candidato per il kernel lineare:
     \begin{table}[!ht]
@@ -130,32 +171,23 @@ di convergenza del modello.
         \label{tab:top_linear_corr}
     \end{table}
 
-    \subsubsection*{Kernel polinomiale $(\gamma\langle x,x'\rangle + r)^d$}
-    Il kernel polinomiale si occupa di trasformare i dati in uno spazio di
-    feature di dimensione superiore utilizzando la funzione polinomiale.
-    Solo per questo tipo di kernel è stata presa la decisione di impostare 
-    una tolleranza alta comune a tutte le combinazioni per raggiungere più 
-    velocemente la convergenza.
-    Sono stati studiati i seguenti iperparamentri:
-    \begin{itemize}
-        \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
-            la complessità del modello e la corretta classificazione dei dati.
-            Un suo valore elevato porta ad avere un hard margin.
-            I valori testati sono stati 1, 100, 1e3.
-            Da notare che è stato abbassato il valore massimo di C in quanto per
-            valori più elevati il modello non riusciva ad ottenere dei risultati
-            paragonabili.
-        \item Coefficente di bias \textbf{r}: termine indipendente di bias che 
-            controlla la posizione dell'iperpiano di separazione.
-            I valori testati sono stati 10.0, 1, 0.1.
-        \item Grado del polinomio \textbf{d}: controlla la complessità del modello
-            impostando il grado del polinomio.
-            I valori testati sono stati 2, 3, 4.
-        \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce l'importanza del
-            prodotto scalare sulla misura di similarità. Un valore elevato porta
-            ad essere più sensibili alle variazioni.
-            I valori testati sono stati 'scale', 'auto', 1e-3, 1, 1e3.
-    \end{itemize}
+Di seguito è riportato il miglior candidato per il kernel rbf:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{@{}ccccc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \textbf{params}        & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} & \textbf{mean\_test\_score} & \textbf{std\_test\_score} \\ \midrule
+        C: 100, $\gamma$: auto & 0.048                    & 0.010                   & 0.9915                     & 0.0035                    \\ \bottomrule
+    \end{tabular}
+    \caption{Miglior candidato per il kernel rbf}
+    \label{tab:top_rbf_corr}
+\end{table}
+\subsubsection*{Kernel sigmoidale $\tanh(\gamma\langle x,x'\rangle + r)$}
+Il kernel sigmoide si occupa di trasformare i dati in uno spazio di feature di
+dimensione superiore tramite la funzione tangente iperbolica ispirandosi alla
+funzione di attivazione nelle reti neurali. È molto sensibile rispetto ai suoi
+parametri $\gamma$ e $r$.
 
     Di seguito è riportato il miglior candidato per il kernel polinomiale:
     \begin{table}[!ht]
@@ -239,11 +271,36 @@ di convergenza del modello.
         \label{tab:top_sigmoid_corr}
     \end{table}
 
+Di seguito è riportato il miglior candidato per il kernel sigmoidale:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{@{}ccccc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \textbf{params}                           & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} & \textbf{mean\_test\_score} & \textbf{std\_test\_score} \\ \midrule
+        C: 1, r: -1.0, $\gamma$: scale, tol: 0.01 & 0.037                    & 0.002                   & 0.9145                     & 0.0106                    \\ \bottomrule
+    \end{tabular}
+    \caption{Miglior candidato per il kernel sigmoidale}
+    \label{tab:top_sigmoid_corr}
+\end{table}
 \subsection{Selezione miglior kernel}
-    La fase successiva è stata quella di confrontare i migliori candidati per
-    determinare il miglior kernel per il dataset.
-    
-    I risultati dei tempi confrontabili sono riportati nella seguente tabella:
+La fase successiva è stata quella di confrontare le combinazioni candidate per
+determinare la migliore per il dataset. I risultati a livello di tempi sono
+riportati nella tabella \ref{tab:top_time_kernels_corr}.
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{kernel}} & \textbf{mean\_fit\_time} & \textbf{std\_fit\_time} \\ \midrule
+        Linear                                                      & 0.055                    & 0.013                   \\
+        Poly                                                        & 0.073                    & 0.004                   \\
+        Rbf                                                         & 0.054                    & 0.018                   \\
+        Sigmoid                                                     & 0.071                    & 0.032                   \\ \bottomrule
+    \end{tabular}
+    \caption{Risultati dei tempi delle migliori combinazioni per kernel}
+    \label{tab:top_time_kernels_corr}
+\end{table}
 
     \begin{table}[!ht]
         \centering
@@ -259,18 +316,37 @@ di convergenza del modello.
         \label{tab:top_time_kernels_corr}
     \end{table}
 
-    Da questa tabella si può notare che i tempi rimangono contenuti per ogni kernel,
-    anche se il lineare e rbf risultano essere i più veloci.\\
+Successivamente per ogni kernel riaddestrato sono state calcolate
+le metriche, ossia:
+\begin{itemize}
+    \item Accuratezza
+    \item Precision
+    \item Recall
+    \item F1-score
+\end{itemize}
+e le relative curve ROC.
 
-    Successivamente per ogni kernel riaddestrato sono state calcolate 
-    le metriche principali, ossia
-    \begin{itemize}
-        \item Accuratezza
-        \item Precision
-        \item Recall
-        \item F1-score
-    \end{itemize}
-    e le relative curve roc.
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{kernel}} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} \\ \midrule
+        Linear                                                      & 97.97\%           & 99.69\%            & 95.81\%         & 97.71\%           \\
+        Poly                                                        & 97.57\%           & 99.38\%            & 95.21\%         & 97.24\%           \\
+        Rbf                                                         & 98.11\%           & 99.38\%            & 96.41\%         & 97.87\%           \\
+        Sigmoid                                                     & 89.45\%           & 87.43\%            & 89.52\%         & 88.46\%           \\ \bottomrule
+    \end{tabular}
+    \caption{Risultati delle metriche principali per kernel}
+    \label{tab:top_metrics_kernels_corr}
+\end{table}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.75\textwidth]{img/svm/roc_SVM.png}
+    \caption{Curva ROC dei vari kernel SVM a confronto}
+    \label{fig:roc_SVM_corr}
+\end{figure}
+\newpage
 
     \begin{table}[!ht]
         \centering
@@ -303,11 +379,30 @@ di convergenza del modello.
 
     
 \subsection{SVM su dataset con dataset PCA}
+Anche per il dataset PCA sono stati effettuati gli stessi passaggi per la
+selezione del miglior kernel. I risultati ottenuti sono riportati nelle tabelle
+\ref{tab:top_time_kernels_pca}, \ref{tab:top_metrics_kernels_pca} e nel grafico
+\ref{fig:roc_SVM_PCA}:
 
-    Anche per il dataset PCA sono stati effettuati gli stessi passaggi per la selezione
-    del miglior kernel. I risultati ottenuti sono riportati nelle tabelle 
-    \ref*{tab:top_time_kernels_pca}, \ref*{tab:top_metrics_kernels_pca} e nel grafico 
-    \ref*{fig:roc_SVM_PCA}:
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{@{}llcccc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+        \textbf{kernel}                                                      &
+        \textbf{params}                                                      &
+        \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{mean\_fit\_time}} &
+        \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{std\_fit\_time}}  &
+        \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{mean\_test\_sc}}  &
+        \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\textbf{std\_test\_sc}}                                                                              \\ \midrule
+        Linear                                                               & C:1, tol: 0.01                         & 0.045 & 0.003 & 0.9778 & 0.0058 \\
+        Poly                                                                 & C:1, r:10, d:2, $\gamma$:auto          & 0.049 & 0.002 & 0.9804 & 0.0048 \\
+        Rbf                                                                  & C:100, $\gamma$:scale                  & 0.042 & 0.001 & 0.9787 & 0.0047 \\
+        Sigmoid                                                              & C:100, r:-1, $\gamma$:scale, tol:1e-05 & 0.058 & 0.002 & 0.9199 & 0.0128 \\ \bottomrule
+    \end{tabular}
+    \caption{Risultati delle migliori combinazioni per kernel sul dataset PCA}
+    \label{tab:top_time_kernels_pca}
+\end{table}
 
     \begin{table}[!ht]
         \centering
@@ -323,19 +418,12 @@ di convergenza del modello.
         \label{tab:top_time_kernels_pca}
     \end{table}
 
-    \begin{table}[!ht]
-        \centering
-        \begin{tabular}{|l|l|l|l|l|}
-        \hline
-            \textbf{kernel} & \textbf{accuracy} & \textbf{precision} & \textbf{recall} & \textbf{f1-score} \\ \hline
-            Linear & 96.89\% & 99.68\% & 93.41\% & 96.45\%  \\ \hline
-            Poly & 97.30\% & 99.68\% & 94.31\% & 96.92\%  \\ \hline
-            Rbf & 97.43\% & 99.68\% & 94.61\% & 97.08\%  \\ \hline
-            Sigmoid & 90.00\% & 87.79\% & 90.42\% & 89.09\%  \\ \hline
-        \end{tabular}
-        \caption{Risultati delle metriche principali per kernel sul dataset PCA}
-        \label{tab:top_metrics_kernels_pca}
-    \end{table}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.75\textwidth]{img/svm/SVM_roc_pca.png}
+    \caption{Curva ROC dei vari kernel SVM a confronto su dataset PCA}
+    \label{fig:roc_SVM_PCA}
+\end{figure}
 
     \begin{figure}[!ht]
         \centering
@@ -366,10 +454,9 @@ Come per gli altri approcci, abbiamo deciso di addestrare due modelli, uno su
 
 La libreria utilizzata per l'implementazione di Gaussian Naive Bayes
 presenta come iperparametri solo la definizione delle prior, il problema è che non
-essendo esperti del dominio, non possiamo sapere con certezza la probabilità 
-di presenza del tumore nei pazienti. Perciò non è stato effettuato un processo di 
+essendo esperti del dominio, non possiamo sapere con certezza la probabilità
+di presenza del tumore nei pazienti. Perciò non è stato effettuato un processo di
 ricerca delle prior.
-
 \section{Rete Neurale}
 In questa sezione verrà presentata la \textbf{rete neurale}. Nello specifico, si
 andranno a presentare i passaggi che sono stati effettuati per la realizzazione
