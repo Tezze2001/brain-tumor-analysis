@@ -599,17 +599,21 @@ rappresenta un compromesso tra accuratezza e tempo di addestramento. In particol
 perdendo lo $0.1\%$ di accuratezza si è ottenuto un tempo di addestramento minore
 di circa $21$ secondi.
 
-
 I risultati ottenuti dalla fase di grid search hanno permesso di definire la
 struttura della rete neurale. In particolare, la rete neurale è composta da 1
-layer di input, 1 layer nascosto e 1 layer di output.
+layer di input, 2 layer nascosti e 1 layer di output.
 
 Il layer di input è composto da 3 neuroni, uno per ogni componente principale
 ottenuta attraverso la PCA. Questo primo strato è stato definito in questo modo
 in quanto il dataset ottenuto attraverso la PCA è composto da 3 feature.
 
-Il layer nascosto è composto da 10 neuroni, in cui la funzione di attivazione è
-la funzione ReLU \ref{fig:relu}.
+I layer nascosti sono composti nel seguente modo:
+\begin{itemize}
+    \item Il primo layer nascosto è composto da 5 neuroni, in cui la funzione di
+          attivazione è la funzione Leaky ReLU \ref{fig:leaky-relu}.
+    \item Il secondo layer nascosto è composto da 10 neuroni, in cui la funzione
+          di attivazione è la funzione Leaky ReLU \ref{fig:leaky-relu}.
+\end{itemize}
 
 Il layer di output è lo stesso utilizzato per il modello addestrato con le feature
 selezionate manualmente, ovvero è composto da un solo neurone, in cui la funzione

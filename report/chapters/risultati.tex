@@ -84,7 +84,7 @@ le performance dei modelli, calcolate sul test set.
         \textbf{Modello}                                      & \textbf{Accuracy}            & \textbf{Precision}           & \textbf{Recall}              & \textbf{F1-score}            & \textbf{Tempo}              \\ \midrule
         \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{98.10 \%} & \multicolumn{1}{c}{99.38 \%} & \multicolumn{1}{c}{96.40 \%} & \multicolumn{1}{c}{97.87 \%} & \multicolumn{1}{c}{0.216 s} \\
         \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{94.05 \%} & \multicolumn{1}{c}{98.98 \%} & \multicolumn{1}{c}{87.87 \%} & \multicolumn{1}{c}{93.01 \%} & \multicolumn{1}{c}{0.006 s} \\
-        \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{97.83 \%} & \multicolumn{1}{c}{99.37 \%} & \multicolumn{1}{c}{95.80 \%} & \multicolumn{1}{c}{97.56 \%} & \multicolumn{1}{c}{?? s}    \\ \bottomrule
+        \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{97.83 \%} & \multicolumn{1}{c}{99.37 \%} & \multicolumn{1}{c}{95.80 \%} & \multicolumn{1}{c}{97.56 \%} & \multicolumn{1}{c}{6.681 s} \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dal modello addestrato}
     \label{tab:risultati}
@@ -277,7 +277,7 @@ riportati nella tabella \ref{tab:risultati_pca}.
         \textbf{Modello}                                      & \textbf{Accuracy}            & \textbf{Precision}           & \textbf{Recall}              & \textbf{F1-score}            & \textbf{Tempo}              \\ \midrule
         \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{97.43 \%} & \multicolumn{1}{c}{100.0 \%} & \multicolumn{1}{c}{94.31 \%} & \multicolumn{1}{c}{97.07 \%} & \multicolumn{1}{c}{0.196 s} \\
         \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{95.41 \%} & \multicolumn{1}{c}{95.73 \%} & \multicolumn{1}{c}{94.01 \%} & \multicolumn{1}{c}{94.86 \%} & \multicolumn{1}{c}{0.006 s} \\
-        \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{?? \%}    & \multicolumn{1}{c}{?? \%}    & \multicolumn{1}{c}{?? \%}    & \multicolumn{1}{c}{?? \%}    & \multicolumn{1}{c}{?? s}    \\ \bottomrule
+        \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{97.16 \%} & \multicolumn{1}{c}{99.68 \%} & \multicolumn{1}{c}{94.01 \%} & \multicolumn{1}{c}{96.76 \%} & \multicolumn{1}{c}{2.226 s} \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dal modello addestrato}
     \label{tab:risultati_pca}
@@ -329,7 +329,7 @@ cross-validation. I risultati ottenuti sono stati riportati in figura
             \textbf{Modello}                                      & \textbf{Accuratezza}         & \textbf{Precisione}          & \textbf{Richiamo}            & \textbf{F1 score}            \\ \midrule
             \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & \multicolumn{1}{c}{99.05 \%} & \multicolumn{1}{c}{99.57 \%} & \multicolumn{1}{c}{98.32 \%} & \multicolumn{1}{c}{98.94 \%} \\
             \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    & \multicolumn{1}{c}{96 \%}    \\
-            \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{?? \%}    & \multicolumn{1}{c}{?? \%}    & \multicolumn{1}{c}{?? \%}    & \multicolumn{1}{c}{?? \%}    \\ \bottomrule
+            \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & \multicolumn{1}{c}{98.35 \%} & \multicolumn{1}{c}{98.73 \%} & \multicolumn{1}{c}{97.61 \%} & \multicolumn{1}{c}{98.16 \%} \\ \bottomrule
         \end{tabular}
         \caption{Valore medio delle metriche ottenute dalla cross validation}
         \label{tab:risultati_cross_val_pca}
@@ -343,7 +343,7 @@ cross-validation. I risultati ottenuti sono stati riportati in figura
             \textbf{Modello}                                      & \textbf{Accuratezza} & \textbf{Precisione} & \textbf{Richiamo}  & \textbf{F1 score}  \\ \midrule
             \cellcolor[HTML]{EFEFEF}\textbf{SVM}                  & [98.75\%, 99.35\%]   & [99.34\%, 99.81\%]  & [97.65\%, 98.99\%] & [98.60\%, 99.27\%] \\
             \cellcolor[HTML]{EFEFEF}\textbf{Gaussian Naive Bayes} & [94.73\%, 95.85\%]   & [98.65\%, 99.53\%]  & [89.14\%, 91.70\%] & [93.85\%, 95.22\%] \\
-            \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & [97.97\%, 98.72\%]   & [97.51\%, 98.58\%]  & [97.62\%, 98.93\%] & [97.73\%, 98.58\%] \\ \bottomrule
+            \cellcolor[HTML]{EFEFEF}\textbf{Rete neurale}         & [97.93\%, 98.77\%]   & [98.29\%, 99.18\%]  & [96.87\%, 98.33\%] & [97.69\%, 98.63\%] \\ \bottomrule
         \end{tabular}
         \caption{Intervalli di confidenza delle metriche ottenute dalla cross validation}
         \label{tab:intervalli_confidenza_pca}
