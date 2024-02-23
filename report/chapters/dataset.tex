@@ -103,7 +103,7 @@ L'analisi di tali grafici rivela che le feature \textbf{Energy}, \textbf{ASM},
 una distribuzione normale, contrariamente alle altre feature le cui distribuzioni
 mostrano un profilo più vicino alla distribuzione gaussiana. Tuttavia, nonostante
 l'assenza di normalità in alcune feature, si è deciso di non procedere con la
-loro rimozione dal dataset. Invece, si è scelto di implementare i modelli senza
+loro rimozione dal dataset. Invece, si è scelto di implementare gli algoritmi senza
 richiedere il rispetto delle loro ipotesi di normalità.
 
 Inoltre, si nota che le feature con una distribuzione simile a una normale non
@@ -150,17 +150,17 @@ presentate nella tabella \ref{tab:desc-stat}
 \end{table}
 \newpage
 Di conseguenza sarà opportuno standardizzare le feature per rispettare le
-assunzioni delle \textbf{SVM} e della \textbf{rete neurale}. Per quanto riguarda
+assunzioni di \textbf{SVM} e della \textbf{rete neurale}. Per quanto riguarda
 \textbf{Gaussian Naive Bayes} non è necessario effettuare l'operazione
 sopracitata, dal momento che nel calcolo della probabilità si sfrutta la formula
-della Gaussiana nella quale viene fatta una standardizzazione implicita.
+della Gaussiana, nella quale viene fatta una standardizzazione implicita.
 
 Dal calcolo delle statistiche descrittive si può osservare che la feature
 \textbf{Coarseness} assume un valore poco significativo (tendente a $0$), quindi
 si è pensato di convertire questa feature ad una scala logaritmica, permettendo
 di aumentare la significatività dei valori. Nonostante questa trasformazione,
 la feature presenta una deviazione standard nulla, di conseguenza anche per 
-questo motivo successivamente questo attributo verrà rimosso dal dataset.
+questo motivo, in seguito, questa feature verrà rimossa dal dataset.
 
 Durante la fase di analisi, risulta cruciale condurre uno studio sulla capacità
 discriminante dei dati. A tale scopo, sono stati generati un totale di $13$
@@ -288,7 +288,7 @@ l'omogeneità.
 \section{Riduzione di dimensionalità} \label{sec:riduzone_di_dimensionalità}
 Dal momento che il dataset è composto da un totale di $13$ feature, allora
 è importante trovare il modo di ridurre la sua dimensionalità con lo scopo di
-velocizzare l'apprendimento dei modelli e semplificare il task di classificazione.
+velocizzare l'apprendimento degli algoritmi e semplificare il task di classificazione.
 Per ridurre la dimensionalità del dataset sono stati utilizzati due diversi metodi:
 \begin{itemize}
       \item Riduzione basata sullo studio della correlazione delle feature.
@@ -311,8 +311,8 @@ feature correlate, di conseguenza sono state considerate solo queste:
 \end{itemize}
 Il nuovo dataset così composto verrà chiamato \texttt{dataset\_corr} e dal momento
 che \textbf{Entropy} è l'unico attributo che non segue una distribuzione standard,
-allora si sottolinea che non verranno rispettate le assunzioni di normalità dei
-$3$ modelli scelti. In aggiunta, dal momento che per le SVM e NN assumono di
+allora si sottolinea che non verranno rispettate le assunzioni di normalità degli
+$3$ algoritmi scelti. In aggiunta, dal momento che per le SVM e NN assumono di
 lavorare su dati con distribuzione normale standard, allora per essere più
 compatibili possibili con le assunzioni, è stata creata una versione del dataset
 normalizzata, chiamata \texttt{dataset\_corr\_std}.
