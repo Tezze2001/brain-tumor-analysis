@@ -486,9 +486,9 @@ il tempo di addestramento minore, ottenendo i risultati riportati in tabella \re
         \toprule
         \rowcolor[HTML]{EFEFEF}
         \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Modello}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
-        Tempo di addestramento minore                                & 97.9\%               & 1.05s                           \\
-        Accuratezza maggiore                                         & 99.0\%               & 14.43s                          \\
-        Modello scelto                                               & 98.6\%               & 2.59s                           \\ \bottomrule
+        Tempo di addestramento minore                                & 98.3\%               & 1.84s                           \\
+        Accuratezza maggiore                                         & 99.1\%               & 17.74s                          \\
+        Modello scelto                                               & 98.6\%               & 2.29s                           \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla fase di grid search}
     \label{tab:ris-grid-search}
@@ -496,8 +496,8 @@ il tempo di addestramento minore, ottenendo i risultati riportati in tabella \re
 
 Dai valori riportati nella tabella \ref{tab:ris-grid-search} si può notare che il
 notare che il modello che è stato selezionato fornisce un compromesso tra
-accuratezza e tempo di addestramento. Nello specifico, perdendo lo $0.4\%$ di
-accuratezza si è ottenuto un tempo di addestramento minore di circa $12$ secondi.
+accuratezza e tempo di addestramento. Nello specifico, perdendo lo $0.5\%$ di
+accuratezza si è ottenuto un tempo di addestramento minore di circa $15$ secondi.
 \subsubsection{Definizione della struttura della rete neurale}
 Dalla fase di analisi è stato selezionato un sottoinsieme di feature le quali
 sono state utilizzate come input della rete neurale. Questo sottoinsieme è
@@ -512,9 +512,9 @@ layer di input, 2 layer nascosti e 1 layer di output.
 I layer nascosti sono composti nel seguente modo:
 \begin{itemize}
     \item Il primo layer nascosto è composto da 10 neuroni, in cui la funzione di
-          attivazione è la funzione ReLU \ref{fig:relu}.
-    \item Il secondo layer nascosto è composto da 5 neuroni, in cui la funzione
-          di attivazione è la funzione ReLU \ref{fig:relu}.
+          attivazione è la funzione Leaky ReLU \ref{fig:leaky-relu}.
+    \item Il secondo layer nascosto è composto da 10 neuroni, in cui la funzione
+          di attivazione è la funzione Leaky ReLU \ref{fig:leaky-relu}.
 \end{itemize}
 
 Per concludere la descrizione della struttura della rete neurale, è necessario
@@ -548,7 +548,7 @@ del batch sono stati valutati i valori 100, 300 per il numero di epoche e 50,
 I risultati ottenuti dalla fase di grid search hanno permesso di definire i valori
 degli iperparametri che hanno permesso di ottenere i migliori risultati. In
 particolare, l'algoritmo di ottimizzazione scelto è \textit{Adam}, mentre il
-numero di epoche e la dimensione del batch sono stati impostati a 100 e 100
+numero di epoche e la dimensione del batch sono stati impostati a 100 e 300
 rispettivamente.
 
 In questa fase è stato necessario definire la funzione di perdita. Si è scelta
@@ -587,9 +587,9 @@ addestramento minore. I risultati ottenuti sono riportati in tabella \ref{tab:ri
         \toprule
         \rowcolor[HTML]{EFEFEF}
         \textbf{Modello}              & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
-        Tempo di addestramento minore & 96.9\%               & 1.06s                           \\
-        Accuratezza maggiore          & 98.0\%               & 22.20s                          \\
-        Modello scelto                & 97.9\%               & 1.16s                           \\ \bottomrule
+        Tempo di addestramento minore & ??\%               & ??s                           \\
+        Accuratezza maggiore          & ??\%               & ??s                          \\
+        Modello scelto                & ??\%               & ??s                           \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla fase di grid search}
     \label{tab:ris-grid-search-pca}
