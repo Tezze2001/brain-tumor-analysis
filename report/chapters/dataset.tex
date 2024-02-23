@@ -1,19 +1,20 @@
-\chapter{Dataset}
+\chapter{Dataset e Analisi esplorativa} \label{cap:dataset}
 \section{Struttura del dataset}
 Il dataset è composto da $13$ features estratte da un set di $3762$ immagini su
 scala di grigi, ciascuna immagine è stata prodotta dalla risonanza magnetica del
 cervello di diversi pazienti. Di conseguenza, si hanno un totale di $3762$
 istanze, ognuna etichettata con un valore categorico che rappresenta la presenza
-o meno del tumore al cervello. L'etichetta è presente sotto la colonna
-\textit{Class} e assume i seguenti valori:
+o meno del tumore al cervello. L'etichetta è presente nella colonna \textit{Class}
+e assume i seguenti valori:
 \begin{itemize}
-      \item \textbf{Presenza del tumore}: $T = 1$
-      \item \textbf{Assenza del tumore}: $T = 0$
+      \item \textbf{Presenza del tumore}: $Class = 1$
+      \item \textbf{Assenza del tumore}: $Class = 0$
 \end{itemize}
-Le features vengono già date, inoltre, si assumono appartenenti ad una
-distribuzione normale e si assumono corrette rispetto alle immagini delle
-risonanze magnetiche associate\cite{explanation-features}. Le features sono si
-dividono in:
+
+Le features sono fornite insieme alle immagini e si presume che siano distribuite
+secondo una distribuzione normale. Si presume inoltre che siano correttamente
+associate alle immagini delle risonanze magnetiche corrispondenti \cite{explanation-features}.
+Le caratteristiche si suddividono in:
 \begin{enumerate}
       \item \textbf{First Order Features}: forniscono informazioni legate alle
             distribuzione dei livelli di grigio dell'immagine. Queste features
@@ -42,7 +43,7 @@ dividono in:
                         allora più uniforme sarà la distribuzione dei livelli di
                         grigio nell'immagine, quindi la variabilità dei livelli
                         di grigio è ridotta.
-                  \item \textbf{Entropy}: misura la randomicità dei livelli di
+                  \item \textbf{Entropy}: misura la casualità dei livelli di
                         grigio, quindi l'entropia sarà massima quando tutti i
                         livelli di grigio sono equamente probabili (randomness).
                         Più precisamente immagini con un ampio range di valori
@@ -64,18 +65,18 @@ dividono in:
             \end{itemize}
 \end{enumerate}
 \section{Analisi descrittiva}\label{sec:analisi-descrittiva}
-Caricato il dataset, è stato eseguito un controllo per verificare che non ci
-fossero valori nulli. In questo caso non sono stati trovati valori nulli, quindi
-non è stato necessario eseguire alcuna operazione per la gestione di tali valori.
-In secondo luogo è stato controllato se nel dataset fossero presenti dei valori
-duplicati. Nel dataset sono stati trovati un totale di $63$ valori duplicati,
-i quali sono stati rimossi.
+Dopo aver esaminato la struttura del dataset e il significato delle
+caratteristiche, è stato condotto un controllo per identificare la presenza di
+valori nulli. Non sono stati rilevati valori nulli, pertanto non è stata
+richiesta alcuna operazione per la gestione di tali valori. Successivamente, è
+stato verificato se nel dataset fossero presenti valori duplicati, riscontrandone
+un totale di $63$ che sono stati eliminati.
 
-Successivamente, è stato eseguito un controllo sulla suddivisione degli esempi
-in base alla classe di appartenenza. In particolare, questa operazione è stata
-effettuata per verificare se il dataset fosse sbilanciato. Per fare ciò è stato
-creato un istogramma, riportato nella figura \ref{fig:dist-classi}, che mostra
-la frequenza dei valori rispetto l'attributo \textit{Class}.
+Dopo questa fase preliminare, è stata eseguita un'analisi della distribuzione
+degli esempi in base alla classe di appartenenza al fine di valutare se il
+dataset presentasse uno sbilanciamento. A tale scopo, è stato creato un
+istogramma, illustrato nella figura \ref{fig:dist-classi}, che visualizza la
+frequenza dei valori relativi all'attributo \textit{Class}.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/analisi/distribuzioneClassi.png}
@@ -97,20 +98,7 @@ attraverso un'analisi visiva.
       \caption{Istogramma delle features}
       \label{fig:barplot_features}
 \end{figure}
-
-% Da questi grafici si evince che le features \textbf{Energy}, \textbf{ASM},
-% \textbf{Homogeneity}, \textbf{Entropy} e \textbf{Coarseness} non seguono una
-% distribuzione normale, a differenza delle altre feature che hanno un andamento
-% più vicino ad una gaussiana. In ogni caso, anche se alcune feature non seguono
-% l'ipotesi di normalità, si è deciso di non procedere con la loro rimozione dal
-% dataset, ma di eseguire i modelli scelti senza rispettare le loro assunzioni di
-% normalità.
-
-% In aggiunta, dal grafico si può notare che le features con una
-% distribuzione simile ad una normale non sono standardizzate, questa affermazione
-% viene anche confermata dal calcolo delle statistiche descrittive mostrate nella
-% tabella \ref{tab:desc-stat}.
-L'analisi dei grafici rivela che le features \textbf{Energy}, \textbf{ASM},
+L'analisi di tali grafici rivela che le features \textbf{Energy}, \textbf{ASM},
 \textbf{Homogeneity}, \textbf{Entropy} e \textbf{Coarseness} non aderiscono a
 una distribuzione normale, contrariamente alle altre feature le cui distribuzioni
 mostrano un profilo più vicino alla distribuzione gaussiana. Tuttavia, nonostante
@@ -168,7 +156,7 @@ sopracitata, dal momento che nel calcolo della probabilità si sfrutta la formul
 della Gaussiana nella quale viene fatta una standardizzazione implicita.
 
 Dal calcolo delle statistiche descrittive si può osservare che la feature
-\textbf{Coarseness} assume un valore poco significativo tendente a $0$, quindi
+\textbf{Coarseness} assume un valore poco significativo (tendente a $0$), quindi
 si è pensato di convertire questa feature ad una scala logaritmica, permettendo
 di aumentare la significatività dei valori. Nonostante questa trasformazione,
 la feature presenta una deviazione standard nulla quindi questo suggerisce la
@@ -177,9 +165,9 @@ discriminante.
 
 Durante la fase di analisi, risulta cruciale condurre uno studio sulla capacità
 discriminante dei dati. A tale scopo, sono stati generati un totale di $13$
-grafici, corrispondenti a ciascuna delle feature, ognuno composto da due box
-plot che mostrano i percentili delle feature divise per le classi $0$ e $1$.
-Tali grafici sono visualizzabili nella figura \ref{fig:boxplot_features}.
+grafici, corrispondenti a ciascuna delle feature, ognuno dei quali è composto da 
+due box plot che mostrano la suddivisione in percentili delle feature divise per 
+le classi. Tali grafici sono visualizzabili nella figura \ref{fig:boxplot_features}.
 \newpage
 \begin{figure}[!ht]
       \centering
@@ -192,8 +180,8 @@ Dai box plot si può osservare che nel dataset sono presenti numerosi outliers, 
 aggiunta le distribuzioni delle features separate per classi si sovrappongono
 quasi tutte, eccetto per \textbf{Entropy}, \textbf{Energy}, \textbf{ASM} e
 \textbf{Homogeneity}. Questo implica il fatto che potenzialmente sono le più
-discriminanti rispetto alle altre features. In aggiunta, i grafici confermano
-che la \textbf{Coarseness} è costante, quindi dal momento che non può essere un
+discriminanti rispetto alle altre features. I grafici confermano che la 
+\textbf{Coarseness} è costante, quindi dal momento che non può essere un
 attributo discriminate si può rimuovere dal dataset.
 
 Al fine di concludere la fase di analisi, è stato condotto un confronto
@@ -201,21 +189,21 @@ sistematico delle features estratte a coppie al fine di valutare la possibilità
 di separare linearmente le classi. A tal fine, sono state esaminate tutte le
 possibili combinazioni di coppie di feature. Per ciascuna combinazione, è stato
 generato un grafico cartesiano in cui ciascuna istanza è rappresentata da un
-punto. Ogni punto sul grafico trasmette due informazioni fondamentali:
+punto. Ogni punto sul grafico fornisce due informazioni fondamentali:
 \begin{itemize}
-      \item Il colore del punto specifica la classe dell'istanza
-      \item Le coordinate saranno i valori delle due features considerate
+      \item Il colore del punto specifica la classe di appartenenza dell'istanza.
+      \item Le coordinate saranno i valori delle due features considerate.
 \end{itemize}
 
-In aggiunta, sono stati costruiti due grafici per ogni combinazione, per
-identificare quante istanze di classi diverse si sovrappongo. Tutti grafici
-vengono mostrati nella figura \ref{fig:scatterplot_features}.
+% In aggiunta, sono stati costruiti due grafici per ogni combinazione, per
+% identificare quante istanze di classi diverse si sovrappongono. Tutti grafici
+% vengono mostrati nella figura \ref{fig:scatterplot_features}.
 % ! Spostato in appendice
 
 I grafici evidenziano il fatto che per ogni coppia di features si ha almeno una
 lieve sovrapposizione delle nuvole di punti rappresentanti le due classi, questo
 significa che in due dimensioni le classi non sono linearmente separabili a meno
-di accettare notevoli errori. In ogni caso, si possono osservare le coppie con
+di accettare errori. In ogni caso, si possono osservare le coppie con
 meno sovrapposizioni tra classi in questo caso sono:
 \begin{itemize}
       \item \textit{Entropy} e \textit{Mean}
@@ -228,10 +216,6 @@ meno sovrapposizioni tra classi in questo caso sono:
       \item \textit{Standard Deviation} e \textit{Entropy}
       \item \textit{Standard Deviation} e \textit{Energy}
       \item \textit{Standard Deviation} e \textit{ASM}
-            % \item \textit{Skewness} e \textit{Mean}
-            % \item \textit{Skewness} e \textit{Entropy}
-            % \item \textit{Contrast} e \textit{Entropy}
-            % \item \textit{Correlation} e \textit{Entropy}
 \end{itemize}
 Osservando queste coppie hanno un numero di istanze sovrapposte ridotto, allora
 si può affermare che le SVM, con un kernel scelto in modo accurato, potrebbero
@@ -239,9 +223,9 @@ ottenere degli ottimi risultati nella classificazione. Inoltre, questi grafici
 permettono anticipare dei primi studi sulla correlazione come la presenza di una
 forte correlazione tra:
 \begin{itemize}
-      \item \textit{Mean} e \textit{Skewness}: 
+      \item \textit{Mean} e \textit{Skewness}
       \item \textit{Variance} e \textit{Standard Deviation}: questa correlazione
-            è facilmente spiegabile dal momento che la deviazione standard è la 
+            è facilmente spiegabile dal momento che la deviazione standard è la
             radice quadrata della varianza, quindi sono misure dipendenti.
       \item \textit{Entropy} e \textit{ASM}
       \item \textit{Entropy} e \textit{Energy}
@@ -318,7 +302,6 @@ Per ridurre la dimensionalità del dataset sono stati utilizzati due diversi met
       \item Riduzione basata sullo studio della correlazione delle features.
       \item Riduzione utilizzando la Principal Component Analysis (PCA).
 \end{itemize}
-
 \subsection{Riduzione con la correlazione} \label{sec:riduzione_correlazione}
 Questo metodo si basa sulla correlazione delle features, ovvero se due features
 sono correlate allora significa che a livello discriminante una delle due è
