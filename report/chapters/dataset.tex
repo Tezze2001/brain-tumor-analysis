@@ -180,9 +180,9 @@ Dai box plot si può osservare che nel dataset sono presenti numerosi outliers, 
 aggiunta le distribuzioni delle features separate per classi si sovrappongono
 quasi tutte, eccetto per \textbf{Entropy}, \textbf{Energy}, \textbf{ASM} e
 \textbf{Homogeneity}. Questo implica il fatto che potenzialmente sono le più
-discriminanti rispetto alle altre features. I grafici confermano che la 
-\textbf{Coarseness} è costante, quindi dal momento che non può essere un
-attributo discriminate si può rimuovere dal dataset.
+discriminanti rispetto alle altre features. I grafici confermano che l'attributo
+\textbf{Coarseness} assume un valore costante, questo fornisce un'ulteriore
+conferma per la sua rimozione dal dataset.
 
 Al fine di concludere la fase di analisi, è stato condotto un confronto
 sistematico delle features estratte a coppie al fine di valutare la possibilità
@@ -194,11 +194,6 @@ punto. Ogni punto sul grafico fornisce due informazioni fondamentali:
       \item Il colore del punto specifica la classe di appartenenza dell'istanza.
       \item Le coordinate saranno i valori delle due features considerate.
 \end{itemize}
-
-% In aggiunta, sono stati costruiti due grafici per ogni combinazione, per
-% identificare quante istanze di classi diverse si sovrappongono. Tutti grafici
-% vengono mostrati nella figura \ref{fig:scatterplot_features}.
-% ! Spostato in appendice
 
 I grafici evidenziano il fatto che per ogni coppia di features si ha almeno una
 lieve sovrapposizione delle nuvole di punti rappresentanti le due classi, questo
