@@ -31,7 +31,6 @@
 \usepackage{subcaption}
 \usepackage{setspace}
 \usepackage{hyperref}
-\usepackage{biblatex}
 \usepackage{colortbl}
 
 \usepackage{tikz}\usetikzlibrary{er}\tikzset{multi  attribute /.style={attribute
@@ -69,7 +68,6 @@
 \tikzset{elliptic state/.style={draw,ellipse}}
 
 \usetikzlibrary{automata,positioning, calc}
-\addbibresource{bibliography.bib}
 
 \pagestyle{fancy}
 \fancyhead[L,RO]{\slshape \rightmark}
@@ -106,6 +104,8 @@ Vendramini Simone Matr. 866229(\href{https://github.com/simone-vendramini}{@Sven
 \include{chapters/risultati}
 \include{chapters/conclusioni}
 \include{chapters/appendice}
-\printbibliography
+
+\bibliographystyle{unsrt}
+\bibliography{bibliography}
 
 \end{document}
