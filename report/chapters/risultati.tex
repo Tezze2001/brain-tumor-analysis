@@ -1,15 +1,17 @@
 \chapter{Risultati} \label{chp:risultati}
 Nel seguente capitolo verranno presentati e discussi i risultati ottenuti dai
-modelli precedentemente addestrati. I risultati sono stati ottenuti attraverso
+modelli precedentemente definiti. I risultati sono stati ottenuti attraverso
 due metodologie di valutazione:
 \begin{enumerate}
-    \item \textbf{Valutazione $80/20$}: i modelli sono stati allenati su un
-          training set e valutati su un test set, entrambi estratti dal dataset
-          originale.
+    \item \textbf{Valutazione $80/20$}: i modelli sono stati allenati sul
+          training set e valutati su un test set, entrambi estratti dalle versioni del dataset
+          su cui sono stati definiti i modelli.
     \item \textbf{Valutazione con $10$-fold cross-validation}: i modelli sono
-          stati allenati e valutati su $10$ partizioni del dataset originale in
-          modo da ottenere una stima più accurata delle performance del modello.
+          stati allenati e valutati su $10$ partizioni del dataset su cui sono stati 
+          definiti i modelli, in modo da ottenere una stima più accurata delle 
+          performance del modello.
 \end{enumerate}
+
 I classificatori sono stati valutati calcolando la matrice di confusione e le
 seguenti metriche:
 \begin{itemize}
@@ -23,13 +25,14 @@ In aggiunta, sono state calcolate le curve ROC per analizzare True Positive rate
 e False Positive rate.
 
 Durante la seconda fase di valutazione dei modelli sono state calcolate le
-metriche precedentemente specificate e per ciascun di esse gli intervalli di
+metriche precedentemente specificate e per ciascuna di esse gli intervalli di
 confidenza.
 \section{Risultati dataset correlazione} \label{sec:risultati_corr}
-Come precedentemente specificato, i modelli sono stati addestrati su due dataset.
 In questa sezione verranno presentati i risultati ottenuti dai modelli addestrati
-sul dataset ricavato tramite riduzione attraverso correlazione delle feature.
-\subsection*{Valutazione $80/20$}
+sul dataset ricavato tramite riduzione attraverso correlazione delle feature,
+ovvero SVM\_corr, GNB\_corr e NN\_corr.
+
+\subsection{Valutazione $80/20$}
 Il primo studio condotto consiste nella suddivisione del dataset in training
 set e test set. Questa suddivisione ha permesso di calcolare le performance dei
 modelli e confrontarli.
@@ -133,7 +136,7 @@ sotto la curva ROC per la rete neurale e per SVM è pari a $1.00$, mentre per il
 Gaussian Naive Bayes è pari a $0.99$. Questi valori non consentono di stabilire
 una netta superiorità di uno dei tre modelli, ma suggeriscono che i modelli di
 rete neurale e SVM siano leggermente superiori al Gaussian Naive Bayes.
-\subsection*{Valutazione con $10$-fold cross-validation}
+\subsection{Valutazione con $10$-fold cross-validation}
 Il secondo studio condotto consiste nel valutare i modelli attraverso la tecnica
 della $10$-fold stratified cross-validation. Questa tecnica permette di ottenere
 una stima più accurata delle performance del modello, riducendo l'effetto della
@@ -288,7 +291,7 @@ rispetto ai modelli precedentemente analizzati. Un vantaggio dell'utilizzo di
 PCA è dovuto al fatto che avendo ridotto il numero di feature a $3$, il tempo di
 addestramento dei modelli è diminuito.
 
-Questo ci suggerisce che la sua applicazione potrebbe essere un operazione
+Questo ci suggerisce che la sua applicazione potrebbe essere un operazione che
 non risulta essere vantaggiosa. Questo risultato deve essere ulteriormente
 verificato attraverso l'analisi delle curve ROC e il processo di valutazione
 attraverso la cross-validation.
