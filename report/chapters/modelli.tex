@@ -1,6 +1,6 @@
 \chapter{Modelli} \label{ch:modelli}
 In questo capitolo verranno presentati i modelli che sono stati definiti
-per svolgere il compito di classificazione. In particolare, si è deciso di 
+per svolgere il compito di classificazione. In particolare, si è deciso di
 utilizzare i seguenti algoritmi:
 \begin{itemize}
     \item \textbf{Support Vector Machine}
@@ -8,8 +8,8 @@ utilizzare i seguenti algoritmi:
     \item \textbf{Rete Neurale}
 \end{itemize}
 Per ogni algoritmo sono stati definiti $2$ modelli, ciascuno allenato e valutato
-sulle due versioni ridotte del dataset originario. Nella tabella 
-\ref{tab:riassunto_operazioni_dataset} viene mostrato un breve riepilogo delle 
+sulle due versioni ridotte del dataset originario. Nella tabella
+\ref{tab:riassunto_operazioni_dataset} viene mostrato un breve riepilogo delle
 versioni dei dataset e dei modelli che verranno definiti.
 
 \begin{table}[!ht]
@@ -57,11 +57,11 @@ una $5$-fold stratified cross-validation.
 In questa sezione verrà presentato il processo di addestramento e selezione dei
 modelli candidati per \textbf{SVM}. Nello specifico si andranno a presentare le
 varie scelte effettuate per la definizione di ciascun modello tramite la selezione
-degli iperparametri e la valutazione dei risultati ottenuti durante il loro studio. 
+degli iperparametri e la valutazione dei risultati ottenuti durante il loro studio.
 Tutte le operazioni effettuate sono state realizzate utilizzando i dataset standardizzati
 (\texttt{dataset\_corr\_std} e \texttt{dataset\_pca\_std}) presentati nella fase
 di preparazione dei dati, in modo da rispettare il più possibile le assunzioni
-di SVM, anche se una feature non rispetta l'ipotesi di normalità. 
+di SVM, anche se una feature non rispetta l'ipotesi di normalità.
 
 In questa sezione verranno presentati i seguenti modelli:
 \begin{itemize}
@@ -70,7 +70,7 @@ In questa sezione verranno presentati i seguenti modelli:
 \end{itemize}
 
 \subsection{Modello SVM\_corr}
-La prima fase di definizione del modello, si è delineata nella selezione degli 
+La prima fase di definizione del modello, si è delineata nella selezione degli
 iperparamentri migliori per il classificatore SVM, la quale è stata
 condotta mediante l'impiego di procedure di grid search. Nello specifico, si è
 adottata una grid search per ciascun kernel, utilizzando una tecnica di
@@ -90,9 +90,9 @@ stati valutati i seguenti kernel:
 Per effettuare il processo di selezione degli iperparametri, si è deciso di
 effettuare uno studio preliminare per valutare quali fossero quelli più
 significativi per ogni kernel, in modo da non doverli analizzare tutti e di
-conseguenza ridurre il tempo di esecuzione. Lo studio si è basato sull'esecuzione 
-dell'algoritmo SVM, facendo variare manualmente tutti gli iperparametri, in questo 
-modo si è notato che i parametri che facevano variare maggiormente i risultati 
+conseguenza ridurre il tempo di esecuzione. Lo studio si è basato sull'esecuzione
+dell'algoritmo SVM, facendo variare manualmente tutti gli iperparametri, in questo
+modo si è notato che i parametri che facevano variare maggiormente i risultati
 dei modelli erano i seguenti:
 \begin{itemize}
     \item \textbf{Parametro di regolarizzazione} ($C$): controlla il trade-off tra
@@ -109,18 +109,18 @@ dei modelli erano i seguenti:
           rate del modello.
 \end{itemize}
 
-Selezionati i parametri più significativi, si è proceduto con la grid search 
+Selezionati i parametri più significativi, si è proceduto con la grid search
 per trovare le combinazioni migliori per il dataset di riferimento. Per valutare
 ogni combinazione di iperparamentri, si calcola la media e la deviazione standard
-dell'Accuracy (test score) e del tempo di addestramento per i $5$ modelli della $5$-fold 
+dell'Accuracy (test score) e del tempo di addestramento per i $5$ modelli della $5$-fold
 cross-validation.
 In seguito, si è attribuito un punteggio di ranking per ogni combinazione
 di iperparamentri in relazione al suo posizionamento rispetto all'Accuracy e rispetto
 al tempo. Infine, sommando i due valori di rank, si ottiene il punteggio di ranking
-della combinazione. 
+della combinazione.
 
 In questo modo è stata scelta la combinazione migliore per ogni kernel, ovvero quella che possiede la somma
-dei due valori di rank che minima rispetto alle altre combinazioni, in quanto rappresenta 
+dei due valori di rank che minima rispetto alle altre combinazioni, in quanto rappresenta
 il miglior compromesso tra accuratezza e tempo.
 
 Inoltre si fa presente che per il kernel lineare e polinomiale è stato impostato
@@ -234,7 +234,7 @@ Nella tabella \ref{tab:top_sigmoid_corr} viene riportato il miglior candidato pe
 \end{table}
 
 \subsubsection{Selezione miglior kernel}
-La fase successiva è stata quella di confrontare le combinazioni migliori per ogni 
+La fase successiva è stata quella di confrontare le combinazioni migliori per ogni
 kernel per determinare la migliore per il dataset. I risultati a livello di tempi sono
 riportati nella tabella \ref{tab:top_time_kernels_corr}.
 \begin{table}[!ht]
@@ -285,7 +285,7 @@ e le relative curve ROC.
 
 Dalla tabella \ref{tab:top_metrics_kernels_corr} si può notare che il kernel Polinomiale
 è quello che ha ottenuto i risultati migliori, quindi il modello SVM\_corr sarà
-definito dai seguenti parametri: 
+definito dai seguenti parametri:
 \begin{itemize}
     \item kernel: $polinomiale$
     \item $C$: $1$
@@ -299,11 +299,11 @@ dalle metriche i risultati ottenuti sono ottimi per tutti
 i kernel escludendo la sigmoide.
 
 \subsection{Modello SVM\_pca}
-La prima fase di definizione del modello, si è delineata nella selezione degli 
+La prima fase di definizione del modello, si è delineata nella selezione degli
 iperparamentri migliori per il classificatore SVM, la quale è identica al modello
 SVM\_corr, quindi in questa sezione verranno riportati solo i risultati. Più
 precisamente i risultati sono stati riportati nelle tabelle
-\ref{tab:top_time_kernels_pca}, \ref{tab:top_metrics_kernels_pca} e nel grafico 
+\ref{tab:top_time_kernels_pca}, \ref{tab:top_metrics_kernels_pca} e nel grafico
 \ref{fig:roc_SVM_PCA}:
 
 \begin{table}[!ht]
@@ -368,9 +368,9 @@ kernel è RBF, quindi SVM\_pca sarà definito dai seguenti parametri:
 \newpage
 \section{Gaussian Naive Bayes}
 In questa sezione verrà presentato il processo di definizione dei
-modelli candidati per \textbf{Gaussian Naive Bayes} (GNB). A differenza 
-degli altri algoritmi, gli unici iperparametri da trovare sono le Prior che, in 
-questo caso, non sono state calcolate dal momento che non conosciamo l'attuale 
+modelli candidati per \textbf{Gaussian Naive Bayes} (GNB). A differenza
+degli altri algoritmi, gli unici iperparametri da trovare sono le Prior che, in
+questo caso, non sono state calcolate dal momento che non conosciamo l'attuale
 dominio. Non specificando le prior, la libreria sklearn le stimerà dal dataset.
 
 Con le suddette premesse sono stati definiti i due modelli:
@@ -388,7 +388,7 @@ della struttura delle reti neurali e alle fasi di addestramento della stesse.
 Tutte le operazioni effettuate sono state realizzate utilizzando i dataset standardizzati
 (\texttt{dataset\_corr\_std} e \texttt{dataset\_pca\_std}) presentati nella fase
 di preparazione dei dati, in modo da rispettare il più possibile le assunzioni
-delle reti neurali, anche se una feature non rispetta l'ipotesi di normalità. 
+delle reti neurali, anche se una feature non rispetta l'ipotesi di normalità.
 
 In questa sezione verranno presentati i seguenti modelli:
 \begin{itemize}
@@ -400,12 +400,12 @@ In questa sezione verranno presentati i seguenti modelli:
 Per svolgere il compito di classificazione si è scelto di utilizzare una rete
 neurale feedforward, la cui struttura, a meno del layer di input e di output, è
 stata definita attraverso il processo di grid search insieme agli iperparamentri.
-La grid search si è articolata attraverso una cross validation a $5$ fold sul training 
+La grid search si è articolata attraverso una cross validation a $5$ fold sul training
 set di \texttt{dataset\_corr\_std}.
 
 Dai risultati ottenuti dalla fase di analisi e dal dominio del problema, si è
 scelto di utilizzare una rete con una struttura di dimensioni ridotte, in modo
-tale da ridurre i tempi di addestramento e ridurre la possibilità che la rete 
+tale da ridurre i tempi di addestramento e ridurre la possibilità che la rete
 neurale soffra di overfitting.
 
 \subsubsection{Ottimizzazione degli iperparametri}
@@ -415,7 +415,7 @@ permesso di valutare le prestazioni della rete neurale al variare della funzione
 di attivazione, del numero di layer nascosti e del numero di neuroni per ogni
 layer nascosto.
 
-Per le motivazioni espresse nella sezione precedente sulla dimensione della rete, 
+Per le motivazioni espresse nella sezione precedente sulla dimensione della rete,
 l'operazione di grid search è
 stata effettuata prendendo in considerazione un numero di neuroni per layer
 tra 5, 10 mentre il numero di layer nascosti è stato valutato tra 1 e 2.
@@ -488,9 +488,9 @@ misure che permettono di valutare le prestazioni della rete neurale, mentre gli
 intervalli di confidenza sono stati utilizzati per valutare la variabilità delle
 prestazioni.
 
-Per verificare se il punteggio di ranking definito precedentemente è affidabile, 
+Per verificare se il punteggio di ranking definito precedentemente è affidabile,
 si è proceduto con il confronto dell'accuratezza media e del tempo medio tra la combinazione
-migliore, la combinazione col tempo medio minore e la combinazione con l'accuratezza 
+migliore, la combinazione col tempo medio minore e la combinazione con l'accuratezza
 media maggiore, ottenendo i risultati riportati in tabella \ref{tab:ris-grid-search}.
 \begin{table}[ht]
     \centering
@@ -498,18 +498,18 @@ media maggiore, ottenendo i risultati riportati in tabella \ref{tab:ris-grid-sea
         \toprule
         \rowcolor[HTML]{EFEFEF}
         \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Combinazione di parametri}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
-        Combinazione col tempo medio minore                                & 97.9\%               & 1.05s                           \\
-        Combinazione con l'accuracy media maggiore                                         & 99.0\%               & 14.43s                          \\
-        Combinazione migliore rispetto al ranking pesato                                               & 98.6\%               & 2.59s                           \\ \bottomrule
+        Combinazione col tempo medio minore                                            & 98.31\%               & 1.84s                           \\
+        Combinazione con l'accuracy media maggiore                                     & 99.05\%               & 17.74s                          \\
+        Combinazione migliore rispetto al ranking pesato                               & 98.65\%               & 2.29s                           \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla fase di grid search}
     \label{tab:ris-grid-search}
 \end{table}
 
-Dai valori riportati nella tabella \ref{tab:ris-grid-search} si può notare che 
+Dai valori riportati nella tabella \ref{tab:ris-grid-search} si può notare che
 la combinazione di parametri  che è stata selezionata fornisce un compromesso tra
 accuratezza e tempo di addestramento. Nello specifico, perdendo lo $0.4\%$ di
-accuratezza media si è ottenuto un tempo di addestramento medio minore di circa $12$ secondi.
+accuratezza media si è ottenuto un tempo di addestramento medio minore di circa $15$ secondi.
 
 \subsubsection{Definizione della struttura del modello}
 
@@ -517,7 +517,7 @@ I risultati ottenuti dalla fase di grid search hanno permesso di definire la
 struttura interna del modello. In particolare, il modello sarà composto da $1$
 layer di input, $2$ layer nascosti e $1$ layer di output.
 
-Dal momento che \texttt{dataset\_corr\_std} è composto da $5$ feature, questo ci ha permesso 
+Dal momento che \texttt{dataset\_corr\_std} è composto da $5$ feature, questo ci ha permesso
 di definire la struttura del layer di input per il modello NN\_corr, ovvero
 $5$ neuroni di input, uno per ogni feature del dataset.
 
@@ -529,9 +529,9 @@ I layer nascosti sono composti nel seguente modo:
           di attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
 \end{itemize}
 
-Per concludere la descrizione del modello, è necessario specificare come è composto 
-l'ultimo layer, ovvero quello di output. Vista la natura del problema di classificazione, 
-il layer di output è composto da un solo neurone, in cui la funzione di attivazione 
+Per concludere la descrizione del modello, è necessario specificare come è composto
+l'ultimo layer, ovvero quello di output. Vista la natura del problema di classificazione,
+il layer di output è composto da un solo neurone, in cui la funzione di attivazione
 è la funzione sigmoide \ref{fig:sigmoid}.
 
 \begin{equation}
@@ -565,7 +565,7 @@ $100$, $300$.
 I risultati ottenuti dalla fase di grid search hanno permesso di definire i valori
 degli iperparametri che hanno permesso di ottenere i migliori risultati. In
 particolare, l'algoritmo di ottimizzazione scelto è \textit{Adam}, mentre il
-numero di epoche e la dimensione del batch sono stati impostati rispettivamente 
+numero di epoche e la dimensione del batch sono stati impostati rispettivamente
 a $100$ e $300$.
 
 In questa fase è stato necessario definire la funzione di perdita. Si è scelta
@@ -575,16 +575,16 @@ classificazione che si vuole risolvere.
 
 \subsection{Modello NN\_pca}
 
-Come per la definizione del modello NN\_corr, anche per questo modello sono stati 
-ottimizzati gli stessi iperparametri con le medesime metodologie, ma tutto applicanto
-su \texttt{dataset\_pca\_std}. Dal momento che il processo è analogo a quello 
-effettuato per il modello precedente, sia a livello di iperparametri, sia a livello 
+Come per la definizione del modello NN\_corr, anche per questo modello sono stati
+ottimizzati gli stessi iperparametri con le medesime metodologie, ma tutto applicato
+su \texttt{dataset\_pca\_std}. Dal momento che il processo è analogo a quello
+effettuato per il modello precedente, sia a livello di iperparametri, sia a livello
 di valutazione delle combinazioni, allora in questa sezione verranno presentati
-solo i risultati ottenuti. 
+solo i risultati ottenuti.
 
-Come fatto in precedenza, la combinazione migliore di parametri è stata confrontata 
-con la combinazione che ha ottenuto la migliore accuratezza media e la combinazione 
-che ha ottenuto il miglior tempo di addestramento medio. I risultati ottenuti sono 
+Come fatto in precedenza, la combinazione migliore di parametri è stata confrontata
+con la combinazione che ha ottenuto la migliore accuratezza media e la combinazione
+che ha ottenuto il miglior tempo di addestramento medio. I risultati ottenuti sono
 riportati in tabella \ref{tab:ris-grid-search-pca}.
 
 \begin{table}[ht]
@@ -593,18 +593,20 @@ riportati in tabella \ref{tab:ris-grid-search-pca}.
         \toprule
         \rowcolor[HTML]{EFEFEF}
         \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Combinazione di parametri}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
-        Combinazione col tempo medio minore & 96.9\%               & 1.06s                           \\
-        Combinazione con l'accuracy media maggiore          & 98.0\%               & 22.20s                          \\
-        Combinazione migliore rispetto al ranking pesato                & 97.9\%               & 1.16s                           \\ \bottomrule
+        Combinazione col tempo medio minore                                            & 96.89\%              & 1.13s                           \\
+        Combinazione con l'accuracy media maggiore                                     & 98.14\%              & 1.37s                          \\
+        Combinazione migliore rispetto al ranking pesato                               & 98.07\%              & 1.29s                           \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla fase di grid search}
     \label{tab:ris-grid-search-pca}
 \end{table}
 
-Anche in questo caso, come per il precedente, la combinazione che è stata selezionata
-rappresenta un compromesso tra accuratezza media e tempo di addestramento medio. In particolare,
-perdendo lo $0.1\%$ di accuratezza media si è ottenuto un tempo di addestramento medio minore
-di circa $21$ secondi.
+Anche in questo caso, come nel precedente, la combinazione selezionata 
+rappresenta un compromesso tra l'accuratezza media e il tempo medio di 
+addestramento. In particolare, aumentando di circa $0.16$ secondi il tempo di 
+addestramento, l'accuratezza media aumenta di circa il $2\%$. Inoltre, la 
+differenza tra la combinazione che offre la maggiore accuratezza media e la 
+combinazione migliore secondo il ranking pesato è piuttosto ridotta ($0.07\%$).
 
 I risultati ottenuti dalla fase di grid search hanno permesso di definire la
 struttura della rete neurale. In particolare, la rete neurale è composta da $1$
@@ -622,7 +624,7 @@ I layer nascosti sono composti nel seguente modo:
           di attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
 \end{itemize}
 
-Il layer di output è lo stesso utilizzato per il modello NN\_pca, ovvero è composto 
+Il layer di output è lo stesso utilizzato per il modello NN\_pca, ovvero è composto
 da un solo neurone in cui la funzione di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
 
 \begin{figure}[!ht]
