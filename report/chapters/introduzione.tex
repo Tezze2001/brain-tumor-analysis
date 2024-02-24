@@ -38,18 +38,18 @@ operazioni di ricerca:
             basato sulla rimozione delle features correlate, il secondo basato
             sull'utilizzo della Principal Component Analysis (PCA). In questa fase
             vengono quindi generati i due dataset.
-      \item \textbf{Valutazione dei modelli}: per ciascuna versione
-            del dataset sono stati definiti e valutati i modelli. La valutazione
-            si è articolata in due passi, nel primo passo è stato effettuato un 
-            apprendimento sull'$80\%$ delle istanze per poi valutarlo sul rimanente $20\%$, 
-            nel secondo passo è stata effettuata una $10$-fold stratified cross-validation 
-            per una valutazione più affidabile e robusta.
-            Inoltre, nella prima valutazione, prima di effettuare la fase di training,
-            è stata effettuata una $5$-fold stratified cross-validation sul training set, per
+      \item \textbf{Valutazione dei modelli}: per ciascun dataset si è effettuata
+            una valutazione dei modelli in due passi, la prima è una valutazione
+            su ciascuna effettuando un allenamento sull'$80\%$ delle istanze e
+            valutando sul rimanente $20\%$, la seconda è una $10$-fold stratified
+            cross-validation per una valutazione più affidabile e robusta.
+            Nella prima valutazione, durante la fase di training si effettua anche
+            una $5$-fold stratified cross-validation sul training set, per
             ricercare gli iperparamentri migliori da utilizzare nel modello che
-            verrà valutato.
+            verrà successivamente valutato nelle due fasi.
       \item \textbf{Confronto tra i vari modelli}: sono stati confrontati tutti
-            i modelli in termini di metriche di valutazione e tempi di addestramento.
+            i modelli sia in merito ai criteri di valutazione, sia in merito ai
+            tempi di apprendimento.
 \end{itemize}
 Sono state effettuate due validazioni a causa della dimensione del dataset,
 infatti, vista la sua media dimensione si è deciso di confermare le osservazioni
@@ -73,7 +73,7 @@ nei seguenti capitoli:
             e relativa analisi esplorativa.
       \item \textbf{Modelli}: presentazione dei modelli e dei procedimenti svolti
             per definire i loro iperparametri.
-      \item \textbf{Risultati}: presentazione dei risultati ottenuti dalle valutazioni
-            dei modelli e confronto tra di loro.
+      \item \textbf{Risultati}: presentazione dei risultati ottenuti dai modelli
+            e confronto tra di essi.
       \item \textbf{Conclusioni}: conclusioni sull'elaborato.
 \end{itemize}
