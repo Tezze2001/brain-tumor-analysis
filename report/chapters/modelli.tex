@@ -524,9 +524,9 @@ $5$ neuroni di input, uno per ogni feature del dataset.
 I layer nascosti sono composti nel seguente modo:
 \begin{itemize}
     \item Il primo layer nascosto è composto da $10$ neuroni, in cui la funzione di
-          attivazione è la funzione $ReLU$ \ref{fig:relu}.
-    \item Il secondo layer nascosto è composto da $5$ neuroni, in cui la funzione
-          di attivazione è la funzione $ReLU$ \ref{fig:relu}.
+          attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
+    \item Il secondo layer nascosto è composto da $10$ neuroni, in cui la funzione
+          di attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
 \end{itemize}
 
 Per concludere la descrizione del modello, è necessario specificare come è composto 
@@ -566,7 +566,7 @@ I risultati ottenuti dalla fase di grid search hanno permesso di definire i valo
 degli iperparametri che hanno permesso di ottenere i migliori risultati. In
 particolare, l'algoritmo di ottimizzazione scelto è \textit{Adam}, mentre il
 numero di epoche e la dimensione del batch sono stati impostati rispettivamente 
-a $100$ e $100$.
+a $100$ e $300$.
 
 In questa fase è stato necessario definire la funzione di perdita. Si è scelta
 la \textit{binary crossentropy} in quanto adatta a problemi di classificazione
@@ -592,10 +592,10 @@ riportati in tabella \ref{tab:ris-grid-search-pca}.
     \begin{tabular}{@{}lcc@{}}
         \toprule
         \rowcolor[HTML]{EFEFEF}
-        \textbf{Modello}              & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
-        Tempo di addestramento minore & 96.9\%               & 1.06s                           \\
-        Accuratezza maggiore          & 98.0\%               & 22.20s                          \\
-        Modello scelto                & 97.9\%               & 1.16s                           \\ \bottomrule
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Combinazione di parametri}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
+        Combinazione col tempo medio minore & 96.9\%               & 1.06s                           \\
+        Combinazione con l'accuracy media maggiore          & 98.0\%               & 22.20s                          \\
+        Combinazione migliore rispetto al ranking pesato                & 97.9\%               & 1.16s                           \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla fase di grid search}
     \label{tab:ris-grid-search-pca}
@@ -608,20 +608,41 @@ di circa $21$ secondi.
 
 I risultati ottenuti dalla fase di grid search hanno permesso di definire la
 struttura della rete neurale. In particolare, la rete neurale è composta da $1$
-layer di input, $1$ layer nascosto e $1$ layer di output.
+layer di input, $2$ layer nascosti e $1$ layer di output.
 
 Il layer di input è composto da $3$ neuroni, uno per ogni componente principale
 ottenuta attraverso la PCA. Questo primo strato è stato definito in questo modo
 in quanto il dataset ottenuto attraverso la PCA è composto da $3$ feature.
 
-Il layer nascosto è composto da $10$ neuroni, in cui la funzione di attivazione è
-la funzione $ReLU$ \ref{fig:relu}.
+I layer nascosti sono composti nel seguente modo:
+\begin{itemize}
+    \item Il primo layer nascosto è composto da $5$ neuroni, in cui la funzione di
+          attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
+    \item Il secondo layer nascosto è composto da $10$ neuroni, in cui la funzione
+          di attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
+\end{itemize}
 
 Il layer di output è lo stesso utilizzato per il modello NN\_pca, ovvero è composto 
 da un solo neurone in cui la funzione di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.3\textwidth]{img/rete/struttura_rete_pca.png}
     \caption{Struttura della rete neurale addestrata con PCA}
     \label{fig:strutturaReteNeuralePCA}
 \end{figure}
+
+Per quanto riguarda l'algoritmo di ottimizzazione, il confronto è stato eseguito
+tra \textit{Adam} e \textit{SGD}, mentre per il numero di epoche e la dimensione
+del batch sono stati valutati rispettivamente i seguenti insiemi di valori: $100$, $300$ e $50$,
+$100$, $300$.
+
+Per quanto riguarda gli iperparametri legati al training del modello, sono stati
+rispettivamente scelti i seguenti valori:
+\begin{itemize}
+    \item Ottimizzatore: \textit{SGD}
+    \item epoche: $100$
+    \item batch size: $300$
+\end{itemize}
+
+Infine la loss scelta rimane sempre \textit{binary crossentropy}.
