@@ -1,22 +1,17 @@
 \chapter{Modelli} \label{ch:modelli}
-In questo capitolo verranno presentati i modelli che si è deciso di addestrare
-per svolgere il compito di classificazione. I modelli sono stati scelti in base
-ai risultati ottenuti nella fase di analisi esplorativa e in base alle
-caratteristiche del dataset. In particolare, si è deciso di addestrare:
+In questo capitolo verranno presentati i modelli che sono stati definiti
+per svolgere il compito di classificazione. In particolare, si è deciso di 
+utilizzare i seguenti algoritmi:
 \begin{itemize}
     \item \textbf{Support Vector Machine}
     \item \textbf{Gaussian Naive Bayes}
     \item \textbf{Rete Neurale}
 \end{itemize}
-Per ognuno di essi verrà presentata una breve descrizione sulla loro struttura
-e sulle operazioni che sono state svolte per la loro definizione. In un secondo
-momento verranno presentati i risultati ottenuti e verrà fatta una valutazione
-sui modelli addestrati.
+Per ogni algoritmo sono stati definiti $2$ modelli, ciascuno allenato e valutato
+sulle due versioni ridotte del dataset originario. Nella tabella 
+\ref{tab:riassunto_operazioni_dataset} viene mostrato un breve riepilogo delle 
+versioni dei dataset e dei modelli che verranno definiti.
 
-Più precisamente per ogni modello sono state addestrate due versioni, la prima
-viene allenata sul dataset ridotto analizzando le correlazione, la seconda
-su quello ridotto con PCA. Nella tabella \ref{tab:riassunto_operazioni_dataset} è
-presente un breve riepilogo delle versioni dei dataset e dei modelli.
 \begin{table}[!ht]
     \resizebox{\textwidth}{!}{\begin{tabular}{@{}llc@{}}
             \toprule
@@ -45,6 +40,8 @@ tipologie di valutazione delle performance:
           cross-validation per studiare la robustezza della versione del modello
           validata precedentemente.
 \end{itemize}
+
+
 La scelta di effettuare una valutazione in due fasi si basa sul fatto che il
 numero degli esempi presenti nel dataset non è molto elevato, più precisamente
 il dataset è di medie dimensioni, quindi la valutazione $80/20$ potrebbe non
@@ -57,75 +54,90 @@ delle istanze, è anche stata utilizzata anche per ricercare gli iperparamentri
 migliori per la rete neurale e per la SVM, più precisamente è stato effettuati
 una $5$-fold stratified cross-validation.
 \section{Support Vector Machine}
-In questa sezione verrà presentato il processo di addestramento e selezione del
-modello candidato per \textbf{SVM}. Nello specifico si andranno a presentare le
-varie scelte effettuate per la definizione del modello tramite la selezione
-degli iperparametri e la valutazione dei risultati ottenuti. Tutte le operazioni
-effettuate sono state realizzate utilizzando i dataset standardizzati
+In questa sezione verrà presentato il processo di addestramento e selezione dei
+modelli candidati per \textbf{SVM}. Nello specifico si andranno a presentare le
+varie scelte effettuate per la definizione di ciascun modello tramite la selezione
+degli iperparametri e la valutazione dei risultati ottenuti durante il loro studio. 
+Tutte le operazioni effettuate sono state realizzate utilizzando i dataset standardizzati
 (\texttt{dataset\_corr\_std} e \texttt{dataset\_pca\_std}) presentati nella fase
-di preparazione dei dati.
-\subsection{Selezione degli iperparametri per kernel}
-La fase di selezione degli iperparametri per il classificatore SVM è stata
+di preparazione dei dati, in modo da rispettare il più possibile le assunzioni
+di SVM, anche se una feature non rispetta l'ipotesi di normalità. 
+
+In questa sezione verranno presentati i seguenti modelli:
+\begin{itemize}
+    \item SVM\_corr: utilizza SVM su \texttt{dataset\_corr\_std}
+    \item SVM\_pca: utilizza SVM su \texttt{dataset\_pca\_std}
+\end{itemize}
+
+\subsection{Modello SVM\_corr}
+La prima fase di definizione del modello, si è delineata nella selezione degli 
+iperparamentri migliori per il classificatore SVM, la quale è stata
 condotta mediante l'impiego di procedure di grid search. Nello specifico, si è
 adottata una grid search per ciascun kernel, utilizzando una tecnica di
-cross-validation a 5 fold. Tale decisione è stata motivata dalla necessità di
+cross-validation a $5$ fold. Tale decisione è stata motivata dalla necessità di
 ottimizzare gli iperparametri specifici di ciascun kernel. Considerando che i
 kernel presentano parametri differenti da ottimizzare, il processo di selezione
 deve affrontare un elevato numero di combinazioni, il che potrebbe generare
 combinazioni prive di significato se svolto in un unico processo. Pertanto, sono
 stati valutati i seguenti kernel:
 \begin{itemize}
-    \item Lineare
-    \item Polinomiale
-    \item RBF
-    \item Sigmoidale
+    \item Lineare.
+    \item Polinomiale.
+    \item RBF.
+    \item Sigmoidale.
 \end{itemize}
 
-Per effettuare il processo di selezione di iperparametri, si è deciso di
+Per effettuare il processo di selezione degli iperparametri, si è deciso di
 effettuare uno studio preliminare per valutare quali fossero quelli più
 significativi per ogni kernel, in modo da non doverli analizzare tutti e di
-conseguenza ridurre il tempo di esecuzione. Questo studio ha portato a definire
-i seguenti iperparametri da analizzare:
+conseguenza ridurre il tempo di esecuzione. Lo studio si è basato sull'esecuzione 
+dell'algoritmo SVM, facendo variare manualmente tutti gli iperparametri, in questo 
+modo si è notato che i parametri che facevano variare maggiormente i risultati 
+dei modelli erano i seguenti:
 \begin{itemize}
-    \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
+    \item \textbf{Parametro di regolarizzazione} ($C$): controlla il trade-off tra
           la complessità del modello e la corretta classificazione dei dati.
           Un suo valore elevato porta ad avere un hard margin.
-    \item Tolleranza \textbf{tol}: parametro di tolleranza, controlla la
+    \item \textbf{Tolleranza} ($tol$): parametro di tolleranza, controlla la
           tolleranza accettata per la convergenza del modello.
-    \item Coefficiente di bias \textbf{r}: termine indipendente di bias che
+    \item \textbf{Coefficiente di bias} ($r$): termine indipendente di bias che
           controlla la posizione dell'iperpiano di separazione nel caso di
           kernel polinomiale.
-    \item Grado del polinomio \textbf{d}: controlla la complessità del modello
-          impostando il grado del polinomio utile solo per il kernel polinomiale.
-    \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce l'importanza del
-          prodotto scalare sulla misura di similarità per il kernel polinomiale.
-          Per il kernel rbf gestisce la dimensione del kernel. Un valore elevato
-          porta ad essere più sensibili alle variazioni.
+    \item \textbf{Grado del polinomio} ($d$): controlla la complessità del modello
+          impostando il grado del polinomio. Utile solo per il kernel polinomiale.
+    \item \textbf{Coefficiente di scala} ($\boldsymbol{\gamma}$): specifica il learning
+          rate del modello.
 \end{itemize}
 
-Dai risultati ottenuti si è proceduto con la valutazione dei modelli ottenuti
-attraverso la selezione della miglior combinazione di iperparametri per il dataset.
-Per effettuare questa scelta è stata calcolata la media e la deviazione standard
-dell'accuratezza e del tempo di addestramento per ogni combinazione di iperparametri.
-In seguito si è attribuito un punteggio ad ogni casistica in base al suo
-posizionamento rispetto alle altre combinazioni per ogni metrica. Infine
-sommando i due valori di rank è stato scelto il modello con il punteggio
-più basso, in quanto rappresenta il miglior compromesso tra accuratezza e tempo.
+Selezionati i parametri più significativi, si è proceduto con la grid search 
+per trovare le combinazioni migliori per il dataset di riferimento. Per valutare
+ogni combinazione di iperparamentri, si calcola la media e la deviazione standard
+dell'Accuracy (test score) e del tempo di addestramento per i $5$ modelli della $5$-fold 
+cross-validation.
+In seguito, si è attribuito un punteggio di ranking per ogni combinazione
+di iperparamentri in relazione al suo posizionamento rispetto all'Accuracy e rispetto
+al tempo. Infine, sommando i due valori di rank, si ottiene il punteggio di ranking
+della combinazione. 
+
+In questo modo è stata scelta la combinazione migliore per ogni kernel, ovvero quella che possiede la somma
+dei due valori di rank che minima rispetto alle altre combinazioni, in quanto rappresenta 
+il miglior compromesso tra accuratezza e tempo.
 
 Inoltre si fa presente che per il kernel lineare e polinomiale è stato impostato
-un numero massimo di iterazioni pari a 100000 per rimanere competitivi con i
+un numero massimo di iterazioni pari a $100000$ per rimanere competitivi con i
 tempi essendo che alcune combinazioni di iperparametri rallentavano notevolmente
 il tempo di convergenza del modello.
-\subsubsection*{Kernel lineare $\langle x,x'\rangle$}
+
+\subsubsection{Kernel lineare $\langle x,x'\rangle$}
 Il kernel lineare si limita ad effettuare il prodotto scalare tra due vettori,
 risultando particolarmente utile quando i dati sono linearmente separabili.
 Per questo motivo sono stati valutati solamente i seguenti iperparamentri:
 \begin{itemize}
-    \item Parametro di regolarizzazione \textbf{C}: valori testati sono stati 1,
-          100, 1e6.
-    \item Tolleranza \textbf{tol}: valori testati sono stati 1e-2, 1e-3, 1e-5.
+    \item \textbf{Parametro di regolarizzazione} ($C$): valori testati sono stati $1$,
+          $100$, $1e6$.
+    \item \textbf{Tolleranza} ($tol$): valori testati sono stati $1e-2$, $1e-3$, $1e-5$.
 \end{itemize}
-Di seguito è riportato il miglior candidato per il kernel lineare:
+Nella tabella \ref{tab:top_linear_corr} viene riportato il miglior candidato per il kernel lineare:
 \begin{table}[!ht]
     \centering
     \begin{tabular}{@{}ccccc@{}}
@@ -137,24 +149,24 @@ Di seguito è riportato il miglior candidato per il kernel lineare:
     \caption{Miglior candidato per il kernel lineare}
     \label{tab:top_linear_corr}
 \end{table}
-\subsubsection*{Kernel polinomiale $(\gamma\langle x,x'\rangle + r)^d$}
+\subsubsection{Kernel polinomiale $(\gamma\langle x,x'\rangle + r)^d$}
 Il kernel polinomiale si occupa di trasformare i dati in uno spazio di
 feature di dimensione superiore utilizzando la funzione polinomiale.
 Solo per questo tipo di kernel è stata presa la decisione di impostare
 una tolleranza alta comune a tutte le combinazioni per raggiungere più
-velocemente la convergenza. Sono stati studiati i seguenti iperparamentri:
+velocemente la convergenza. Sono stati ottimizzati i seguenti iperparamentri:
 \begin{itemize}
-    \item Parametro di regolarizzazione \textbf{C}: valori testati sono stati 1,
-          100, 1e3. Da notare che è stato abbassato il valore massimo di C in
+    \item \textbf{Parametro di regolarizzazione} ($C$): valori testati sono stati $1$,
+          $100$, $1e3$. Da notare che è stato abbassato il valore massimo di $C$ in
           quanto per valori più elevati il modello non riusciva ad ottenere dei
           risultati validi per il limite massimo di iterazioni.
-    \item Coefficiente di bias \textbf{r}: valori testati sono stati 10.0, 1, 0.1.
-    \item Grado del polinomio \textbf{d}: valori testati sono stati 2, 3, 4.
-    \item Coefficiente di scala $\boldsymbol{\gamma}$: valori testati sono stati
-          'scale', 'auto', 1e-3, 1, 1e3.
+    \item \textbf{Coefficiente di bias} ($r$): valori testati sono stati $10.0$, $1$, $0.1$.
+    \item \textbf{Grado del polinomio} ($d$): valori testati sono stati $2$, $3$, $4$.
+    \item \textbf{Coefficiente di scala} ($\boldsymbol{\gamma}$): valori testati sono stati
+          $'scale'$, $'auto'$, $1e-3$, $1$, $1e3$.
 \end{itemize}
 
-Di seguito è riportato il miglior candidato per il kernel polinomiale:
+Nella tabella \ref{tab:top_poly_corr} viene riportato il miglior candidato per il kernel polinomiale:
 \begin{table}[!ht]
     \centering
     \begin{tabular}{@{}ccccc@{}}
@@ -166,24 +178,18 @@ Di seguito è riportato il miglior candidato per il kernel polinomiale:
     \caption{Miglior candidato per il kernel polinomiale}
     \label{tab:top_poly_corr}
 \end{table}
-\subsubsection*{Kernel RBF $\exp(-\gamma|| x,x'||^2)$}
+\subsubsection{Kernel RBF $\exp(-\gamma|| x-x'||^2)$}
 Anche il kernel RBF si occupa di trasformare i dati in uno spazio di
-feature di dimensione superiore esponenzialmente (radiale).
-Non viene più effettuato il prodotto scalare tra i vettori ma si misura
-la loro distanza euclidea.
-Tende ad effettuare frontiere decisionali radiali.
-Sono stati studiati i seguenti iperparamentri:
+feature di dimensione superiore tramite la funzione esponenziale.
+In questo caso non viene più effettuato il prodotto scalare tra i vettori ma si misura
+la loro distanza euclidea, questo tende a creare frontiere decisionali radiali.
+Per RBF sono stati ottimizzati i seguenti iperparamentri:
 \begin{itemize}
-    \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
-          la complessità del modello e la corretta classificazione dei dati.
-          Un suo valore elevato porta ad avere un hard margin.
-          I valori testati sono stati 1, 100, 1e6.
-    \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce la dimensione
-          del kernel RBF. Un valore elevato porta ad essere più sensibili ai dati
-          di training.
-          Sono stati testati i valori 'scale', 'auto', 1e-3, 1, 1e3.
+    \item \textbf{Parametro di regolarizzazione} ($C$): valori testati sono stati $1$, $100$, $1e6$.
+    \item \textbf{Coefficiente di scala} ($\boldsymbol{\gamma}$): valori $'scale'$, $'auto'$, $1e-3$, $1$, $1e3$.
 \end{itemize}
-Di seguito è riportato il miglior candidato per il kernel rbf:
+
+Nella tabella \ref{tab:top_rbf_corr} viene riportato il miglior candidato per il kernel rbf:
 \begin{table}[!ht]
     \centering
     \begin{tabular}{@{}ccccc@{}}
@@ -195,34 +201,26 @@ Di seguito è riportato il miglior candidato per il kernel rbf:
     \caption{Miglior candidato per il kernel rbf}
     \label{tab:top_rbf_corr}
 \end{table}
-\subsubsection*{Kernel sigmoidale $\tanh(\gamma\langle x,x'\rangle + r)$}
+
+\subsubsection{Kernel sigmoidale $\tanh(\gamma\langle x,x'\rangle + r)$}
 Il kernel polinomiale si occupa di trasformare i dati in uno spazio di
 feature di dimensione superiore tramite la funzione tangente iperbolica
 ispirandosi alla funzione di attivazione nelle reti neurali.
-È molto sensibile rispetto ai suoi parametri $\gamma$ e $r$.
-Essendo che anche nei casi più complessi il tempo di addestramento
-rimane contenuto, si è deciso di testare anche quegli iperparametri che
+Questo kernel è risultato molto sensibile rispetto ai parametri $\gamma$ e $r$, ma
+dal momento che che i tempi di addestramento erano ridotti allora
+si è deciso di ottimizzare anche quegli iperparametri che
 hanno ricoperto un ruolo meno significativo durante la fase preliminare della
 grid search.
-Sono stati studiati i seguenti iperparamentri:
+
+Sono stati ottimizzati i seguenti iperparamentri:
 \begin{itemize}
-    \item Parametro di regolarizzazione \textbf{C}: controlla il trade-off tra
-          la complessità del modello e la corretta classificazione dei dati.
-          Un suo valore elevato porta ad avere un hard margin.
-          I valori testati sono stati 1, 100, 1e6.
-    \item Coefficiente di bias \textbf{r}: termine indipendente di bias che
-          controlla la posizione dell'iperpiano di separazione.
-          I valori testati sono stati -1, 0, 1.
-    \item Tolleranza \textbf{tol}: parametro di tolleranza, controlla la
-          tolleranza accettata per la convergenza del modello.
-          I valori testati sono stati 1e-2, 1e-3, 1e-5.
-    \item Coefficiente di scala $\boldsymbol{\gamma}$: gestisce l'importanza del
-          prodotto scalare sulla misura di similarità. Un valore elevato porta
-          ad essere più sensibili alle variazioni.
-          I valori testati sono stati 'scale' e 'auto'.
+    \item \textbf{Parametro di regolarizzazione} ($C$): valori testati sono stati $1$, $100$, $1e6$.
+    \item \textbf{Coefficiente di bias} ($r$): valori testati sono stati $-1$, $0$, $1$.
+    \item \textbf{Tolleranza} ($tol$): valori testati sono stati $1e-2$, $1e-3$, $1e-5$.
+    \item \textbf{Coefficiente di scala} ($\boldsymbol{\gamma}$): valori testati sono stati $'scale'$ e $'auto'$.
 \end{itemize}
 
-Di seguito è riportato il miglior candidato per il kernel sigmoidale:
+Nella tabella \ref{tab:top_sigmoid_corr} viene riportato il miglior candidato per il kernel sigmoidale:
 \begin{table}[!ht]
     \centering
     \begin{tabular}{@{}ccccc@{}}
@@ -234,9 +232,10 @@ Di seguito è riportato il miglior candidato per il kernel sigmoidale:
     \caption{Miglior candidato per il kernel sigmoidale}
     \label{tab:top_sigmoid_corr}
 \end{table}
-\subsection{Selezione miglior kernel}
-La fase successiva è stata quella di confrontare le combinazioni candidate per
-determinare la migliore per il dataset. I risultati a livello di tempi sono
+
+\subsubsection{Selezione miglior kernel}
+La fase successiva è stata quella di confrontare le combinazioni migliori per ogni 
+kernel per determinare la migliore per il dataset. I risultati a livello di tempi sono
 riportati nella tabella \ref{tab:top_time_kernels_corr}.
 \begin{table}[!ht]
     \centering
@@ -285,14 +284,27 @@ e le relative curve ROC.
 \end{figure}
 
 Dalla tabella \ref{tab:top_metrics_kernels_corr} si può notare che il kernel Polinomiale
-è quello che ha ottenuto i risultati migliori.
+è quello che ha ottenuto i risultati migliori, quindi il modello SVM\_corr sarà
+definito dai seguenti parametri: 
+\begin{itemize}
+    \item kernel: $polinomiale$
+    \item $C$: $1$
+    \item $r$: $10$
+    \item $d$: $3$
+    \item $\gamma$: $scale$
+\end{itemize}
+
 Bisogna notare però che dal confronto delle curve roc \ref{fig:roc_SVM_corr} e
 dalle metriche i risultati ottenuti sono ottimi per tutti
 i kernel escludendo la sigmoide.
-\subsection{SVM su dataset con dataset PCA}
-Anche per il dataset PCA sono stati effettuati gli stessi passaggi per la
-selezione del miglior kernel. I risultati ottenuti sono riportati nelle tabelle
-\ref{tab:top_time_kernels_pca} e nel grafico \ref{fig:roc_SVM_PCA}:
+
+\subsection{Modello SVM\_pca}
+La prima fase di definizione del modello, si è delineata nella selezione degli 
+iperparamentri migliori per il classificatore SVM, la quale è identica al modello
+SVM\_corr, quindi in questa sezione verranno riportati solo i risultati. Più
+precisamente i risultati sono stati riportati nelle tabelle
+\ref{tab:top_time_kernels_pca}, \ref{tab:top_metrics_kernels_pca} e nel grafico 
+\ref{fig:roc_SVM_PCA}:
 
 \begin{table}[!ht]
     \centering
@@ -340,60 +352,62 @@ selezione del miglior kernel. I risultati ottenuti sono riportati nelle tabelle
     \label{fig:roc_SVM_PCA}
 \end{figure}
 
-Come per il dataset ridotto, anche per il dataset PCA non si hanno particolari
+Come per il modello precedente, anche sul \texttt{dataset\_pca\_std} non si hanno particolari
 differenze tra i vari kernel esclusa la sigmoide. Si nota inoltre che dal
 grafico \ref{fig:roc_SVM_PCA} non è possibili distinguere quale kernel sia
-il migliore in quanto le curve roc sono molto simili tra loro e l' auc è la
+il migliore in quanto le curve ROC sono molto simili tra loro e l' AUC è la
 stessa per più kernel, quindi la scelta è stata effettuata unicamente in base
-ai risultati delle metriche principali.
+ai risultati delle metriche principali. Dalle metriche si denota che il miglior
+kernel è RBF, quindi SVM\_pca sarà definito dai seguenti parametri:
+\begin{itemize}
+    \item kernel: $RBF$
+    \item $C$: $100$
+    \item $\gamma$: $auto$
+\end{itemize}
+
 \newpage
 \section{Gaussian Naive Bayes}
-Di seguito verrà presentato il processo di addestramento del modello
-\textbf{Gaussian Naive Bayes}. È importante precisare che la scelta di utilizzare
-questo modello è stata fatta con la consapevolezza che non tutte le features
-derivano da una distribuzione normale, quindi si sta andando contro le ipotesi 
-del modello.
-Tuttavia, abbiamo deciso di utilizzarlo in quanto volevamo distaccarci da un
-approccio geometrico e sfruttare un modello probabilistico.
-\subsection{Addestramento di Gaussian Naive Bayes}
-Come per gli altri approcci, abbiamo deciso di addestrare due modelli, uno su
-\texttt{dataset\_corr} e l'altro su \texttt{dataset\_pca}.
+In questa sezione verrà presentato il processo di definizione dei
+modelli candidati per \textbf{Gaussian Naive Bayes} (GNB). A differenza 
+degli altri algoritmi, gli unici iperparametri da trovare sono le Prior che, in 
+questo caso, non sono state calcolate dal momento che non conosciamo l'attuale 
+dominio. Non specificando le prior, la libreria sklearn le stimerà dal dataset.
 
-La libreria utilizzata per l'implementazione di Gaussian Naive Bayes
-presenta come iperparametri solo la definizione delle prior, il problema è che non
-essendo esperti del dominio, non possiamo sapere con certezza la probabilità
-di presenza del tumore nei pazienti. Perciò non è stato effettuato un processo di
-ricerca delle prior.
+Con le suddette premesse sono stati definiti i due modelli:
+\begin{itemize}
+    \item GNB\_corr: modello allenato e valutato sul dataset \texttt{dataset\_corr}
+    \item GNB\_pca: modello allenato e valutato sul dataset \texttt{dataset\_pca}
+\end{itemize}
+
 \section{Rete Neurale}
 In questa sezione verrà presentata la \textbf{rete neurale}. Nello specifico, si
 andranno a presentare i passaggi che sono stati effettuati per la realizzazione
-di questo modello, prestando particolare attenzione alla fase di definizione
-della struttura della rete neurale e alla fase di addestramento della stessa.
+dei due modelli, prestando particolare attenzione alla fase di definizione
+della struttura delle reti neurali e alle fasi di addestramento della stesse.
 
-In questo capitolo tutte le operazioni effettuate sono state realizzate
-utilizzando i dataset standardizzati (\texttt{dataset\_corr\_std} e
-\texttt{dataset\_pca\_std}) presentati nella fase di preparazione dei
-dati \ref{sec:riduzione_correlazione}.
-\subsection{Struttura della rete neurale}
-La fase di definizione della struttura della rete neurale è stata effettuata
-attraverso una serie di passaggi. Inizialmente, è stata effettuata un'analisi
-dei dati in modo tale da selezionare un sottoinsieme di feature le quali sono
-state utilizzate come input della rete neurale. Questo sottoinsieme è stato
-selezionato in modo tale da garantire che la rete neurale fosse in grado di
-discriminare in modo efficace le due classi.
+Tutte le operazioni effettuate sono state realizzate utilizzando i dataset standardizzati
+(\texttt{dataset\_corr\_std} e \texttt{dataset\_pca\_std}) presentati nella fase
+di preparazione dei dati, in modo da rispettare il più possibile le assunzioni
+delle reti neurali, anche se una feature non rispetta l'ipotesi di normalità. 
 
-In seguito, è stata effettuata una fase di grid search per valutare la combinazione
-migliore di iperparametri per la rete neurale. Questa fase è stata effettuata
-attraverso una cross validation a 5 fold, prendendo in considerazione solamente
-i dati del training set.
+In questa sezione verranno presentati i seguenti modelli:
+\begin{itemize}
+    \item NN\_corr: utilizza NN su \texttt{dataset\_corr\_std}
+    \item NN\_pca: utilizza NN su \texttt{dataset\_pca\_std}
+\end{itemize}
+
+\subsection{Modello NN\_corr}
+Per svolgere il compito di classificazione si è scelto di utilizzare una rete
+neurale feedforward, la cui struttura, a meno del layer di input e di output, è
+stata definita attraverso il processo di grid search insieme agli iperparamentri.
+La grid search si è articolata attraverso una cross validation a $5$ fold sul training 
+set di \texttt{dataset\_corr\_std}.
 
 Dai risultati ottenuti dalla fase di analisi e dal dominio del problema, si è
 scelto di utilizzare una rete con una struttura di dimensioni ridotte, in modo
-tale da ridurre le possibilità che la rete neurale soffra di overfitting.
+tale da ridurre i tempi di addestramento e ridurre la possibilità che la rete 
+neurale soffra di overfitting.
 
-Per svolgere il compito di classificazione si è scelto di utilizzare una rete
-neurale feedforward, la cui struttura, a meno del layer di input e di output, è
-stata definita attraverso il processo di grid search.
 \subsubsection{Ottimizzazione degli iperparametri}
 Come già accennato in precedenza, la ricerca degli iperparametri della rete neurale
 è stata effettuata attraverso un processo di grid search. Questo processo ha
@@ -401,9 +415,8 @@ permesso di valutare le prestazioni della rete neurale al variare della funzione
 di attivazione, del numero di layer nascosti e del numero di neuroni per ogni
 layer nascosto.
 
-Visti i risultati ottenuti nella fase di analisi e la volontà di mantenere i
-tempi di addestramento bassi, si è scelto di mantenere una struttura di dimensioni
-ridotte per la rete neurale. Per questo motivo, l'operazione di grid search è
+Per le motivazioni espresse nella sezione precedente sulla dimensione della rete, 
+l'operazione di grid search è
 stata effettuata prendendo in considerazione un numero di neuroni per layer
 tra 5, 10 mentre il numero di layer nascosti è stato valutato tra 1 e 2.
 
@@ -442,34 +455,32 @@ funzioni di attivazione:
 \end{figure}
 
 Durante il processo di grid search, per ogni modello che è stato addestrato, sono
-state raccolte delle informazioni relative all'accuratezza, al tempo di addestramento
-richiesto. In aggiunta a queste informazioni, dato che ogni modello è stato
-addestrato attraverso una cross validation a 5 fold, sono stati calcolati gli
-intervalli di confidenza al $90\%$ per ogni modello addestrato.
+state raccolte delle informazioni relative all'accuratezza e al tempo di addestramento
+richiesto. Quindi per ogni combinazione di parametri, sono stati calcolati gli
+intervalli di confidenza al $90\%$ delle metriche e le rispettive medie.
 
 Ottenuti i risultati, si è proceduto con l'analisi di questi, in modo tale da
 definire la struttura della rete neurale. Per effettuare questa valutazione sono
 state utilizzate le misure precedentemente citate.
 
-Il modello selezionato è stato scelto attraverso i seguenti passaggi:
+La combinazione migliore è stata scelta attraverso i seguenti passaggi:
 \begin{itemize}
     \item Calcolo della dimensione degli intervalli di confidenza, in modo tale
           da valutare la variabilità delle prestazioni della rete neurale.
-          Questa operazione è stata effettuata sia per l'accuratezza che per il
-          tempo di addestramento calcolando la differenza tra il massimo e il
+          Questa operazione è stata effettuata sia per l'accuratezza, sia per il
+          tempo di addestramento, calcolando la differenza tra il massimo e il
           minimo valore dell'intervallo di confidenza.
-    \item Assegnazione di un ordinamento per ogni metrica calcolata, in modo tale
+    \item Assegnazione di un punteggio di ranking per ogni metrica calcolata, in modo tale
           da valutare la posizione di ogni modello nella classifica.
     \item Calcolo del modello migliore attraverso la seguente formula considerando
           la posizione nella classifica di ogni modello per ogni metrica calcolata:
           \begin{center}
-              \textit{Modello = 2 * Accuracy + 2 * Tempo di addestramento + 1 * dimensione intervallo di confidenza della Accuracy + 1 * dimensione intervallo di confidenza del Tempo di addestramento}
+              \textit{RankModello = 2 * Rank accuracy + 2 * Rank tempo di addestramento + 1 * Rank dimensione intervallo di confidenza della accuracy + 1 * Rank dimensione intervallo di confidenza del tempo di addestramento}
           \end{center}
 \end{itemize}
-Le misure di accuratezza e tempo di addestramento si riferiscono alla media
-calcolata attraverso la cross validation.
 
-Nello specifico, sono stati utilizzati i seguenti pesi: 2 per l'accuratezza
+Nello specifico, per calcolare il punteggio di ranking della combinazione di parametri,
+sono stati utilizzati i seguenti pesi: 2 per l'accuratezza
 media, 2 per il tempo di addestramento medio e 1 per gli intervalli di
 confidenza. Questi pesi sono stati scelti in modo tale da dare più importanza
 all'accuratezza media e al tempo di addestramento medio, in quanto sono le due
@@ -477,146 +488,161 @@ misure che permettono di valutare le prestazioni della rete neurale, mentre gli
 intervalli di confidenza sono stati utilizzati per valutare la variabilità delle
 prestazioni.
 
-Per verificare la validità del modello scelto si è proceduto con il confronto di
-esso con la rete che ha ottenuto la migliore accuratezza e quella che ha ottenuto
-il tempo di addestramento minore, ottenendo i risultati riportati in tabella \ref{tab:ris-grid-search}.
+Per verificare se il punteggio di ranking definito precedentemente è affidabile, 
+si è proceduto con il confronto dell'accuratezza media e del tempo medio tra la combinazione
+migliore, la combinazione col tempo medio minore e la combinazione con l'accuratezza 
+media maggiore, ottenendo i risultati riportati in tabella \ref{tab:ris-grid-search}.
 \begin{table}[ht]
     \centering
     \begin{tabular}{@{}lcc@{}}
         \toprule
         \rowcolor[HTML]{EFEFEF}
-        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Modello}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
-        Tempo di addestramento minore                                & 97.9\%               & 1.05s                           \\
-        Accuratezza maggiore                                         & 99.0\%               & 14.43s                          \\
-        Modello scelto                                               & 98.6\%               & 2.59s                           \\ \bottomrule
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Combinazione di parametri}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
+        Combinazione col tempo medio minore                                & 97.9\%               & 1.05s                           \\
+        Combinazione con l'accuracy media maggiore                                         & 99.0\%               & 14.43s                          \\
+        Combinazione migliore rispetto al ranking pesato                                               & 98.6\%               & 2.59s                           \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla fase di grid search}
     \label{tab:ris-grid-search}
 \end{table}
 
-Dai valori riportati nella tabella \ref{tab:ris-grid-search} si può notare che il
-notare che il modello che è stato selezionato fornisce un compromesso tra
+Dai valori riportati nella tabella \ref{tab:ris-grid-search} si può notare che 
+la combinazione di parametri  che è stata selezionata fornisce un compromesso tra
 accuratezza e tempo di addestramento. Nello specifico, perdendo lo $0.4\%$ di
-accuratezza si è ottenuto un tempo di addestramento minore di circa $12$ secondi.
-\subsubsection{Definizione della struttura della rete neurale}
-Dalla fase di analisi è stato selezionato un sottoinsieme di feature le quali
-sono state utilizzate come input della rete neurale. Questo sottoinsieme è
-composto da 5 elementi, il che ha permesso di definire la struttura del layer di
-input della rete neurale, questo primo strato è composto da 5 neuroni, uno per
-ogni feature selezionata.
+accuratezza media si è ottenuto un tempo di addestramento medio minore di circa $12$ secondi.
+
+\subsubsection{Definizione della struttura del modello}
 
 I risultati ottenuti dalla fase di grid search hanno permesso di definire la
-struttura della rete neurale. In particolare, la rete neurale è composta da 1
-layer di input, 2 layer nascosti e 1 layer di output.
+struttura interna del modello. In particolare, il modello sarà composto da $1$
+layer di input, $2$ layer nascosti e $1$ layer di output.
+
+Dal momento che \texttt{dataset\_corr\_std} è composto da $5$ feature, questo ci ha permesso 
+di definire la struttura del layer di input per il modello NN\_corr, ovvero
+$5$ neuroni di input, uno per ogni feature del dataset.
 
 I layer nascosti sono composti nel seguente modo:
 \begin{itemize}
-    \item Il primo layer nascosto è composto da 10 neuroni, in cui la funzione di
-          attivazione è la funzione ReLU \ref{fig:relu}.
-    \item Il secondo layer nascosto è composto da 5 neuroni, in cui la funzione
-          di attivazione è la funzione ReLU \ref{fig:relu}.
+    \item Il primo layer nascosto è composto da $10$ neuroni, in cui la funzione di
+          attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
+    \item Il secondo layer nascosto è composto da $10$ neuroni, in cui la funzione
+          di attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
 \end{itemize}
 
-Per concludere la descrizione della struttura della rete neurale, è necessario
-specificare come è composto l'ultimo layer, ovvero quello di output. Vista la
-natura del problema di classificazione, il layer di output è composto da un solo
-neurone, in cui la funzione di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
+Per concludere la descrizione del modello, è necessario specificare come è composto 
+l'ultimo layer, ovvero quello di output. Vista la natura del problema di classificazione, 
+il layer di output è composto da un solo neurone, in cui la funzione di attivazione 
+è la funzione sigmoide \ref{fig:sigmoid}.
+
 \begin{equation}
     \sigma(x) = \frac{1}{1 + e^{-x}}
 \end{equation}
+
 Questa scelta è dovuta al fatto che tale funzione restituisce un valore compreso
-tra 0 e 1, il che permette di interpretare l'output della rete neurale come la
-probabilità che l'input appartenga alla classe positiva.
+tra $0$ e $1$, il che permette di interpretare l'output della rete neurale come la
+probabilità che l'input appartenga alla classe \textbf{positiva}.
 
 La struttura della rete neurale è riassunta nella figura \ref{fig:strutturaReteNeurale}.
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.3\textwidth]{img/rete/struttura_rete.png}
     \caption{Struttura della rete neurale}
     \label{fig:strutturaReteNeurale}
 \end{figure}
+
 \subsubsection{Altri iperparametri}
 Oltre alla ricerca della struttura della rete neurale, la fase di grid search è
 stata utilizzata per valutare l'algoritmo di ottimizzazione, il numero di epoche
-e la dimensione del batch.
+e la dimensione del batch. Questi ultimi parametri saranno utili per le fasi di training
+nel modello sopra descritto.
 
 Per quanto riguarda l'algoritmo di ottimizzazione, il confronto è stato eseguito
 tra \textit{Adam} e \textit{SGD}, mentre per il numero di epoche e la dimensione
-del batch sono stati valutati i valori 100, 300 per il numero di epoche e 50,
-100, 300 per la dimensione del batch.
+del batch sono stati valutati rispettivamente i seguenti insiemi di valori: $100$, $300$ e $50$,
+$100$, $300$.
 
 I risultati ottenuti dalla fase di grid search hanno permesso di definire i valori
 degli iperparametri che hanno permesso di ottenere i migliori risultati. In
 particolare, l'algoritmo di ottimizzazione scelto è \textit{Adam}, mentre il
-numero di epoche e la dimensione del batch sono stati impostati a 100 e 100
-rispettivamente.
+numero di epoche e la dimensione del batch sono stati impostati rispettivamente 
+a $100$ e $300$.
 
 In questa fase è stato necessario definire la funzione di perdita. Si è scelta
 la \textit{binary crossentropy} in quanto adatta a problemi di classificazione
 binaria. La scelta di questa loss è dovuta alla natura del problema di
 classificazione che si vuole risolvere.
-\subsection{Addestramento della rete neurale}
-La fase di addestramento della rete neurale è stata effettuata utilizzando il
-training set precedentemente definito. L'addestramento della rete neurale è stato
-effettuato utilizzando la libreria \textit{Keras} in quanto permette di definire
-e addestrare reti neurali in modo intuitivo.
-\subsection{Rete neurale su dataset con PCA}
-Per verificare se i risultati ottenuti dal modello addestrato sulle feature da
-noi selezionate siano effettivamente dovuti alla struttura delle feature e non
-a una fortunata selezione, si è deciso di addestrare un modello con le feature
-ottenute attraverso la PCA.
 
-Il dataset ottenuto attraverso la PCA, descritto sella sezione \ref{sec:pca}, è
-stato diviso in training set e test set in modo tale da mantenere la stessa
-percentuale di dati positivi e negativi in entrambi i set. Oltre a questa
-operazione, i dati sono stati standardizzati.
-Come per il modello addestrato con le feature selezionate manualmente, anche per
-questo modello è stata effettuata una fase di grid search per valutare la
-combinazione migliore di iperparametri per la rete neurale.
+\subsection{Modello NN\_pca}
 
-Il processo utilizzato in questa fase è analogo a quello utilizzato per il modello
-precedente, sia a livello di iperparametri che di valutazione del modello.
+Come per la definizione del modello NN\_corr, anche per questo modello sono stati 
+ottimizzati gli stessi iperparametri con le medesime metodologie, ma tutto applicanto
+su \texttt{dataset\_pca\_std}. Dal momento che il processo è analogo a quello 
+effettuato per il modello precedente, sia a livello di iperparametri, sia a livello 
+di valutazione delle combinazioni, allora in questa sezione verranno presentati
+solo i risultati ottenuti. 
 
-Come fatto in precedenza, il modello selezionato è stato confrontato con il modello
-che ha ottenuto la migliore accuratezza e quello che ha ottenuto il tempo di
-addestramento minore. I risultati ottenuti sono riportati in tabella \ref{tab:ris-grid-search-pca}.
+Come fatto in precedenza, la combinazione migliore di parametri è stata confrontata 
+con la combinazione che ha ottenuto la migliore accuratezza media e la combinazione 
+che ha ottenuto il miglior tempo di addestramento medio. I risultati ottenuti sono 
+riportati in tabella \ref{tab:ris-grid-search-pca}.
 
 \begin{table}[ht]
     \centering
     \begin{tabular}{@{}lcc@{}}
         \toprule
         \rowcolor[HTML]{EFEFEF}
-        \textbf{Modello}              & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
-        Tempo di addestramento minore & 96.9\%               & 1.06s                           \\
-        Accuratezza maggiore          & 98.0\%               & 22.20s                          \\
-        Modello scelto                & 97.9\%               & 1.16s                           \\ \bottomrule
+        \multicolumn{1}{c}{\cellcolor[HTML]{EFEFEF}\textbf{Combinazione di parametri}} & \textbf{Accuratezza} & \textbf{Tempo di addestramento} \\ \midrule
+        Combinazione col tempo medio minore & 96.9\%               & 1.06s                           \\
+        Combinazione con l'accuracy media maggiore          & 98.0\%               & 22.20s                          \\
+        Combinazione migliore rispetto al ranking pesato                & 97.9\%               & 1.16s                           \\ \bottomrule
     \end{tabular}
     \caption{Risultati ottenuti dalla fase di grid search}
     \label{tab:ris-grid-search-pca}
 \end{table}
-Anche in questo caso, come per il precedente, il modello che è stato selezionato
-rappresenta un compromesso tra accuratezza e tempo di addestramento. In particolare,
-perdendo lo $0.1\%$ di accuratezza si è ottenuto un tempo di addestramento minore
+
+Anche in questo caso, come per il precedente, la combinazione che è stata selezionata
+rappresenta un compromesso tra accuratezza media e tempo di addestramento medio. In particolare,
+perdendo lo $0.1\%$ di accuratezza media si è ottenuto un tempo di addestramento medio minore
 di circa $21$ secondi.
 
-
 I risultati ottenuti dalla fase di grid search hanno permesso di definire la
-struttura della rete neurale. In particolare, la rete neurale è composta da 1
-layer di input, 1 layer nascosto e 1 layer di output.
+struttura della rete neurale. In particolare, la rete neurale è composta da $1$
+layer di input, $2$ layer nascosti e $1$ layer di output.
 
-Il layer di input è composto da 3 neuroni, uno per ogni componente principale
+Il layer di input è composto da $3$ neuroni, uno per ogni componente principale
 ottenuta attraverso la PCA. Questo primo strato è stato definito in questo modo
-in quanto il dataset ottenuto attraverso la PCA è composto da 3 feature.
+in quanto il dataset ottenuto attraverso la PCA è composto da $3$ feature.
 
-Il layer nascosto è composto da 10 neuroni, in cui la funzione di attivazione è
-la funzione ReLU \ref{fig:relu}.
+I layer nascosti sono composti nel seguente modo:
+\begin{itemize}
+    \item Il primo layer nascosto è composto da $5$ neuroni, in cui la funzione di
+          attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
+    \item Il secondo layer nascosto è composto da $10$ neuroni, in cui la funzione
+          di attivazione è la funzione \textit{Leaky ReLU} \ref{fig:leaky-relu}.
+\end{itemize}
 
-Il layer di output è lo stesso utilizzato per il modello addestrato con le feature
-selezionate manualmente, ovvero è composto da un solo neurone, in cui la funzione
-di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
+Il layer di output è lo stesso utilizzato per il modello NN\_pca, ovvero è composto 
+da un solo neurone in cui la funzione di attivazione è la funzione sigmoide \ref{fig:sigmoid}.
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.3\textwidth]{img/rete/struttura_rete_pca.png}
     \caption{Struttura della rete neurale addestrata con PCA}
     \label{fig:strutturaReteNeuralePCA}
 \end{figure}
+
+Per quanto riguarda l'algoritmo di ottimizzazione, il confronto è stato eseguito
+tra \textit{Adam} e \textit{SGD}, mentre per il numero di epoche e la dimensione
+del batch sono stati valutati rispettivamente i seguenti insiemi di valori: $100$, $300$ e $50$,
+$100$, $300$.
+
+Per quanto riguarda gli iperparametri legati al training del modello, sono stati
+rispettivamente scelti i seguenti valori:
+\begin{itemize}
+    \item Ottimizzatore: \textit{SGD}
+    \item epoche: $100$
+    \item batch size: $300$
+\end{itemize}
+
+Infine la loss scelta rimane sempre \textit{binary crossentropy}.
