@@ -34,25 +34,25 @@ Successivamente, per ogni versione di ciascun modello saranno presentate due
 tipologie di valutazione delle performance:
 \begin{itemize}
     \item \textbf{Valutazione $80/20$}: si effettuano gli apprendimenti di
-          ciascuna versione sull'$80\%$ del dataset di riferimento e si valida
+          ciascuna versione sull'$80\%$ del dataset di riferimento e si testa
           la versione del modello sul $20\%$ del dataset di riferimento rimanente.
     \item \textbf{Cross-validation}: si effettua una $10$-fold stratified
           cross-validation per studiare la robustezza della versione del modello
-          validata precedentemente.
+          testata precedentemente.
 \end{itemize}
 
 
 La scelta di effettuare una valutazione in due fasi si basa sul fatto che il
 numero degli esempi presenti nel dataset non è molto elevato, più precisamente
 il dataset è di medie dimensioni, quindi la valutazione $80/20$ potrebbe non
-essere affidabile. La seconda valutazione si effettua per verificare la
+essere sufficiente. La seconda valutazione si effettua per verificare la
 robustezza dei modelli creati, calcolando gli intervalli di confidenza delle
 metriche di valutazione.
 
 La porzione di dati dedicata all'addestramento dei modelli, composta dall'$80\%$
 delle istanze, è anche stata utilizzata anche per ricercare gli iperparamentri
-migliori per la rete neurale e per la SVM, più precisamente è stato effettuati
-una $5$-fold stratified cross-validation.
+migliori per la rete neurale e per la SVM tramite l'utilizzo di una $5$-fold 
+stratified cross-validation.
 \section{Support Vector Machine}
 In questa sezione verrà presentato il processo di addestramento e selezione dei
 modelli candidati per \textbf{SVM}. Nello specifico si andranno a presentare le
@@ -74,8 +74,8 @@ La prima fase di definizione del modello, si è delineata nella selezione degli
 iperparamentri migliori per il classificatore SVM, la quale è stata
 condotta mediante l'impiego di procedure di grid search. Nello specifico, si è
 adottata una grid search per ciascun kernel, utilizzando una tecnica di
-cross-validation a $5$ fold. Tale decisione è stata motivata dalla necessità di
-ottimizzare gli iperparametri specifici di ciascun kernel. Considerando che i
+cross-validation a $5$ fold. Tale decisione risulta necessaria data la presenza
+di iperparametri specifici per ciascun kernel. Considerando che i
 kernel presentano parametri differenti da ottimizzare, il processo di selezione
 deve affrontare un elevato numero di combinazioni, il che potrebbe generare
 combinazioni prive di significato se svolto in un unico processo. Pertanto, sono
@@ -102,11 +102,13 @@ dei modelli erano i seguenti:
           tolleranza accettata per la convergenza del modello.
     \item \textbf{Coefficiente di bias} ($r$): termine indipendente di bias che
           controlla la posizione dell'iperpiano di separazione nel caso di
-          kernel polinomiale.
+          kernel polinomiale e sigmoidale.
     \item \textbf{Grado del polinomio} ($d$): controlla la complessità del modello
           impostando il grado del polinomio. Utile solo per il kernel polinomiale.
     \item \textbf{Coefficiente di scala} ($\boldsymbol{\gamma}$): specifica il learning
-          rate del modello.
+          rate per i kernel polinomiali, rbf e sigmoidali.
+    \item \textbf{Numero massimo di iterazioni}($max\_iter$): indica il numero massimo
+          di iterazioni consentite.
 \end{itemize}
 
 Selezionati i parametri più significativi, si è proceduto con la grid search
@@ -120,7 +122,7 @@ al tempo. Infine, sommando i due valori di rank, si ottiene il punteggio di rank
 della combinazione.
 
 In questo modo è stata scelta la combinazione migliore per ogni kernel, ovvero quella che possiede la somma
-dei due valori di rank che minima rispetto alle altre combinazioni, in quanto rappresenta
+con punteggio di ranking più basso rispetto alle altre combinazioni, in quanto rappresenta
 il miglior compromesso tra accuratezza e tempo.
 
 Inoltre si fa presente che per il kernel lineare e polinomiale è stato impostato
@@ -203,12 +205,12 @@ Nella tabella \ref{tab:top_rbf_corr} viene riportato il miglior candidato per il
 \end{table}
 
 \subsubsection{Kernel sigmoidale $\tanh(\gamma\langle x,x'\rangle + r)$}
-Il kernel polinomiale si occupa di trasformare i dati in uno spazio di
+Il kernel sigmoidale si occupa di trasformare i dati in uno spazio di
 feature di dimensione superiore tramite la funzione tangente iperbolica
 ispirandosi alla funzione di attivazione nelle reti neurali.
 Questo kernel è risultato molto sensibile rispetto ai parametri $\gamma$ e $r$, ma
-dal momento che che i tempi di addestramento erano ridotti allora
-si è deciso di ottimizzare anche quegli iperparametri che
+dal momento che non presentava combinazioni con esecuzioni onerose a livello di 
+complessità temporale si è deciso di ottimizzare anche quegli iperparametri che
 hanno ricoperto un ruolo meno significativo durante la fase preliminare della
 grid search.
 
@@ -367,11 +369,14 @@ kernel è RBF, quindi SVM\_pca sarà definito dai seguenti parametri:
 
 \newpage
 \section{Gaussian Naive Bayes}
-In questa sezione verrà presentato il processo di definizione dei
+In questa sezione verranno brevemente descritti i
 modelli candidati per \textbf{Gaussian Naive Bayes} (GNB). A differenza
-degli altri algoritmi, gli unici iperparametri da trovare sono le Prior che, in
-questo caso, non sono state calcolate dal momento che non conosciamo l'attuale
-dominio. Non specificando le prior, la libreria sklearn le stimerà dal dataset.
+degli altri algoritmi, l'unico iperparametro da stimare sarebbe la Prior che
+dovrebbe essere specificata da esperti del dominio. Essendo che le nostre
+competenze su tale dominio non ci permettono di determinare il valore corretto
+abbiamo deciso di non specificare il suo valore.
+Non specificando la Prior, la libreria sklearn le stimerà automaticamente 
+dal dataset.
 
 Con le suddette premesse sono stati definiti i due modelli:
 \begin{itemize}
@@ -418,7 +423,7 @@ layer nascosto.
 Per le motivazioni espresse nella sezione precedente sulla dimensione della rete,
 l'operazione di grid search è
 stata effettuata prendendo in considerazione un numero di neuroni per layer
-tra 5, 10 mentre il numero di layer nascosti è stato valutato tra 1 e 2.
+tra 5 e 10 mentre il numero di layer nascosti è stato valutato tra 1 e 2.
 
 Per quanto riguarda la funzione di attivazione, sono state valutate le seguenti
 funzioni di attivazione:
