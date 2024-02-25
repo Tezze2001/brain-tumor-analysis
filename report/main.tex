@@ -32,7 +32,8 @@
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{colortbl}
-
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
 \usepackage{tikz}\usetikzlibrary{er}\tikzset{multi  attribute /.style={attribute
     ,double  distance =1.5pt}}\tikzset{derived  attribute /.style={attribute
     ,dashed}}\tikzset{total /.style={double  distance =1.5pt}}\tikzset{every
@@ -98,7 +99,5 @@ Vendramini Simone Matr. 866229(\href{https://github.com/simone-vendramini}{@Sven
 \include{chapters/conclusioni}
 \include{chapters/appendice}
 
-\bibliographystyle{unsrt}
-\bibliography{bibliography}
-
+\printbibliography
 \end{document}

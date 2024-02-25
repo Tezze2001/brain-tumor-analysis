@@ -27,7 +27,7 @@ e False Positive rate.
 Durante la seconda fase di valutazione dei modelli sono state calcolate le
 metriche precedentemente specificate e per ciascuna di esse gli intervalli di
 confidenza.
-\section{Risultati dataset correlazione} \label{sec:risultati_corr}
+\section{Risultati sul dataset correlazione} \label{sec:risultati_corr}
 In questa sezione verranno presentati i risultati ottenuti dai modelli addestrati
 sul dataset ricavato tramite riduzione attraverso correlazione delle feature,
 ovvero SVM\_corr, GNB\_corr e NN\_corr.
@@ -71,8 +71,8 @@ elevato di veri positivi e veri negativi. In particolare, sia il modello SVM che
 la rete neurale mostrano performance identiche, mentre il modello Gaussian Naive
 Bayes è caratterizzato da un numero maggiore di errori.
 
-Si osserva una tendenza comune a commettere più errori nella classificazione
-degli esempi di falsi negativi rispetto a falsi positivi per tutti i modelli.
+Si osserva una tendenza comune a commettere più falsi negativi rispetto a falsi 
+positivi per tutti i modelli.
 Questo fenomeno potrebbe essere spiegato da un leggero sbilanciamento del dataset
 verso la classe negativa.
 
@@ -230,8 +230,9 @@ la Precision risulta simile tra i modelli.
 \section{Risultati dataset PCA} \label{sec:risultati_pca}
 Un ragionamento analogo a quello svolto nella sezione \ref{sec:risultati_corr}
 può essere applicato ai modelli addestrati sul dataset le cui feature sono state
-calcolate attraverso Principal Component Analysis (PCA).
-\subsection*{Valutazione $80/20$}
+calcolate attraverso Principal Component Analysis (PCA), ovvero SVM\_pca, NN\_pca e
+GNB\_pca.
+\subsection{Valutazione $80/20$}
 Il primo studio condotto consiste nella suddivisione del dataset in training
 set e test set. Questa suddivisione ha permesso di calcolare le performance dei
 modelli e confrontarli.
