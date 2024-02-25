@@ -35,11 +35,11 @@ Le caratteristiche si suddividono in:
                         valore allora maggiore sarà la deviazione standard dei
                         livelli di grigio nell'immagine.
                   \item \textbf{Energy}: fornisce informazioni sulla texture e
-                        sulla complessità. Maggiore sarà il valore di Energy,
+                        sulla complessità tra diverse parti dell'immagine. Maggiore sarà il valore di Energy,
                         allora maggiore sarà il contrasto oppure più dettagliata
                         sarà la texture.
                   \item \textbf{ASM}: misura quanto sono distribuiti uniformemente
-                        i livelli di grigio nell'immagine. Maggiore sarà il valore
+                        i livelli di grigio in diverse porzioni dell'immagine. Maggiore sarà il valore
                         allora più uniforme sarà la distribuzione dei livelli di
                         grigio nell'immagine, quindi la variabilità dei livelli
                         di grigio è ridotta.
@@ -51,7 +51,7 @@ Le caratteristiche si suddividono in:
                         valori dei pixel tendono ad aumentare il valore
                         dell'entropia.
                   \item \textbf{Homogeneous}: misura quanto sono uniformi i
-                        livelli di grigio. Più alto sarà l'indice allora minore
+                        livelli di grigio in diverse porzioni dell'immagine. Più alto sarà l'indice allora minore
                         sarà il contrasto dell'immagine.
                   \item \textbf{Dissimilarity}: misura quanto differiscono
                         diverse regioni dell'immagine. Un valore alto indica che
@@ -95,7 +95,7 @@ attraverso un'analisi visiva.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=\textwidth]{img/analisi/barplot.png}
-      \caption{Istogramma delle feature}
+      \caption{Istogramma delle feature con la \textbf{Coarseness} in scala logaritmica}
       \label{fig:barplot_feature}
 \end{figure}
 L'analisi di tali grafici rivela che le feature \textbf{Energy}, \textbf{ASM},
@@ -145,7 +145,8 @@ presentate nella tabella \ref{tab:desc-stat}
             \caption{Statistiche descrittive delle feature \textit{Contrast}, \textit{Energy}, \textit{ASM}, \textit{Homogeneity}, \textit{Dissimilarity}, \textit{Correlation} e \textit{Coarseness}.}
             \label{tab:secondameta}
       \end{subtable}
-      \caption{Statistiche descrittive degli attributi}
+      \caption{Statistiche descrittive degli attributi senza la trasformazione 
+      della \textbf{Coarseness} in scala logaritmica}
       \label{tab:desc-stat}
 \end{table}
 \newpage
@@ -171,7 +172,7 @@ le classi. Tali grafici sono visualizzabili nella figura \ref{fig:boxplot_featur
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=\textwidth]{img/analisi/boxplot.png}
-      \caption{Box plot delle feature}
+      \caption{Box plot delle feature con la \textbf{Coarseness} in scala logaritmica}
       \label{fig:boxplot_feature}
 \end{figure}
 
@@ -263,8 +264,11 @@ se si ha un valore molto alto della feature \textit{Entropy}, significa che la
 texture non è uniforme, ovvero si hanno strutture complesse e irregolari, quindi
 più uniforme sarà la distribuzione dei livelli di grigio, aumentando l'indice
 di \textit{ASM}, comportando di conseguenza un aumento delle variazioni di intensità
-dei livelli di grigio, aumentando di conseguenza anche gli indici di \textit{Energy}
-e \textit{Homogeneity}.
+dei livelli di grigio, aumentando di conseguenza anche \textit{Energy}. Per quanto
+riguarda la feature \textit{Homogeneity}, la correlazione positiva non sembra 
+essere coerente con la semantica delle metriche, però analizzando più accuratamente i 
+dati, si può notare che i valori di \textit{Homogeneity} rimangono sempre abbastanza
+contenuti eccetto per alcuni outliers (vedi figura \ref{fig:scatterplot_features}).
 
 Al tempo stesso, la matrice evidenza una forte correlazione positiva tra gli 
 indici che misurano la \textbf{morfologia della distribuzione dei livelli
@@ -285,6 +289,7 @@ In aggiunta dalla matrice si evidenza che le feature di \textit{Dissimilarity}
 e \textit{Homogeneity} sono correlate negativo, dal momento che una misura la
 dissimilarità tra i livelli di grigio delle regioni e l'altra misura la loro
 l'omogeneità.
+
 \section{Riduzione di dimensionalità} \label{sec:riduzone_di_dimensionalità}
 Dal momento che il dataset è composto da un totale di $13$ feature, allora
 è importante trovare il modo di ridurre la sua dimensionalità con lo scopo di
@@ -312,10 +317,11 @@ feature correlate, di conseguenza sono state considerate solo queste:
 Il nuovo dataset così composto verrà chiamato \texttt{dataset\_corr} e dal momento
 che \textbf{Entropy} è l'unico attributo che non segue una distribuzione standard,
 allora si sottolinea che non verranno rispettate le assunzioni di normalità degli
-$3$ algoritmi scelti. In aggiunta, dal momento che per le SVM e NN assumono di
+$3$ algoritmi scelti. In aggiunta, dal momento che per le SVM e le reti neurali assumono di
 lavorare su dati con distribuzione normale standard, allora per essere più
 compatibili possibili con le assunzioni, è stata creata una versione del dataset
 normalizzata, chiamata \texttt{dataset\_corr\_std}.
+
 \subsection{PCA} \label{sec:pca}
 In seguito, è stato utilizzato un metodo di trasformazione delle feature per 
 ridurre la loro dimensionalità e successivamente sono stati analizzati i
@@ -325,7 +331,7 @@ Prima di applicare la PCA, è stato necessario standardizzare le feature del dat
 originario senza i duplicati, ma con l'attributo \textbf{Coarseness}, dal momento
 che se ne occuperà PCA della sua rimozione. In aggiunta, l'operazione di
 standardizzazione è necessaria per evitare che le feature con varianza maggiore
-abbiano un peso maggiore rispetto alle altre. Senza standardizzare delle feature,
+abbiano un peso maggiore rispetto alle altre. Senza la standardizzazione delle feature,
 la PCA potrebbe non essere in grado di trovare le direzioni di massima varianza.
 
 La prima parte dell'analisi è stata quella di trovare il corretto numero di
@@ -357,6 +363,6 @@ $3$ attributi, permettendo di rappresentare i dati in uno spazio a $3$ dimension
 
 Dalla figura \ref{fig:pca-3d} si può osservare che i dati ottenuti dalla PCA
 sembrano essere separabili con un iperpiano. Il nuovo dataset ridotto verrà
-denominato \texttt{dataset\_pca} e dal momento che SVM e NN hanno bisogno di dati
-standardizzati, allora è stato prodotto anche la sua versione standardizzata,
+denominato \texttt{dataset\_pca} e dal momento che SVM e le reti neurali hanno bisogno di dati
+standardizzati, allora è stata prodotta anche la sua versione standardizzata,
 chiamata \texttt{dataset\_pca\_std}.
