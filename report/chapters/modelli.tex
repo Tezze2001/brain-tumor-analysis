@@ -50,7 +50,7 @@ robustezza dei modelli creati, calcolando gli intervalli di confidenza delle
 metriche di valutazione.
 
 La porzione di dati dedicata all'addestramento dei modelli, composta dall'$80\%$
-delle istanze, è anche stata utilizzata anche per ricercare gli iperparamentri
+delle istanze, è anche stata utilizzata anche per ricercare gli iperparametri
 migliori per la rete neurale e per la SVM tramite l'utilizzo di una $5$-fold 
 stratified cross-validation.
 \section{Support Vector Machine}
@@ -71,7 +71,7 @@ In questa sezione verranno presentati i seguenti modelli:
 
 \subsection{Modello SVM\_corr}
 La prima fase di definizione del modello, si è delineata nella selezione degli
-iperparamentri migliori per il classificatore SVM, la quale è stata
+iperparametri migliori per il classificatore SVM, la quale è stata
 condotta mediante l'impiego di procedure di grid search. Nello specifico, si è
 adottata una grid search per ciascun kernel, utilizzando una tecnica di
 cross-validation a $5$ fold. Tale decisione risulta necessaria data la presenza
@@ -113,11 +113,11 @@ dei modelli erano i seguenti:
 
 Selezionati i parametri più significativi, si è proceduto con la grid search
 per trovare le combinazioni migliori per il dataset di riferimento. Per valutare
-ogni combinazione di iperparamentri, si calcola la media e la deviazione standard
+ogni combinazione di iperparametri, si calcola la media e la deviazione standard
 dell'Accuracy (test score) e del tempo di addestramento per i $5$ modelli della $5$-fold
 cross-validation.
 In seguito, si è attribuito un punteggio di ranking per ogni combinazione
-di iperparamentri in relazione al suo posizionamento rispetto all'Accuracy e rispetto
+di iperparametri in relazione al suo posizionamento rispetto all'Accuracy e rispetto
 al tempo. Infine, sommando i due valori di rank, si ottiene il punteggio di ranking
 della combinazione.
 
@@ -133,7 +133,7 @@ il tempo di convergenza del modello.
 \subsubsection{Kernel lineare $\langle x,x'\rangle$}
 Il kernel lineare si limita ad effettuare il prodotto scalare tra due vettori,
 risultando particolarmente utile quando i dati sono linearmente separabili.
-Per questo motivo sono stati valutati solamente i seguenti iperparamentri:
+Per questo motivo sono stati valutati solamente i seguenti iperparametri:
 \begin{itemize}
     \item \textbf{Parametro di regolarizzazione} ($C$): valori testati sono stati $1$,
           $100$, $1e6$.
@@ -156,7 +156,7 @@ Il kernel polinomiale si occupa di trasformare i dati in uno spazio di
 feature di dimensione superiore utilizzando la funzione polinomiale.
 Solo per questo tipo di kernel è stata presa la decisione di impostare
 una tolleranza alta comune a tutte le combinazioni per raggiungere più
-velocemente la convergenza. Sono stati ottimizzati i seguenti iperparamentri:
+velocemente la convergenza. Sono stati ottimizzati i seguenti iperparametri:
 \begin{itemize}
     \item \textbf{Parametro di regolarizzazione} ($C$): valori testati sono stati $1$,
           $100$, $1e3$. Da notare che è stato abbassato il valore massimo di $C$ in
@@ -185,7 +185,7 @@ Anche il kernel RBF si occupa di trasformare i dati in uno spazio di
 feature di dimensione superiore tramite la funzione esponenziale.
 In questo caso non viene più effettuato il prodotto scalare tra i vettori ma si misura
 la loro distanza euclidea, questo tende a creare frontiere decisionali radiali.
-Per RBF sono stati ottimizzati i seguenti iperparamentri:
+Per RBF sono stati ottimizzati i seguenti iperparametri:
 \begin{itemize}
     \item \textbf{Parametro di regolarizzazione} ($C$): valori testati sono stati $1$, $100$, $1e6$.
     \item \textbf{Coefficiente di scala} ($\boldsymbol{\gamma}$): valori $'scale'$, $'auto'$, $1e-3$, $1$, $1e3$.
@@ -214,7 +214,7 @@ complessità temporale si è deciso di ottimizzare anche quegli iperparametri ch
 hanno ricoperto un ruolo meno significativo durante la fase preliminare della
 grid search.
 
-Sono stati ottimizzati i seguenti iperparamentri:
+Sono stati ottimizzati i seguenti iperparametri:
 \begin{itemize}
     \item \textbf{Parametro di regolarizzazione} ($C$): valori testati sono stati $1$, $100$, $1e6$.
     \item \textbf{Coefficiente di bias} ($r$): valori testati sono stati $-1$, $0$, $1$.
@@ -302,7 +302,7 @@ i kernel escludendo la sigmoide.
 
 \subsection{Modello SVM\_pca}
 La prima fase di definizione del modello, si è delineata nella selezione degli
-iperparamentri migliori per il classificatore SVM, la quale è identica al modello
+iperparametri migliori per il classificatore SVM, la quale è identica al modello
 SVM\_corr, quindi in questa sezione verranno riportati solo i risultati. Più
 precisamente i risultati sono stati riportati nelle tabelle
 \ref{tab:top_time_kernels_pca}, \ref{tab:top_metrics_kernels_pca} e nel grafico
@@ -404,7 +404,7 @@ In questa sezione verranno presentati i seguenti modelli:
 \subsection{Modello NN\_corr}
 Per svolgere il compito di classificazione si è scelto di utilizzare una rete
 neurale feedforward, la cui struttura, a meno del layer di input e di output, è
-stata definita attraverso il processo di grid search insieme agli iperparamentri.
+stata definita attraverso il processo di grid search insieme agli iperparametri.
 La grid search si è articolata attraverso una cross validation a $5$ fold sul training
 set di \texttt{dataset\_corr\_std}.
 
